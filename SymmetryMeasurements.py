@@ -5,6 +5,7 @@ OV = OlexFunctions()
 import os
 import htmlTools
 import olex
+import olexex
 import olx
 import gui
 import shutil
@@ -66,7 +67,7 @@ def get_neighbours():
         tags = next((atom['neighbours'] for atom in orm_atoms if atom['label'] == sel), None)
         #tags is None if it wasn't found in the orm: selected a Qpick
         #tags is a list of len() = 0 if selected a
-        print(tags)(3, (1.332173751267887, 9.570147745635163, 1.1004595820674223), ((-1, 0, 0), (0, -1, 0), (0, 0, -1), (0.0, 1.0, 0.0)))
+        print(tags) #(3, (1.332173751267887, 9.570147745635163, 1.1004595820674223), ((-1, 0, 0), (0, -1, 0), (0, 0, -1), (0.0, 1.0, 0.0)))
         if tags is None or len(tags) == 0:
             print(f'No connected atoms to {sel}')
             return None

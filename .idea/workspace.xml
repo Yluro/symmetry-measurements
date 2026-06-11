@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1a3fe957-6155-4f32-942e-9bb6e95ed5b1" name="Changes" comment="First Commit.&#10;Create plugin structure.&#10;Added reverse engineered .pyi stubs with Claude.">
-      <change afterPath="$PROJECT_DIR$/todo.md" afterDir="false" />
+    <list default="true" id="1a3fe957-6155-4f32-942e-9bb6e95ed5b1" name="Changes" comment="Added todo.md and reworked neighbours function">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SymmetryMeasurements.py" beforeDir="false" afterPath="$PROJECT_DIR$/SymmetryMeasurements.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symmetrymeasurements.htm" beforeDir="false" afterPath="$PROJECT_DIR$/symmetrymeasurements.htm" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +71,7 @@
       <option name="presentableId" value="Default" />
       <updated>1781172744103</updated>
       <workItem from="1781172745115" duration="411000" />
-      <workItem from="1781173354741" duration="15916000" />
+      <workItem from="1781173354741" duration="16331000" />
     </task>
     <task id="LOCAL-00001" summary="First Commit.&#10;Create plugin structure.&#10;Added reverse ingeniered stubs with Claude.">
       <option name="closed" value="true" />
@@ -91,7 +89,31 @@
       <option name="project" value="LOCAL" />
       <updated>1781182318476</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added todo.md and reworked neighbours function">
+      <option name="closed" value="true" />
+      <created>1781192831408</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1781192831408</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added todo.md and reworked neighbours function">
+      <option name="closed" value="true" />
+      <created>1781193018583</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1781193018583</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Added todo.md and reworked neighbours function">
+      <option name="closed" value="true" />
+      <created>1781193027318</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1781193027318</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -100,6 +122,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First Commit.&#10;Create plugin structure.&#10;Added reverse ingeniered stubs with Claude." />
     <MESSAGE value="First Commit.&#10;Create plugin structure.&#10;Added reverse engineered .pyi stubs with Claude." />
-    <option name="LAST_COMMIT_MESSAGE" value="First Commit.&#10;Create plugin structure.&#10;Added reverse engineered .pyi stubs with Claude." />
+    <MESSAGE value="Added todo.md and reworked neighbours function" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added todo.md and reworked neighbours function" />
   </component>
 </project>
