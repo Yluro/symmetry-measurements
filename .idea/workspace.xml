@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="Removed duplicate functions" />
+    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="Added constants.py">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SymmetryMeasurements.py" beforeDir="false" afterPath="$PROJECT_DIR$/SymmetryMeasurements.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/h3-SymmetryMeasurements-extras.htm" beforeDir="false" afterPath="$PROJECT_DIR$/h3-SymmetryMeasurements-extras.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symmetrymeasurements.htm" beforeDir="false" afterPath="$PROJECT_DIR$/symmetrymeasurements.htm" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,61 +46,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0090733909167566" />
-      <entry key="MS500" value="1.610211750554463" />
-      <entry key="S2" value="3.5024176150490924" />
-      <entry key="S5" value="5.35554551048463" />
-      <entry key="S10" value="7.354398790387936" />
-      <entry key="S30" value="13.362435414493932" />
-      <entry key="S60" value="17.52573182913669" />
-      <entry key="M2" value="21.235376444820425" />
-      <entry key="M5" value="25.548217687288638" />
-      <entry key="M10" value="27.87384879740738" />
-      <entry key="M15" value="28.811416400612202" />
-      <entry key="M30" value="29.84891060740941" />
-      <entry key="H1" value="30.40932898968265" />
-      <entry key="H2" value="30.700760220612814" />
-      <entry key="H4" value="30.84938825621944" />
-      <entry key="D1" value="30.974758923972786" />
-      <entry key="W1" value="30.99639070711072" />
+      <entry key="MS100" value="1.0000026236378061" />
+      <entry key="MS500" value="1.0765210253369009" />
+      <entry key="S2" value="1.5312894193420465" />
+      <entry key="S5" value="1.9012839756268338" />
+      <entry key="S10" value="2.3388531236005488" />
+      <entry key="S30" value="3.63274682124496" />
+      <entry key="S60" value="4.519024872680218" />
+      <entry key="M2" value="5.224508167280608" />
+      <entry key="M5" value="8.358386704792611" />
+      <entry key="M10" value="17.201604118049175" />
+      <entry key="M15" value="25.209642299140086" />
+      <entry key="M30" value="44.24023239216995" />
+      <entry key="H1" value="69.10502817557936" />
+      <entry key="H2" value="92.38640462602774" />
+      <entry key="H4" value="108.88399036268642" />
+      <entry key="D1" value="126.1030682571676" />
+      <entry key="W1" value="129.43319862648187" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
       <entry key="MS500" value="0.0" />
-      <entry key="S2" value="0.0" />
-      <entry key="S5" value="0.0" />
-      <entry key="S10" value="0.0" />
-      <entry key="S30" value="0.0" />
-      <entry key="S60" value="0.0" />
-      <entry key="M2" value="0.0" />
-      <entry key="M5" value="0.0" />
-      <entry key="M10" value="0.0" />
-      <entry key="M15" value="0.0" />
-      <entry key="M30" value="0.0" />
-      <entry key="H1" value="0.0" />
-      <entry key="H2" value="0.0" />
-      <entry key="H4" value="0.0" />
-      <entry key="D1" value="0.0" />
-      <entry key="W1" value="0.0" />
+      <entry key="S2" value="1.731467348624073E-160" />
+      <entry key="S5" value="1.2455630677905497E-64" />
+      <entry key="S10" value="1.1160479690060419E-32" />
+      <entry key="S30" value="2.236794535427647E-11" />
+      <entry key="S60" value="4.910813522001286E-6" />
+      <entry key="M2" value="0.0027622400701916234" />
+      <entry key="M5" value="0.1628465143421377" />
+      <entry key="M10" value="0.691605403882831" />
+      <entry key="M15" value="1.1729855132002782" />
+      <entry key="M30" value="2.3052413512224033" />
+      <entry key="H1" value="3.7244170940966095" />
+      <entry key="H2" value="5.0027538114022745" />
+      <entry key="H4" value="5.887402354866565" />
+      <entry key="D1" value="6.796133275750489" />
+      <entry key="W1" value="6.970386201867717" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.8726663688004773" />
-      <entry key="MS500" value="1.5697896759509262" />
-      <entry key="S2" value="3.465960383556614" />
-      <entry key="S5" value="5.311369270918072" />
-      <entry key="S10" value="7.2972127797622734" />
-      <entry key="S30" value="13.300802880710572" />
-      <entry key="S60" value="17.480823294071264" />
-      <entry key="M2" value="21.20784693267803" />
-      <entry key="M5" value="25.535633107334487" />
-      <entry key="M10" value="27.86724457278284" />
-      <entry key="M15" value="28.806939096727465" />
-      <entry key="M30" value="29.846633207030433" />
-      <entry key="H1" value="30.408180296638164" />
-      <entry key="H2" value="30.700183335405107" />
-      <entry key="H4" value="30.849099173735834" />
-      <entry key="D1" value="30.974710654237416" />
-      <entry key="W1" value="30.996383809240868" />
+      <entry key="MS100" value="0.6461785463748415" />
+      <entry key="MS500" value="0.9897725186048824" />
+      <entry key="S2" value="1.504109448759695" />
+      <entry key="S5" value="1.8880008701362028" />
+      <entry key="S10" value="2.3301468807363324" />
+      <entry key="S30" value="3.627373558919402" />
+      <entry key="S60" value="4.515429583027226" />
+      <entry key="M2" value="5.224611620342456" />
+      <entry key="M5" value="8.507773508765709" />
+      <entry key="M10" value="17.863868102717902" />
+      <entry key="M15" value="26.34957746329454" />
+      <entry key="M30" value="46.51618603381922" />
+      <entry key="H1" value="72.80891673860663" />
+      <entry key="H2" value="97.37668152014513" />
+      <entry key="H4" value="114.76445157240627" />
+      <entry key="D1" value="132.8979301524545" />
+      <entry key="W1" value="136.40340014060538" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -124,6 +129,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
     "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
   }
@@ -170,7 +176,7 @@
       <option name="presentableId" value="Default" />
       <updated>1781200496810</updated>
       <workItem from="1781200501297" duration="104000" />
-      <workItem from="1781200609220" duration="852000" />
+      <workItem from="1781200609220" duration="4369000" />
     </task>
     <task id="LOCAL-00001" summary="Removed duplicate functions">
       <option name="closed" value="true" />
@@ -180,7 +186,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781201134092</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added constants.py">
+      <option name="closed" value="true" />
+      <created>1781201485419</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1781201485419</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,6 +202,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Removed duplicate functions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed duplicate functions" />
+    <MESSAGE value="Added constants.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added constants.py" />
   </component>
 </project>

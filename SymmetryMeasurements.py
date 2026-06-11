@@ -42,9 +42,17 @@ from PluginTools import PluginTools as PT
 
 
 def get_selected_atoms() -> str:
-    # Gets the selection from Olex2 -  Returns a string with atom labels. If no atoms are selected, returns ''
+    # Gets the selection from Olex2 -  Returns a string with atom labels.
+    # If no atoms are selected, returns ''
     selection = olex.f('sel()')
     return selection
+
+
+def get_id_from_label(atom_label):
+    orm_atoms = olexex.OlexRefinementModel().atoms()
+    tag = next((atom['tag'] for atom in orm_atoms if atom['label'] == atom_label), None)
+    return tag
+
 
 def get_neighbours():
     # Gets the list of atoms from the loaded model.
@@ -64,26 +72,39 @@ def get_neighbours():
     for sel in selection:
         # next finds the first occurrence in orm_atoms in which the label matches
         # with the sel and returns the atoms neighbours as a tuple of tags:
-        tags = next((atom['neighbours'] for atom in orm_atoms if atom['label'] == sel), None)
+        neigbour_tags = next((atom['neighbours'] for atom in orm_atoms if atom['label'] == sel), None)
         #tags is None if it wasn't found in the orm: selected a Qpick
         #tags is a list of len() = 0 if selected a
-        print(tags) #(3, (1.332173751267887, 9.570147745635163, 1.1004595820674223), ((-1, 0, 0), (0, -1, 0), (0, 0, -1), (0.0, 1.0, 0.0)))
-        if tags is None or len(tags) == 0:
+        print(neigbour_tags) #(3, (1.332173751267887, 9.570147745635163, 1.1004595820674223), ((-1, 0, 0), (0, -1, 0), (0, 0, -1), (0.0, 1.0, 0.0)))
+        if neigbour_tags is None or len(neigbour_tags) == 0:
             print(f'No connected atoms to {sel}')
             return None
             break
 
-        for tag in tags:
+        for tag in neigbour_tags:
             if tag not in neighbour_tags:
                 neighbour_tags.append(tag)
                 # Use a similar next constructor to retrieve the
                 # label from the orm and append it to the Neighbours list
-                neighbours_label = next((atom['label'] for atom in orm_atoms if atom['aunit_id'] == tag), None)
+                neighbours_label = next((atom['label'] for atom in orm_atoms if atom['tag'] == tag), None)
                 neighbours_labels.append(neighbours_label)
 
 
     print(neighbours_labels)
     return neighbour_tags
+
+
+def get_xyz_sel():
+    selection = olex.f('sel()')
+    sel_tag = get_id_from_label(selection)
+    return get_xyz(sel_tag)
+
+
+def get_xyz(atom_label):
+    xyz = olx.xf.au.GetAtomCrd(atom_label)
+    print(xyz)
+    return xyz
+
 
 def shape_exe_msg():
     shape_path = shutil.which("shape")
@@ -96,7 +117,6 @@ def shape_exe_msg():
 
 
 class SymmetryMeasurements(PT):
-
     def __init__(self):
         super(SymmetryMeasurements, self).__init__()
         self.p_name = p_name
@@ -111,6 +131,7 @@ class SymmetryMeasurements(PT):
         OV.registerFunction(get_selected_atoms, True, "SymmetryMeasurements")
         OV.registerFunction(get_neighbours, True, "SymmetryMeasurements")
         OV.registerFunction(shape_exe_msg, True, "SymmetryMeasurements")
+        OV.registerFunction(get_xyz_sel, True, "SymmetryMeasurements")
     # END Generated =======================================
 
 SymmetryMeasurements_instance = SymmetryMeasurements()
