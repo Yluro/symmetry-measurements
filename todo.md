@@ -1,0 +1,14 @@
+ - [ ] Make get_xyz() function
+ - [ ] Make build_polyhedra_function()
+ - [ ] Make run_shape()
+ - [ ] Make GUI panel
+ - [ ] Make constants.py
+ - [ ] Deal with ASUnit
+   - (3, (1.332173751267887, 9.570147745635163, 1.1004595820674223), ((-1, 0, 0), (0, -1, 0), (0, 0, -1), (0.0, 1.0, 0.0))) Is a weird output from the 'neighbours' in orm
+   - I think its basically that neighbours lists:
+     - The atom with tag '3'
+     - And its related symmetry atom '3, (symmetry operations)'
+ - [ ] Deal with Disorder
+ - [ ] Make SMART polyhedra builder.
+ - [ ] Read Nature Paper https://www.nature.com/articles/s41467-025-66054-7
+ - [ ] Incorporate other programs. Not only SHAPE2.1
