@@ -64,9 +64,9 @@ def get_neighbours():
         # next finds the first occurrence in orm_atoms in which the label matches
         # with the sel and returns the atoms neighbours as a tuple of tags:
         tags = next((atom['neighbours'] for atom in orm_atoms if atom['label'] == sel), None)
-        #tags is None if it wasn't found in the orm: selected a Qpick
-        #tags is a list of len() = 0 if selected a
-        print(tags)(3, (1.332173751267887, 9.570147745635163, 1.1004595820674223), ((-1, 0, 0), (0, -1, 0), (0, 0, -1), (0.0, 1.0, 0.0)))
+        #tags is None if it wasn't found in the orm: selected a Qpeak
+        #tags is a list of len() = 0 if the selected atom is not conected to any other
+        print(tags) #(3, (1.332173751267887, 9.570147745635163, 1.1004595820674223), ((-1, 0, 0), (0, -1, 0), (0, 0, -1), (0.0, 1.0, 0.0)))
         if tags is None or len(tags) == 0:
             print(f'No connected atoms to {sel}')
             return None
