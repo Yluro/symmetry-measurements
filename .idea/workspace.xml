@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SymmetryMeasurements.py" beforeDir="false" afterPath="$PROJECT_DIR$/SymmetryMeasurements.py" afterDir="false" />
-    </list>
+    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="Removed duplicate functions" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,6 +12,13 @@
   </component>
   <component name="EmbeddingIndexingInfo">
     <option name="cachedIndexableFilesCount" value="18" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Stub" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -34,6 +38,65 @@
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0090733909167566" />
+      <entry key="MS500" value="1.610211750554463" />
+      <entry key="S2" value="3.5024176150490924" />
+      <entry key="S5" value="5.35554551048463" />
+      <entry key="S10" value="7.354398790387936" />
+      <entry key="S30" value="13.362435414493932" />
+      <entry key="S60" value="17.52573182913669" />
+      <entry key="M2" value="21.235376444820425" />
+      <entry key="M5" value="25.548217687288638" />
+      <entry key="M10" value="27.87384879740738" />
+      <entry key="M15" value="28.811416400612202" />
+      <entry key="M30" value="29.84891060740941" />
+      <entry key="H1" value="30.40932898968265" />
+      <entry key="H2" value="30.700760220612814" />
+      <entry key="H4" value="30.84938825621944" />
+      <entry key="D1" value="30.974758923972786" />
+      <entry key="W1" value="30.99639070711072" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.8726663688004773" />
+      <entry key="MS500" value="1.5697896759509262" />
+      <entry key="S2" value="3.465960383556614" />
+      <entry key="S5" value="5.311369270918072" />
+      <entry key="S10" value="7.2972127797622734" />
+      <entry key="S30" value="13.300802880710572" />
+      <entry key="S60" value="17.480823294071264" />
+      <entry key="M2" value="21.20784693267803" />
+      <entry key="M5" value="25.535633107334487" />
+      <entry key="M10" value="27.86724457278284" />
+      <entry key="M15" value="28.806939096727465" />
+      <entry key="M30" value="29.846633207030433" />
+      <entry key="H1" value="30.408180296638164" />
+      <entry key="H2" value="30.700183335405107" />
+      <entry key="H4" value="30.849099173735834" />
+      <entry key="D1" value="30.974710654237416" />
+      <entry key="W1" value="30.996383809240868" />
+    </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -107,11 +170,24 @@
       <option name="presentableId" value="Default" />
       <updated>1781200496810</updated>
       <workItem from="1781200501297" duration="104000" />
-      <workItem from="1781200609220" duration="444000" />
+      <workItem from="1781200609220" duration="852000" />
     </task>
+    <task id="LOCAL-00001" summary="Removed duplicate functions">
+      <option name="closed" value="true" />
+      <created>1781201134092</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1781201134092</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Removed duplicate functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed duplicate functions" />
   </component>
 </project>
