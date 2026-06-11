@@ -1,4 +1,4 @@
-import olexex
+
 from olexFunctions import OlexFunctions
 OV = OlexFunctions()
 
@@ -38,6 +38,61 @@ p_scope = d['p_scope']
 OV.SetVar('SymmetryMeasurements_plugin_path', p_path)
 
 from PluginTools import PluginTools as PT
+
+
+def get_selected_atoms() -> str:
+    # Gets the selection from Olex2 -  Returns a string with atom labels. If no atoms are selected, returns ''
+    selection = olex.f('sel()')
+    return selection
+
+def get_neighbours():
+    # Gets the list of atoms from the loaded model.
+    # The orm is a list of dictionaries, containing labels, atom_ids, parts, ADPs, etc.
+    orm_atoms = olexex.OlexRefinementModel().atoms()
+
+    selection = get_selected_atoms()
+    if selection == "":
+        print("No atoms")
+        return None
+
+    selection = selection.split(' ')
+    print(selection)
+
+    neighbour_tags = []
+    neighbours_labels = []
+    for sel in selection:
+        # next finds the first occurrence in orm_atoms in which the label matches
+        # with the sel and returns the atoms neighbours as a tuple of tags:
+        tags = next((atom['neighbours'] for atom in orm_atoms if atom['label'] == sel), None)
+        #tags is None if it wasn't found in the orm: selected a Qpick
+        #tags is a list of len() = 0 if selected a
+        print(tags)(3, (1.332173751267887, 9.570147745635163, 1.1004595820674223), ((-1, 0, 0), (0, -1, 0), (0, 0, -1), (0.0, 1.0, 0.0)))
+        if tags is None or len(tags) == 0:
+            print(f'No connected atoms to {sel}')
+            return None
+            break
+
+        for tag in tags:
+            if tag not in neighbour_tags:
+                neighbour_tags.append(tag)
+                # Use a similar next constructor to retrieve the
+                # label from the orm and append it to the Neighbours list
+                neighbours_label = next((atom['label'] for atom in orm_atoms if atom['aunit_id'] == tag), None)
+                neighbours_labels.append(neighbours_label)
+
+
+    print(neighbours_labels)
+    return neighbour_tags
+
+def shape_exe_msg():
+    shape_path = shutil.which("shape")
+    if shape_path is None:
+        print(f"Unable to find shape.exe in the system path.")
+        return False
+    else:
+        print(f"SHAPE executable found at: {shape_path}")
+        return True
+
 
 
 def get_selected_atoms() -> str:
