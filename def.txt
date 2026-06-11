@@ -1,0 +1,5 @@
+
+  p_name = SymmetryMeasurements
+  p_htm = SymmetryMeasurements
+  p_img = [("SymmetryMeasurements",'h1'), ("SymmetryMeasurements-Extras",'h3')]
+  p_scope = symmetrymeasurements
