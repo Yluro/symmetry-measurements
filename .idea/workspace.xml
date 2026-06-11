@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a3fe957-6155-4f32-942e-9bb6e95ed5b1" name="Changes" comment="Added todo.md and reworked neighbours function">
+    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SymmetryMeasurements.py" beforeDir="false" afterPath="$PROJECT_DIR$/SymmetryMeasurements.py" afterDir="false" />
     </list>
@@ -10,51 +13,84 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="18" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;Lyxn-git&quot;
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Lyxn-git"
   }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Lyxn-git/symmetry-measurements&quot;,
-    &quot;accountId&quot;: &quot;3c980f2a-9651-4870-86e7-734954e34a36&quot;
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Lyxn-git/symmetry-measurements.git",
+    "accountId": "c4f3e498-d56e-4ad4-914b-37bfdb692416"
   }
-}</component>
+}]]></component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 3,
-  &quot;fromUser&quot;: false
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
 }</component>
-  <component name="ProjectId" id="3EzDweMiTQ7IXh7jx2QJugkHRZk" />
+  <component name="ProjectId" id="3F08Bp8OvkgiwcAz0bDwz3GjHTC" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Olex2-1.5a/util/pyUtil/PluginLib/plugin-SymmetryMeasurements&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Olex2-1.5a\util\pyUtil\PluginLib\plugin-SymmetryMeasurements" />
-      <recent name="D:\Olex2-1.5a\util\pyUtil\PluginLib\plugin-SymmetryMeasurements\typings" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Olex2-1.5a\util\pyUtil\PluginLib\plugin-SymmetryMeasurements" />
-    </key>
+}]]></component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="plugin-SymmetryMeasurements" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -65,64 +101,17 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="1a3fe957-6155-4f32-942e-9bb6e95ed5b1" name="Changes" comment="" />
-      <created>1781172744103</created>
+      <changelist id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="" />
+      <created>1781200496810</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1781172744103</updated>
-      <workItem from="1781172745115" duration="411000" />
-      <workItem from="1781173354741" duration="16331000" />
+      <updated>1781200496810</updated>
+      <workItem from="1781200501297" duration="104000" />
+      <workItem from="1781200609220" duration="444000" />
     </task>
-    <task id="LOCAL-00001" summary="First Commit.&#10;Create plugin structure.&#10;Added reverse ingeniered stubs with Claude.">
-      <option name="closed" value="true" />
-      <created>1781182222195</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1781182222195</updated>
-    </task>
-    <task id="LOCAL-00002" summary="First Commit.&#10;Create plugin structure.&#10;Added reverse engineered .pyi stubs with Claude.">
-      <option name="closed" value="true" />
-      <created>1781182318476</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1781182318476</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Added todo.md and reworked neighbours function">
-      <option name="closed" value="true" />
-      <created>1781192831408</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1781192831408</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Added todo.md and reworked neighbours function">
-      <option name="closed" value="true" />
-      <created>1781193018583</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1781193018583</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Added todo.md and reworked neighbours function">
-      <option name="closed" value="true" />
-      <created>1781193027318</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1781193027318</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="First Commit.&#10;Create plugin structure.&#10;Added reverse ingeniered stubs with Claude." />
-    <MESSAGE value="First Commit.&#10;Create plugin structure.&#10;Added reverse engineered .pyi stubs with Claude." />
-    <MESSAGE value="Added todo.md and reworked neighbours function" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added todo.md and reworked neighbours function" />
   </component>
 </project>
