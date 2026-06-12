@@ -7,6 +7,7 @@ D4 = ["Y", "Zr", "Nb", "Mo", "Tc", "Ru", "Rh", "Pd", "Ag", "Cd"]
 D5 = ["Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg"]
 LN = ["La", "Ce", "Nd", "Pr", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", "Lu"]
 AN = ["Ac", "Th", "Pa", "U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr"]
+METALS = S_METALS + P_METALS + D3 + D4 + D5 + LN
 
 REF_SHAPE_DICT = {2: "1 2 3",
                   3: "1 2 3 4",

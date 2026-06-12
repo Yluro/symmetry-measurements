@@ -9,6 +9,8 @@ import olexex
 import olx
 import gui
 import shutil
+from constants import *
+
 
 import time
 debug = bool(OV.GetParam("olex2.debug", False))
@@ -45,6 +47,7 @@ def get_selected_atoms() -> str:
     # Gets the selection from Olex2 -  Returns a string with atom labels.
     # If no atoms are selected, returns ''
     selection = olex.f('sel()')
+    print(selection)
     return selection
 
 
@@ -52,6 +55,26 @@ def get_id_from_label(atom_label):
     orm_atoms = olexex.OlexRefinementModel().atoms()
     tag = next((atom['tag'] for atom in orm_atoms if atom['label'] == atom_label), None)
     return tag
+
+def get_xyz_sel():
+    selection = olex.f('sel()')
+    sel_tag = get_id_from_label(selection)
+    return get_xyz(sel_tag)
+
+
+def get_xyz(atom_label):
+    xyz = olx.xf.au.GetAtomCrd(atom_label)
+    print(xyz)
+    return xyz
+
+def shape_exe_msg():
+    shape_path = shutil.which("shape")
+    if shape_path is None:
+        print(f"Unable to find shape.exe in the system path.")
+        return False
+    else:
+        print(f"SHAPE executable found at: {shape_path}")
+        return True
 
 
 def get_neighbours(atom_labels):
@@ -104,26 +127,23 @@ def get_neighbours_on_sel():
     atom_labels = sel.split(' ')
     return get_neighbours(atom_labels)
 
-
-def get_xyz_sel():
+def smart_build_polyhedra():
     selection = olex.f('sel()')
-    sel_tag = get_id_from_label(selection)
-    return get_xyz(sel_tag)
-
-
-def get_xyz(atom_label):
-    xyz = olx.xf.au.GetAtomCrd(atom_label)
-    print(xyz)
-    return xyz
-
-def shape_exe_msg():
-    shape_path = shutil.which("shape")
-    if shape_path is None:
-        print(f"Unable to find shape.exe in the system path.")
-        return False
+    atom_labels = selection.split(' ')
+    if atom_labels == ['']:
+        print('Unimplemented!')
+        return None # Search orm for metal centres -> build_polyhedra from centre
+    elif len(atom_labels) == 1 and atom_labels[0] in METALS:
+        # If you only selected ONE METAL ATOM
+        return None # build_poly_from_centre
     else:
-        print(f"SHAPE executable found at: {shape_path}")
-        return True
+        # If selection is more than One atom and has no metal atoms to call a centre just get all xyz coordinates and hope for the best.
+        pass
+
+    return None
+
+
+
 
 
 class SymmetryMeasurements(PT):
