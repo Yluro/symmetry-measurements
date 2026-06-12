@@ -1,4 +1,4 @@
- - [ ] Make get_xyz() function
+ - [x] Make get_xyz() function
  - [ ] Make build_polyhedra_function()
  - [ ] Make run_shape()
  - [ ] Make GUI panel
