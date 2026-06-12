@@ -67,31 +67,37 @@ def get_neighbours(atom_labels):
     ##selection = selection.split(' ')
     ##print(selection)
 
-    neighbour_tags = []
-    neighbours_labels = []
-    for sel in atom_labels:
+    neighbours_tags_list = []
+    unique_neighbours = []
+    ##neighbours_labels = []
+    for atom_label in atom_labels:
         # next finds the first occurrence in orm_atoms in which the label matches
         # with the sel and returns the atoms neighbours as a tuple of tags:
-        neigbour_tags = next((atom['neighbours'] for atom in orm_atoms if atom['label'] == sel), None)
-        #tags is None if it wasn't found in the orm: selected a Qpick
+        neighbour_tags = next((atom['neighbours'] for atom in orm_atoms if atom['label'] == atom_label), ())
+        #tags is an empty tuple if it wasn't found in the orm: selected a Qpick
         #tags is a list of len() = 0 if selected a
-        print(neigbour_tags) #(3, (1.332173751267887, 9.570147745635163, 1.1004595820674223), ((-1, 0, 0), (0, -1, 0), (0, 0, -1), (0.0, 1.0, 0.0)))
-        if neigbour_tags is None or len(neigbour_tags) == 0:
-            print(f'No connected atoms to {sel}')
-            return None
-            break
+        if neighbour_tags is None or len(neighbour_tags) == 0:
+            print(f'No connected atoms to {atom_label}')
 
-        for tag in neigbour_tags:
+        print(neighbour_tags) #(3, (1.332173751267887, 9.570147745635163, 1.1004595820674223), ((-1, 0, 0), (0, -1, 0), (0, 0, -1), (0.0, 1.0, 0.0)))
+        neighbours_tags_list.append(neighbour_tags)
+
+        for neighbour in neighbour_tags:
+            if neighbour not in unique_neighbours:
+                unique_neighbours.append(neighbour)
+
+
+        # DEPRECATED - THIS CODE HERE RETURNED THE NEIGHBOURHOOD AS A LIST OF UNIQUE TAGS - DEPRECATED
+        '''for tag in neighbour_tags:  
             if tag not in neighbour_tags:
                 neighbour_tags.append(tag)
                 # Use a similar next constructor to retrieve the
                 # label from the orm and append it to the Neighbours list
                 neighbours_label = next((atom['label'] for atom in orm_atoms if atom['tag'] == tag), None)
-                neighbours_labels.append(neighbours_label)
-
-
-    print(neighbours_labels)
-    return neighbour_tags
+                neighbours_labels.append(neighbours_label)'''
+    print(neighbours_tags_list)
+    print(unique_neighbours)
+    return neighbours_tags_list, unique_neighbours
 
 def get_neighbours_on_sel():
     sel = olex.f('sel()')
