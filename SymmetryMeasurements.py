@@ -1,5 +1,6 @@
 
 from olexFunctions import OlexFunctions
+
 OV = OlexFunctions()
 
 import os
@@ -51,7 +52,7 @@ def get_selected_atoms() -> str:
     return selection
 
 
-def get_id_from_label(atom_label):
+def get_id_from_label(atom_label) -> int:
     orm_atoms = olexex.OlexRefinementModel().atoms()
     tag = next((atom['tag'] for atom in orm_atoms if atom['label'] == atom_label), None)
     return tag
@@ -65,6 +66,7 @@ def get_label_from_id(atom_label):
 def get_xyz_sel():
     selection = olex.f('sel()')
     sel_tag = get_id_from_label(selection)
+    print(selection)
     return get_xyz(sel_tag)
 
 
@@ -109,7 +111,7 @@ def get_neighbours(atom_labels):
         if neighbour_tags is None or len(neighbour_tags) == 0:
             print(f'No connected atoms to {atom_label}')
 
-        print(neighbour_tags) #(3, (1.332173751267887, 9.570147745635163, 1.1004595820674223), ((-1, 0, 0), (0, -1, 0), (0, 0, -1), (0.0, 1.0, 0.0)))
+        #print(neighbour_tags) #(3, (1.332173751267887, 9.570147745635163, 1.1004595820674223), ((-1, 0, 0), (0, -1, 0), (0, 0, -1), (0.0, 1.0, 0.0)))
         neighbours_tags_list.append(neighbour_tags)
 
         for neighbour in neighbour_tags:
@@ -125,8 +127,8 @@ def get_neighbours(atom_labels):
                 # label from the orm and append it to the Neighbours list
                 neighbours_label = next((atom['label'] for atom in orm_atoms if atom['tag'] == tag), None)
                 neighbours_labels.append(neighbours_label)'''
-    print(neighbours_tags_list)
-    print(unique_neighbours)
+    print(f'Neighbours for each atom selected:{neighbours_tags_list}')
+    print(f'Unique neighbours:{unique_neighbours}')
     return neighbours_tags_list, unique_neighbours
 
 def get_neighbours_on_sel():
@@ -135,32 +137,49 @@ def get_neighbours_on_sel():
     return get_neighbours(atom_labels)
 
 
-def build_polyhedra_from_centre():
-    neighbours = get_neighbours_on_sel()
+def build_polyhedra_from_centre(atom_label=['Mn1']):
+
+    orm = olexex.OlexRefinementModel().atoms()
+    neighbours = get_neighbours(atom_label)
     if neighbours is None:
+        print(f'No neighbours can be found for {atom_label}')
         return None
 
-    unique_neighbours = neighbours[1]
+    _, unique_neighbours = neighbours
+    print(unique_neighbours)
+    if len(atom_label) > 1:
+        print('More than one atom, wrong function!')
+        return None
 
-    donor_atoms = []
+    centre = atom_label[0]
+    centre_id = get_id_from_label(centre)
+    crd = olx.xf.au.GetAtomCrd(centre_id)
+    xyz = olx.xf.au.Orthogonalise(crd)
+
+
+
+    polyhedra = [(centre, xyz)]
+
+
     for neighbour in unique_neighbours:
         if type(neighbour) == tuple:
+            print(f'Found tuple: {neighbour}')
             # get_neigours() returns a complicated tuple if the neighbour is outside the ASU.
             # This list already contains the "extended coordinates of the neighbour atoms"
-            xyz = ' '.join(neighbour[1]) # Join the xyz tuple values into a string
+            xyz = ' '.join(str(neighbour[1])) # Join the xyz tuple values into a string
             label = get_label_from_id(neighbour[0])
-            donor_atoms.append((label, xyz))
+            polyhedra.append((label, xyz))
         else:
             xyz = get_xyz(neighbour)
             label = get_label_from_id(neighbour)
-            donor_atoms.append((label, xyz))
+            polyhedra.append((label, xyz))
 
-    print(donor_atoms)
-    return donor_atoms
+    print(polyhedra)
+    return polyhedra
 
 
 
-def smart_build_polyhedra():
+'''def smart_build_polyhedra():
     selection = olex.f('sel()')
     atom_labels = selection.split(' ')
     if atom_labels == ['']:
@@ -173,7 +192,7 @@ def smart_build_polyhedra():
         # If selection is more than One atom and has no metal atoms to call a centre just get all xyz coordinates and hope for the best.
         pass
 
-    return None
+    return None'''
 
 
 

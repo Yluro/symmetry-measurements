@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="philospphical comments on function building">
+    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="Basic functionality of build_polyhedra_from_centre() working">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SymmetryMeasurements.py" beforeDir="false" afterPath="$PROJECT_DIR$/SymmetryMeasurements.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symmetrymeasurements.htm" beforeDir="false" afterPath="$PROJECT_DIR$/symmetrymeasurements.htm" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -177,7 +176,7 @@
       <updated>1781200496810</updated>
       <workItem from="1781200501297" duration="104000" />
       <workItem from="1781200609220" duration="4369000" />
-      <workItem from="1781515626042" duration="3217000" />
+      <workItem from="1781515626042" duration="10667000" />
     </task>
     <task id="LOCAL-00001" summary="Removed duplicate functions">
       <option name="closed" value="true" />
@@ -227,7 +226,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781275662184</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Basic functionality of build_polyhedra_from_centre() working">
+      <option name="closed" value="true" />
+      <created>1781523131244</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1781523131245</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -250,6 +257,7 @@
     <MESSAGE value="Refactored get_neighbours() to generalise. Created get_neighbours_on_sel() that maintains original behaviour." />
     <MESSAGE value="get_neighbours() now returns unique neighbour list + a list of tuples for neighbours of each atom in selection" />
     <MESSAGE value="philospphical comments on function building" />
-    <option name="LAST_COMMIT_MESSAGE" value="philospphical comments on function building" />
+    <MESSAGE value="Basic functionality of build_polyhedra_from_centre() working" />
+    <option name="LAST_COMMIT_MESSAGE" value="Basic functionality of build_polyhedra_from_centre() working" />
   </component>
 </project>
