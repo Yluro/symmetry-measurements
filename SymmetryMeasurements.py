@@ -56,6 +56,12 @@ def get_id_from_label(atom_label):
     tag = next((atom['tag'] for atom in orm_atoms if atom['label'] == atom_label), None)
     return tag
 
+def get_label_from_id(atom_label):
+    orm_atoms = olexex.OlexRefinementModel().atoms()
+    label = next((atom['label'] for atom in orm_atoms if atom['tag'] == atom_label), None)
+    return label
+
+
 def get_xyz_sel():
     selection = olex.f('sel()')
     sel_tag = get_id_from_label(selection)
@@ -63,7 +69,8 @@ def get_xyz_sel():
 
 
 def get_xyz(atom_label):
-    xyz = olx.xf.au.GetAtomCrd(atom_label)
+    crd = olx.xf.au.GetAtomCrd(atom_label)
+    xyz = olx.xf.au.Orthogonalise(crd)
     print(xyz)
     return xyz
 
@@ -127,6 +134,32 @@ def get_neighbours_on_sel():
     atom_labels = sel.split(' ')
     return get_neighbours(atom_labels)
 
+
+def build_polyhedra_from_centre():
+    neighbours = get_neighbours_on_sel()
+    if neighbours is None:
+        return None
+
+    unique_neighbours = neighbours[1]
+
+    donor_atoms = []
+    for neighbour in unique_neighbours:
+        if type(neighbour) == tuple:
+            # get_neigours() returns a complicated tuple if the neighbour is outside the ASU.
+            # This list already contains the "extended coordinates of the neighbour atoms"
+            xyz = ' '.join(neighbour[1]) # Join the xyz tuple values into a string
+            label = get_label_from_id(neighbour[0])
+            donor_atoms.append((label, xyz))
+        else:
+            xyz = get_xyz(neighbour)
+            label = get_label_from_id(neighbour)
+            donor_atoms.append((label, xyz))
+
+    print(donor_atoms)
+    return donor_atoms
+
+
+
 def smart_build_polyhedra():
     selection = olex.f('sel()')
     atom_labels = selection.split(' ')
@@ -141,7 +174,6 @@ def smart_build_polyhedra():
         pass
 
     return None
-
 
 
 
@@ -163,6 +195,7 @@ class SymmetryMeasurements(PT):
         OV.registerFunction(shape_exe_msg, True, "SymmetryMeasurements")
         OV.registerFunction(get_xyz_sel, True, "SymmetryMeasurements")
         OV.registerFunction(get_neighbours_on_sel, True, "SymmetryMeasurements")
+        OV.registerFunction(build_polyhedra_from_centre, True, "SymmetryMeasurements")
     # END Generated =======================================
 
 SymmetryMeasurements_instance = SymmetryMeasurements()
