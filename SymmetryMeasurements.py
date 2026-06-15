@@ -138,8 +138,6 @@ def get_neighbours_on_sel():
 
 
 def build_polyhedra_from_centre(atom_label=['Mn1']):
-
-    orm = olexex.OlexRefinementModel().atoms()
     neighbours = get_neighbours(atom_label)
     if neighbours is None:
         print(f'No neighbours can be found for {atom_label}')
@@ -176,7 +174,6 @@ def build_polyhedra_from_centre(atom_label=['Mn1']):
 
     print(polyhedra)
     return polyhedra
-
 
 
 '''def smart_build_polyhedra():
