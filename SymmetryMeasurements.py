@@ -1,3 +1,4 @@
+from typing import Any, Generator
 
 from olexFunctions import OlexFunctions
 
@@ -11,6 +12,15 @@ import olx
 import gui
 import shutil
 from constants import *
+
+test_Mn1_polyhedra = (('Mn1', '0 8.0648 0'),
+                      ('N2', '-1.332564 6.559586 -1.098927'),
+                      ('N2', '1.3326 9.5700 1.0989'),
+                      ('O4', '0.527332 6.436452 1.330861'),
+                      ('O4', '-0.5273 9.6931 -1.3309'),
+                      ('O5', '1.617025 7.420422 -1.381456'),
+                      ('O5', '-1.6170 8.7092 1.3815')
+                      )
 
 
 import time
@@ -43,7 +53,7 @@ OV.SetVar('SymmetryMeasurements_plugin_path', p_path)
 
 from PluginTools import PluginTools as PT
 
-
+## SMALL HELPER FUNCTIONS
 def get_selected_atoms() -> str:
     # Gets the selection from Olex2 -  Returns a string with atom labels.
     # If no atoms are selected, returns ''
@@ -65,9 +75,16 @@ def get_label_from_id(atom_label):
 
 def get_xyz_sel():
     selection = olex.f('sel()')
-    sel_tag = get_id_from_label(selection)
-    print(selection)
-    return get_xyz(sel_tag)
+    if selection == '':
+        print('No atoms selected.')
+        return None
+    try:
+        sel_tag = get_id_from_label(selection)
+        print(selection)
+        return get_xyz(sel_tag)
+    except RuntimeError:
+        print(f'Could not find {selection} in the orm')
+        return None
 
 
 def get_xyz(atom_label):
@@ -120,6 +137,7 @@ def get_neighbours(atom_labels):
 
 
         # DEPRECATED - THIS CODE HERE RETURNED THE NEIGHBOURHOOD AS A LIST OF UNIQUE TAGS - DEPRECATED
+        # NOW THIS FUNTIONS RETURNS A LIST OF UNIQUE NEIGHBOUR LABELS
         '''for tag in neighbour_tags:  
             if tag not in neighbour_tags:
                 neighbour_tags.append(tag)
@@ -154,8 +172,6 @@ def build_polyhedra_from_centre(atom_label=['Mn1']):
     crd = olx.xf.au.GetAtomCrd(centre_id)
     xyz = olx.xf.au.Orthogonalise(crd)
 
-
-
     polyhedra = [(centre, xyz)]
 
 
@@ -164,7 +180,7 @@ def build_polyhedra_from_centre(atom_label=['Mn1']):
             print(f'Found tuple: {neighbour}')
             # get_neigours() returns a complicated tuple if the neighbour is outside the ASU.
             # This list already contains the "extended coordinates of the neighbour atoms"
-            xyz = ' '.join(str(neighbour[1])) # Join the xyz tuple values into a string
+            xyz = ' '.join(f'{x:.4f}' for x in neighbour[1]) # Join the xyz tuple values into a string
             label = get_label_from_id(neighbour[0])
             polyhedra.append((label, xyz))
         else:
@@ -174,6 +190,33 @@ def build_polyhedra_from_centre(atom_label=['Mn1']):
 
     print(polyhedra)
     return polyhedra
+
+def build_dat_file(polyhedra= test_Mn1_polyhedra):
+    """
+    Builds a dat file for the given polyhedra.
+    :param polyhedra:
+    :return dat_file: str | None if incorrect number of vertices:
+    """
+    title = f'$ {olx.FileName()}_{polyhedra[0][0]}\n'
+    fullout ='%fullout\n'
+    ligands = len(polyhedra) - 1 # The dat file for SHAPE2.1 needs the amount of ligands there are
+    metal = 1 # Means the position of the metal. The build_polyhedra() functions will always put the metals at first
+    positions = f'{ligands} {metal}\n'
+    try:
+        geometries = f'{REF_SHAPE_DICT[ligands]}\n' # The SHAPE2.1 documentation gives these strings of numbers
+        subtitle = f'{polyhedra[0][0]}\n'.upper()
+        table = '\n'.join(f'{label} {xyz}' for label, xyz in polyhedra)  # Joins all rows of the table
+        dat_file = title + fullout + positions + geometries + subtitle + table
+        print(dat_file)
+        return dat_file
+    except KeyError:
+        print(f'No defined geometries for {ligands} vertices. Check the structure for extra bonds.')
+        return None
+
+
+def write_dat(dat_file_contents, file_path):
+    with open(file_path, 'w') as f:
+        f.write(dat_file_contents)
 
 
 '''def smart_build_polyhedra():
@@ -212,6 +255,7 @@ class SymmetryMeasurements(PT):
         OV.registerFunction(get_xyz_sel, True, "SymmetryMeasurements")
         OV.registerFunction(get_neighbours_on_sel, True, "SymmetryMeasurements")
         OV.registerFunction(build_polyhedra_from_centre, True, "SymmetryMeasurements")
+        OV.registerFunction(build_dat_file, True, "SymmetryMeasurements")
     # END Generated =======================================
 
 SymmetryMeasurements_instance = SymmetryMeasurements()
