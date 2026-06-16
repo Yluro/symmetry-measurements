@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="Refactoring some functions. write_dat() working a bit more">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SymmetryMeasurements.py" beforeDir="false" afterPath="$PROJECT_DIR$/SymmetryMeasurements.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symmetrymeasurements.htm" beforeDir="false" afterPath="$PROJECT_DIR$/symmetrymeasurements.htm" afterDir="false" />
+    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="First working Version of autoSHAPE()">
+      <change beforePath="$PROJECT_DIR$/todo.md" beforeDir="false" afterPath="$PROJECT_DIR$/todo.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,7 +182,7 @@
       <workItem from="1781200609220" duration="4369000" />
       <workItem from="1781515626042" duration="12110000" />
       <workItem from="1781540259074" duration="6000" />
-      <workItem from="1781600185384" duration="13997000" />
+      <workItem from="1781600185384" duration="15077000" />
     </task>
     <task id="LOCAL-00001" summary="Removed duplicate functions">
       <option name="closed" value="true" />
@@ -274,7 +272,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781613803239</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="First working Version of autoSHAPE()">
+      <option name="closed" value="true" />
+      <created>1781620857700</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1781620857700</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -302,6 +308,7 @@
     <MESSAGE value="First iteration of build_shape_file" />
     <MESSAGE value="build_dat_file() done. Added a testing polyhedra. First iteration of write_dat()" />
     <MESSAGE value="Refactoring some functions. write_dat() working a bit more" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactoring some functions. write_dat() working a bit more" />
+    <MESSAGE value="First working Version of autoSHAPE()" />
+    <option name="LAST_COMMIT_MESSAGE" value="First working Version of autoSHAPE()" />
   </component>
 </project>
