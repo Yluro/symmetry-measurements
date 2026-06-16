@@ -67,6 +67,7 @@ def get_id_from_label(atom_label) -> int:
     tag = next((atom['tag'] for atom in orm_atoms if atom['label'] == atom_label), None)
     return tag
 
+
 def get_label_from_id(atom_label):
     orm_atoms = olexex.OlexRefinementModel().atoms()
     label = next((atom['label'] for atom in orm_atoms if atom['tag'] == atom_label), None)
@@ -92,6 +93,7 @@ def get_xyz(atom_label):
     xyz = olx.xf.au.Orthogonalise(crd)
     print(xyz)
     return xyz
+
 
 def shape_exe_msg():
     shape_path = shutil.which("shape")
@@ -206,17 +208,31 @@ def build_dat_file(polyhedra= test_Mn1_polyhedra):
         geometries = f'{REF_SHAPE_DICT[ligands]}\n' # The SHAPE2.1 documentation gives these strings of numbers
         subtitle = f'{polyhedra[0][0]}\n'.upper()
         table = '\n'.join(f'{label} {xyz}' for label, xyz in polyhedra)  # Joins all rows of the table
-        dat_file = title + fullout + positions + geometries + subtitle + table
-        print(dat_file)
-        return dat_file
+        dat_file_contents = title + fullout + positions + geometries + subtitle + table
+        print(dat_file_contents)
+        return dat_file_contents, f'{olx.FileName()}_{polyhedra[0][0]}'
     except KeyError:
         print(f'No defined geometries for {ligands} vertices. Check the structure for extra bonds.')
-        return None
+        return None, None
 
 
-def write_dat(dat_file_contents, file_path):
+def write_dat(dat_file_contents= build_dat_file(test_Mn1_polyhedra)[0], title=build_dat_file(test_Mn1_polyhedra)[1]):
+    base_dir = olx.DataDir()
+    i = 0
+    file_name = f'{title.strip()}_{i}.dat'
+    file_path = os.sep.join((base_dir, 'autoSHAPE', title.strip(), str(i), file_name))
+    while os.path.exists(file_path):
+        file_name = f'{title.strip()}_{i}.txt'
+        file_path = os.sep.join((base_dir, 'autoSHAPE', title.strip(), str(i), file_name))
+        i += 1
+        if i > 10: # Safe ward in case this While loop gets out of control.
+            break
+
     with open(file_path, 'w') as f:
         f.write(dat_file_contents)
+        print(f'Writing {file_name} at {file_path}...')
+
+    print(file_path)
 
 
 '''def smart_build_polyhedra():
