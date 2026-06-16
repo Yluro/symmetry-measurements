@@ -1,4 +1,3 @@
-from typing import Any, Generator
 
 from olexFunctions import OlexFunctions
 
@@ -12,6 +11,7 @@ import olx
 import gui
 import shutil
 from constants import *
+import subprocess
 
 test_Mn1_polyhedra = (('Mn1', '0 8.0648 0'),
                       ('N2', '-1.332564 6.559586 -1.098927'),
@@ -95,7 +95,7 @@ def get_xyz(atom_label):
     return xyz
 
 
-def shape_exe_msg():
+def can_find_shape_msg():
     shape_path = shutil.which("shape")
     if shape_path is None:
         print(f"Unable to find shape.exe in the system path.")
@@ -157,7 +157,7 @@ def get_neighbours_on_sel():
     return get_neighbours(atom_labels)
 
 
-def build_polyhedra_from_centre(atom_label=['Mn1']):
+def build_polyhedra_from_centre(atom_label=('Mn1',)):
     neighbours = get_neighbours(atom_label)
     if neighbours is None:
         print(f'No neighbours can be found for {atom_label}')
@@ -211,28 +211,76 @@ def build_dat_file(polyhedra= test_Mn1_polyhedra):
         dat_file_contents = title + fullout + positions + geometries + subtitle + table
         print(dat_file_contents)
         return dat_file_contents, f'{olx.FileName()}_{polyhedra[0][0]}'
+
     except KeyError:
         print(f'No defined geometries for {ligands} vertices. Check the structure for extra bonds.')
         return None, None
 
 
-def write_dat(dat_file_contents= build_dat_file(test_Mn1_polyhedra)[0], title=build_dat_file(test_Mn1_polyhedra)[1]):
-    base_dir = olx.DataDir()
+def write_dat(dat_file_contents= None, title= None):
+    """
+    Writes a dat file given its contents. Will create autoSHAPE folder in FilePath().
+    Will create subfolders if ran multiple times.
+    :param dat_file_contents: Text of the .dat file
+    :param title: Name of the .dat file.
+    :return file_dir:
+    """
+    if (dat_file_contents, title) == (None, None):
+        dat_file_contents, title = build_dat_file(test_Mn1_polyhedra)
+
+    base_dir = olx.FilePath()
     i = 0
     file_name = f'{title.strip()}_{i}.dat'
-    file_path = os.sep.join((base_dir, 'autoSHAPE', title.strip(), str(i), file_name))
+    file_dir = os.sep.join((base_dir, 'autoSHAPE', title.strip(), str(i)))
+    file_path = os.sep.join((file_dir, file_name))
     while os.path.exists(file_path):
-        file_name = f'{title.strip()}_{i}.txt'
-        file_path = os.sep.join((base_dir, 'autoSHAPE', title.strip(), str(i), file_name))
+        file_name = f'{title.strip()}_{i}.dat'
+        file_dir = os.sep.join((base_dir, 'autoSHAPE', title.strip(), str(i)))
+        file_path = os.sep.join((file_dir, file_name))
         i += 1
         if i > 10: # Safe ward in case this While loop gets out of control.
             break
+
+    print(f'Good file directory: {file_dir}')
+
+
+    if not os.path.exists(file_dir):
+        os.makedirs(file_dir)
 
     with open(file_path, 'w') as f:
         f.write(dat_file_contents)
         print(f'Writing {file_name} at {file_path}...')
 
     print(file_path)
+
+    return file_dir
+
+
+def run_SHAPE(folder):
+    dat_files = [f for f in os.listdir(folder) if f.endswith('.dat')]
+    for file in dat_files:
+        print(f"Running SHAPE on {file}...")
+        process = subprocess.Popen('shape', shell=True, stdin=subprocess.PIPE,
+                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                    text=True, cwd=folder)
+        out, err = process.communicate(input=f'{file}\n')
+        print(out)  # Send Enter key (newline character)
+
+def autoSHAPE():
+    if can_find_shape_msg():
+        sel = olex.f('sel()')
+        print()
+        label = sel.split(' ')
+        poly = build_polyhedra_from_centre(label)
+        file_contents, title = build_dat_file(poly)
+        print(file_contents, title)
+        folder = write_dat(file_contents, title)
+        print(f'Folder to run SHAPE: {folder}')
+        run_SHAPE(folder)
+        return True
+
+    return False
+
 
 
 '''def smart_build_polyhedra():
@@ -251,8 +299,6 @@ def write_dat(dat_file_contents= build_dat_file(test_Mn1_polyhedra)[0], title=bu
     return None'''
 
 
-
-
 class SymmetryMeasurements(PT):
     def __init__(self):
         super(SymmetryMeasurements, self).__init__()
@@ -267,12 +313,15 @@ class SymmetryMeasurements(PT):
             self.setup_gui()
         OV.registerFunction(get_selected_atoms, True, "SymmetryMeasurements")
         OV.registerFunction(get_neighbours, True, "SymmetryMeasurements")
-        OV.registerFunction(shape_exe_msg, True, "SymmetryMeasurements")
+        OV.registerFunction(can_find_shape_msg, True, "SymmetryMeasurements")
         OV.registerFunction(get_xyz_sel, True, "SymmetryMeasurements")
         OV.registerFunction(get_neighbours_on_sel, True, "SymmetryMeasurements")
         OV.registerFunction(build_polyhedra_from_centre, True, "SymmetryMeasurements")
         OV.registerFunction(build_dat_file, True, "SymmetryMeasurements")
+        OV.registerFunction(write_dat, True, "SymmetryMeasurements")
+        OV.registerFunction(autoSHAPE, True, "SymmetryMeasurements")
+        OV.registerFunction(call_SHAPE, True, "SymmetryMeasurements")
     # END Generated =======================================
 
 SymmetryMeasurements_instance = SymmetryMeasurements()
-print("Loaded Symmetry Measurements by José Serrano-Guarinos.")
+print("Loaded Symmetry Measurements by JSG.")
