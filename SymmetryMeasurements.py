@@ -147,8 +147,8 @@ def get_neighbours(atom_labels):
                 # label from the orm and append it to the Neighbours list
                 neighbours_label = next((atom['label'] for atom in orm_atoms if atom['tag'] == tag), None)
                 neighbours_labels.append(neighbours_label)'''
-    print(f'Neighbours for each atom selected:{neighbours_tags_list}')
-    print(f'Unique neighbours:{unique_neighbours}')
+    #print(f'Neighbours for each atom selected:{neighbours_tags_list}')
+    #print(f'Unique neighbours:{unique_neighbours}')
     return neighbours_tags_list, unique_neighbours
 
 def get_neighbours_on_sel():
@@ -164,7 +164,7 @@ def build_polyhedra_from_centre(atom_label=('Mn1',)):
         return None
 
     _, unique_neighbours = neighbours
-    print(unique_neighbours)
+    #print(unique_neighbours)
     if len(atom_label) > 1:
         print('More than one atom, wrong function!')
         return None
@@ -179,7 +179,7 @@ def build_polyhedra_from_centre(atom_label=('Mn1',)):
 
     for neighbour in unique_neighbours:
         if type(neighbour) == tuple:
-            print(f'Found tuple: {neighbour}')
+            #print(f'Found tuple: {neighbour}')
             # get_neigours() returns a complicated tuple if the neighbour is outside the ASU.
             # This list already contains the "extended coordinates of the neighbour atoms"
             xyz = ' '.join(f'{x:.4f}' for x in neighbour[1]) # Join the xyz tuple values into a string
@@ -190,7 +190,7 @@ def build_polyhedra_from_centre(atom_label=('Mn1',)):
             label = get_label_from_id(neighbour)
             polyhedra.append((label, xyz))
 
-    print(polyhedra)
+    #print(polyhedra)
     return polyhedra
 
 def build_dat_file(polyhedra= test_Mn1_polyhedra):
@@ -209,7 +209,7 @@ def build_dat_file(polyhedra= test_Mn1_polyhedra):
         subtitle = f'{polyhedra[0][0]}\n'.upper()
         table = '\n'.join(f'{label} {xyz}' for label, xyz in polyhedra)  # Joins all rows of the table
         dat_file_contents = title + fullout + positions + geometries + subtitle + table
-        print(dat_file_contents)
+        #print(dat_file_contents)
         return dat_file_contents, f'{olx.FileName()}_{polyhedra[0][0]}'
 
     except KeyError:
@@ -241,7 +241,7 @@ def write_dat(dat_file_contents= None, title= None):
         if i > 10: # Safe ward in case this While loop gets out of control.
             break
 
-    print(f'Good file directory: {file_dir}')
+    #print(f'Good file directory: {file_dir}')
 
 
     if not os.path.exists(file_dir):
@@ -251,7 +251,7 @@ def write_dat(dat_file_contents= None, title= None):
         f.write(dat_file_contents)
         print(f'Writing {file_name} at {file_path}...')
 
-    print(file_path)
+    #print(file_path)
 
     return file_dir
 
@@ -269,13 +269,10 @@ def run_SHAPE(folder):
 def autoSHAPE():
     if can_find_shape_msg():
         sel = olex.f('sel()')
-        print()
         label = sel.split(' ')
         poly = build_polyhedra_from_centre(label)
         file_contents, title = build_dat_file(poly)
-        print(file_contents, title)
         folder = write_dat(file_contents, title)
-        print(f'Folder to run SHAPE: {folder}')
         run_SHAPE(folder)
         return True
 
@@ -320,7 +317,6 @@ class SymmetryMeasurements(PT):
         OV.registerFunction(build_dat_file, True, "SymmetryMeasurements")
         OV.registerFunction(write_dat, True, "SymmetryMeasurements")
         OV.registerFunction(autoSHAPE, True, "SymmetryMeasurements")
-        OV.registerFunction(call_SHAPE, True, "SymmetryMeasurements")
     # END Generated =======================================
 
 SymmetryMeasurements_instance = SymmetryMeasurements()
