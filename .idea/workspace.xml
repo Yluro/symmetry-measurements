@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="Update todo.md">
+    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="Commented noisy print() used for debugging.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SymmetryMeasurements.py" beforeDir="false" afterPath="$PROJECT_DIR$/SymmetryMeasurements.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +23,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
@@ -125,7 +129,7 @@
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;part-check&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -184,7 +188,7 @@
       <workItem from="1781515626042" duration="12110000" />
       <workItem from="1781540259074" duration="6000" />
       <workItem from="1781600185384" duration="15938000" />
-      <workItem from="1781700609598" duration="235000" />
+      <workItem from="1781700609598" duration="2141000" />
     </task>
     <task id="LOCAL-00001" summary="Removed duplicate functions">
       <option name="closed" value="true" />
@@ -290,13 +294,66 @@
       <option name="project" value="LOCAL" />
       <updated>1781620898495</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Commented noisy print() used for debugging.">
+      <option name="closed" value="true" />
+      <created>1781701031419</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1781701031419</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Commented noisy print() used for debugging.">
+      <option name="closed" value="true" />
+      <created>1781701218645</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1781701218645</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="master" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+        <entry key="Paths">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="file:$PROJECT_DIR$/SymmetryMeasurements.py" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="*" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
@@ -320,6 +377,7 @@
     <MESSAGE value="Refactoring some functions. write_dat() working a bit more" />
     <MESSAGE value="First working Version of autoSHAPE()" />
     <MESSAGE value="Update todo.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update todo.md" />
+    <MESSAGE value="Commented noisy print() used for debugging." />
+    <option name="LAST_COMMIT_MESSAGE" value="Commented noisy print() used for debugging." />
   </component>
 </project>
