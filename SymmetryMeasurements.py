@@ -3,6 +3,7 @@ from olexFunctions import OlexFunctions
 
 OV = OlexFunctions()
 
+from helper_functions import *
 import os
 import htmlTools
 import olex
@@ -12,15 +13,7 @@ import gui
 import shutil
 from constants import *
 import subprocess
-
-test_Mn1_polyhedra = (('Mn1', '0 8.0648 0'),
-                      ('N2', '-1.332564 6.559586 -1.098927'),
-                      ('N2', '1.3326 9.5700 1.0989'),
-                      ('O4', '0.527332 6.436452 1.330861'),
-                      ('O4', '-0.5273 9.6931 -1.3309'),
-                      ('O5', '1.617025 7.420422 -1.381456'),
-                      ('O5', '-1.6170 8.7092 1.3815')
-                      )
+from octahedralDistortion import *
 
 
 import time
@@ -52,47 +45,6 @@ p_scope = d['p_scope']
 OV.SetVar('SymmetryMeasurements_plugin_path', p_path)
 
 from PluginTools import PluginTools as PT
-
-## SMALL HELPER FUNCTIONS
-def get_selected_atoms() -> str:
-    # Gets the selection from Olex2 -  Returns a string with atom labels.
-    # If no atoms are selected, returns ''
-    selection = olex.f('sel()')
-    print(selection)
-    return selection
-
-
-def get_id_from_label(atom_label) -> int:
-    orm_atoms = olexex.OlexRefinementModel().atoms()
-    tag = next((atom['tag'] for atom in orm_atoms if atom['label'] == atom_label), None)
-    return tag
-
-
-def get_label_from_id(atom_label):
-    orm_atoms = olexex.OlexRefinementModel().atoms()
-    label = next((atom['label'] for atom in orm_atoms if atom['tag'] == atom_label), None)
-    return label
-
-
-def get_xyz_sel():
-    selection = olex.f('sel()')
-    if selection == '':
-        print('No atoms selected.')
-        return None
-    try:
-        sel_tag = get_id_from_label(selection)
-        print(selection)
-        return get_xyz(sel_tag)
-    except RuntimeError:
-        print(f'Could not find {selection} in the orm')
-        return None
-
-
-def get_xyz(atom_label):
-    crd = olx.xf.au.GetAtomCrd(atom_label)
-    xyz = olx.xf.au.Orthogonalise(crd)
-    #print(xyz)
-    return xyz
 
 
 def can_find_shape_msg(silent=True):
@@ -294,6 +246,7 @@ def autoSHAPE():
         print('SHAPE executable not found in PATH.')
     return None
 
+
 #--------------------------------------------------------------------------------
 #S H A P E   v2.1         Continuous Shape Measures calculation
 #(c) 2013  Electronic Structure Group, Universitat de Barcelona
@@ -330,7 +283,7 @@ def parse_shape_tab(tab_path):
         data_row = None
         for tab_line in lines[5:]:
             if ',' in tab_line and any(c.isdigit() for c in tab_line):
-                print(tab_line)
+                #print(tab_line)
                 data_row = tab_line
 
         if data_row is None:
@@ -349,8 +302,8 @@ def print_shape_table(tab_path):
         return False
     atom_label, shape_labels, values = result
     min_val = min(values)
-    print('-' * 50)
-    print(f'\nSHAPE2.1 results for {atom_label} in {os.path.basename(tab_path)}:')
+    print('\n'+'-' * 50)
+    print(f'SHAPE2.1 results for {atom_label} in {os.path.basename(tab_path)}:')
     print('-'*50)
     print(f"{'Polyhedron':<12}{'CShM':>10}")
     print('-'*50)
@@ -397,6 +350,7 @@ class SymmetryMeasurements(PT):
         OV.registerFunction(build_dat_file, True, "SymmetryMeasurements")
         OV.registerFunction(write_dat, True, "SymmetryMeasurements")
         OV.registerFunction(autoSHAPE, True, "SymmetryMeasurements")
+        OV.registerFunction(octadist, True, "SymmetryMeasurements")
     # END Generated =======================================
 
 

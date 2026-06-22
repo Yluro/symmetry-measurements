@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="Commented noisy print() used for debugging.">
+    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="Working version of autoSHAPE now parses output tables.">
+      <change afterPath="$PROJECT_DIR$/helper_functions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/octadist.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SymmetryMeasurements.py" beforeDir="false" afterPath="$PROJECT_DIR$/SymmetryMeasurements.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symmetrymeasurements.htm" beforeDir="false" afterPath="$PROJECT_DIR$/symmetrymeasurements.htm" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +24,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Stub" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -311,7 +316,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781701218645</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Working version of autoSHAPE now parses output tables.">
+      <option name="closed" value="true" />
+      <created>1782136255422</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1782136255422</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -379,6 +392,7 @@
     <MESSAGE value="First working Version of autoSHAPE()" />
     <MESSAGE value="Update todo.md" />
     <MESSAGE value="Commented noisy print() used for debugging." />
-    <option name="LAST_COMMIT_MESSAGE" value="Commented noisy print() used for debugging." />
+    <MESSAGE value="Working version of autoSHAPE now parses output tables." />
+    <option name="LAST_COMMIT_MESSAGE" value="Working version of autoSHAPE now parses output tables." />
   </component>
 </project>
