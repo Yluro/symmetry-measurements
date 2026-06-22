@@ -91,17 +91,18 @@ def get_xyz_sel():
 def get_xyz(atom_label):
     crd = olx.xf.au.GetAtomCrd(atom_label)
     xyz = olx.xf.au.Orthogonalise(crd)
-    print(xyz)
+    #print(xyz)
     return xyz
 
 
-def can_find_shape_msg():
+def can_find_shape_msg(silent=True):
     shape_path = shutil.which("shape")
     if shape_path is None:
         print(f"Unable to find shape.exe in the system path.")
         return False
     else:
-        print(f"SHAPE executable found at: {shape_path}")
+        if not silent:
+            print(f"SHAPE executable found at: {shape_path}")
         return True
 
 
@@ -256,7 +257,12 @@ def write_dat(dat_file_contents= None, title= None):
     return file_dir
 
 
-def run_SHAPE(folder):
+def run_shape(folder):
+    """
+    Runs a SHAPE instance on all dat files in a specified folder.
+    :param folder:
+    :return files: Name of the output files without file extension.
+    """
     dat_files = [f for f in os.listdir(folder) if f.endswith('.dat')]
     for file in dat_files:
         print(f"Running SHAPE on {file}...")
@@ -266,19 +272,93 @@ def run_SHAPE(folder):
         out, err = process.communicate(input=f'{file}\n')
         print(out)  # Send Enter key (newline character)
 
+    ouput_files = [f[:-4] for f in dat_files]
+    return ouput_files
+
+
 def autoSHAPE():
     if can_find_shape_msg():
-        sel = olex.f('sel()')
-        label = sel.split(' ')
-        poly = build_polyhedra_from_centre(label)
-        file_contents, title = build_dat_file(poly)
-        folder = write_dat(file_contents, title)
-        run_SHAPE(folder)
-        return True
+        sel = olex.f('sel()') # Gets the selection
+        if sel != '':
+            label = sel.split(' ')
+            poly = build_polyhedra_from_centre(label)
+            file_contents, title = build_dat_file(poly)
+            folder = write_dat(file_contents, title)
+            files = run_shape(folder)
+            for f in files:
+                print_shape_table(os.path.join(folder, f'{f}.tab'))
+            return folder
+        else:
+            print('No atom selected!')
+    else:
+        print('SHAPE executable not found in PATH.')
+    return None
 
-    return False
+#--------------------------------------------------------------------------------
+#S H A P E   v2.1         Continuous Shape Measures calculation
+#(c) 2013  Electronic Structure Group, Universitat de Barcelona
+#                   Contact:  llunell@ub.edu
+#--------------------------------------------------------------------------------
+#
+#Co110_Co
+#
+#SP-4            1 D4h   Square
+#T-4             2 Td    Tetrahedron
+#SS-4            3 C2v   Seesaw
+#vTBPY-4         4 C3v   Vacant trigonal bipyramid
 
+#Structure [ML4 ]         SP-4          T-4         SS-4      vTBPY-4
+# CO             ,      23.891,       5.528,       8.804,       8.079
 
+def parse_shape_tab(tab_path):
+
+    #print(f"Parsing: {tab_path}")
+    #print(f"Exists: {os.path.exists(tab_path)}")
+
+    with open(tab_path, 'r') as f:
+        lines = f.readlines()
+
+        # Find the polyhedra table
+        # (Label    N   Symm    Name)
+        shape_labels = []
+        for tab_line in lines[5:]: # The array splinginc skips the header of the tab file. That messes up the search
+            if len(tab_line.split()) >= 4 and tab_line.split()[1].isdigit():
+                shape_labels.append(tab_line.split()[0])
+
+        #print(shape_labels)
+        # Second pass through the tab file to find the data with the CShMs
+        data_row = None
+        for tab_line in lines[5:]:
+            if ',' in tab_line and any(c.isdigit() for c in tab_line):
+                print(tab_line)
+                data_row = tab_line
+
+        if data_row is None:
+            print(f"Could not parse data row in {tab_path}")
+            return None
+
+        parts = [c.strip() for c in data_row.split(',')]
+        atom_label = parts[0]
+        values = [float(v) for v in parts[1:]]
+
+        return atom_label, shape_labels, values
+
+def print_shape_table(tab_path):
+    result = parse_shape_tab(tab_path)
+    if result is None:
+        return False
+    atom_label, shape_labels, values = result
+    min_val = min(values)
+    print('-' * 50)
+    print(f'\nSHAPE2.1 results for {atom_label} in {os.path.basename(tab_path)}:')
+    print('-'*50)
+    print(f"{'Polyhedron':<12}{'CShM':>10}")
+    print('-'*50)
+    for label, val in zip(shape_labels, values):
+        marker = ' <---- best fit' if val == min_val else ''
+        print(f'{label:<12}{val:>10}{marker:>10}')
+    print('-'*50)
+    return None
 
 '''def smart_build_polyhedra():
     selection = olex.f('sel()')
@@ -318,6 +398,8 @@ class SymmetryMeasurements(PT):
         OV.registerFunction(write_dat, True, "SymmetryMeasurements")
         OV.registerFunction(autoSHAPE, True, "SymmetryMeasurements")
     # END Generated =======================================
+
+
 
 SymmetryMeasurements_instance = SymmetryMeasurements()
 print("Loaded Symmetry Measurements by JSG.")
