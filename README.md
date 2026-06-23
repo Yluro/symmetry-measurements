@@ -1,12 +1,12 @@
 # SymmetryMeasurements
 
-SymmetryMeasurements an [Olex2](https://www.olex2.org) plugin that acts as a bridge to [SHAPE2.1](https://www.ee.ub.edu/continuous-shape-and-symmetry-measures/) to do Continuous Shape Measures (CShM) calculations directly from within Olex2.
+SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/) plugin that acts as a bridge to [SHAPE2.1](https://www.ee.ub.edu/continuous-shape-and-symmetry-measures/) to do Continuous Shape Measures (CShM) calculations directly from within Olex2.
 
 ## Requirements
 
 - Olex2 1.5.
 - SHAPE 2.1 executable available on your system `PATH`.
-  - Download: https://www.ee.ub.edu/downloads/
+  - Download [SHAPE2.1 from the Electronic Strucutre grpup's webpage](https://www.ee.ub.edu/downloads/)
 
 ## Features
 
@@ -25,9 +25,10 @@ SymmetryMeasurements an [Olex2](https://www.olex2.org) plugin that acts as a bri
 ## Known Limitations / TODO
 
 - [ ] Cannot handle disordered structures yet
-- [ ] Smarter program logic (automatic coordination number detection, etc.)
+- [ ] Smarter program logic is missing (automatic coordination site detection, multiple selections, etc.)
 - [ ] Reimplementation of octahedral distortion parameters (Zeta, Sigma, Theta) — relevant for spin-crossover (SCO) complexes
 - [ ] Support for other symmetry measurement programs (Polynator, Continuous Symmetry Operations, etc.)
+- [ ] Clean html UI.
 
 ## License
 - Not yet.
