@@ -1,6 +1,6 @@
 # SymmetryMeasurements
 
-SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/) plugin that acts as a bridge to [SHAPE2.1](https://www.ee.ub.edu/continuous-shape-and-symmetry-measures/) to do Continuous Shape Measures (CShM) calculations directly from within Olex2.
+SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/) plugin that acts as a bridge to [SHAPE 2.1](https://www.ee.ub.edu/continuous-shape-and-symmetry-measures/) to do Continuous Shape Measures (CShM) calculations directly from within Olex2.
 
 ## Requirements
 
@@ -35,4 +35,5 @@ SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/) plugin that a
 
 ## Citations
 
-SHAPE2.1: Organometallics 2005, 24, 7, 1556–1562, DOI: https://doi.org/10.1021/om049150z
+Olex2 1.5: J. Appl. Cryst. (2009). 42, 339–341. DOI: https://doi.org/10.1107/S0021889808042726
+SHAPE 2.1: Organometallics (2005), 24, 7, 1556–1562. DOI: https://doi.org/10.1021/om049150z
