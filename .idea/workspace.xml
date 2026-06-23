@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="Some refactoring, added octadist">
-      <change afterPath="$PROJECT_DIR$/octahedral_distortion.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/reload_all.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_06_2026_9_12_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_06_2026_9_12__Changes_.xml" beforeDir="false" />
+    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="Random pycharm files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SymmetryMeasurements.py" beforeDir="false" afterPath="$PROJECT_DIR$/SymmetryMeasurements.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/h3-SymmetryMeasurements-extras.htm" beforeDir="false" afterPath="$PROJECT_DIR$/h3-SymmetryMeasurements-extras.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helper_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/helper_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/octahedralDistortion.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/symmetrymeasurements.htm" beforeDir="false" afterPath="$PROJECT_DIR$/symmetrymeasurements.htm" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,7 +192,7 @@
       <workItem from="1781540259074" duration="6000" />
       <workItem from="1781600185384" duration="15938000" />
       <workItem from="1781700609598" duration="2141000" />
-      <workItem from="1782201382107" duration="12934000" />
+      <workItem from="1782201382107" duration="15901000" />
     </task>
     <task id="LOCAL-00001" summary="Removed duplicate functions">
       <option name="closed" value="true" />
@@ -370,7 +362,71 @@
       <option name="project" value="LOCAL" />
       <updated>1782140047112</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Updated reload button. Now works independent of olex instalation.">
+      <option name="closed" value="true" />
+      <created>1782222726547</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1782222726547</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Formatting">
+      <option name="closed" value="true" />
+      <created>1782222795006</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1782222795006</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Added Zeta Calculation. First Working Version.">
+      <option name="closed" value="true" />
+      <created>1782222826922</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1782222826922</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Name change to octahedral_distortion.py">
+      <option name="closed" value="true" />
+      <created>1782222854951</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1782222854951</updated>
+    </task>
+    <task id="LOCAL-00026" summary="reload_all.py reloads the pluggin and all of its components. Independent on Olex2 Instalation.">
+      <option name="closed" value="true" />
+      <created>1782222885330</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1782222885330</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Updated html table">
+      <option name="closed" value="true" />
+      <created>1782222908043</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1782222908043</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Deleted duplicated functions. Added some error handling and added some octadist functionality">
+      <option name="closed" value="true" />
+      <created>1782222972721</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1782222972721</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Random pycharm files">
+      <option name="closed" value="true" />
+      <created>1782223000345</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1782223000345</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -425,8 +481,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Removed duplicate functions" />
-    <MESSAGE value="Added constants.py" />
     <MESSAGE value="Refactored get_neighbours() to generalise. Created get_neighbours_on_sel() that maintains original behaviour." />
     <MESSAGE value="get_neighbours() now returns unique neighbour list + a list of tuples for neighbours of each atom in selection" />
     <MESSAGE value="philospphical comments on function building" />
@@ -444,6 +498,14 @@
     <MESSAGE value="added test_polyhedra to constants.py" />
     <MESSAGE value="New buttons for octadist" />
     <MESSAGE value="Some refactoring, added octadist" />
-    <option name="LAST_COMMIT_MESSAGE" value="Some refactoring, added octadist" />
+    <MESSAGE value="Updated reload button. Now works independent of olex instalation." />
+    <MESSAGE value="Formatting" />
+    <MESSAGE value="Added Zeta Calculation. First Working Version." />
+    <MESSAGE value="Name change to octahedral_distortion.py" />
+    <MESSAGE value="reload_all.py reloads the pluggin and all of its components. Independent on Olex2 Instalation." />
+    <MESSAGE value="Updated html table" />
+    <MESSAGE value="Deleted duplicated functions. Added some error handling and added some octadist functionality" />
+    <MESSAGE value="Random pycharm files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Random pycharm files" />
   </component>
 </project>
