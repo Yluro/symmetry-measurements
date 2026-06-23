@@ -32,3 +32,7 @@ SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/) plugin that a
 
 ## License
 - Not yet.
+
+## Citations
+
+SHAPE2.1: Organometallics 2005, 24, 7, 1556–1562, DOI: https://doi.org/10.1021/om049150z
