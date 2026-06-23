@@ -4,12 +4,16 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="Working version of autoSHAPE now parses output tables.">
-      <change afterPath="$PROJECT_DIR$/helper_functions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/octadist.py" afterDir="false" />
+    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="Some refactoring, added octadist">
+      <change afterPath="$PROJECT_DIR$/octahedral_distortion.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reload_all.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_06_2026_9_12_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_06_2026_9_12__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SymmetryMeasurements.py" beforeDir="false" afterPath="$PROJECT_DIR$/SymmetryMeasurements.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/h3-SymmetryMeasurements-extras.htm" beforeDir="false" afterPath="$PROJECT_DIR$/h3-SymmetryMeasurements-extras.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helper_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/helper_functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/octahedralDistortion.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/symmetrymeasurements.htm" beforeDir="false" afterPath="$PROJECT_DIR$/symmetrymeasurements.htm" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -24,6 +28,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Stub" />
+        <option value="Python Unit Test" />
         <option value="Python Script" />
       </list>
     </option>
@@ -125,29 +130,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.main.executor": "Debug",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.main.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="plugin-SymmetryMeasurements" />
@@ -195,6 +200,7 @@
       <workItem from="1781540259074" duration="6000" />
       <workItem from="1781600185384" duration="15938000" />
       <workItem from="1781700609598" duration="2141000" />
+      <workItem from="1782201382107" duration="12934000" />
     </task>
     <task id="LOCAL-00001" summary="Removed duplicate functions">
       <option name="closed" value="true" />
@@ -324,7 +330,47 @@
       <option name="project" value="LOCAL" />
       <updated>1782136255422</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Created helper_functions.py moved small functions there.">
+      <option name="closed" value="true" />
+      <created>1782139912587</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1782139912587</updated>
+    </task>
+    <task id="LOCAL-00018" summary="created octahedralDistortion.py">
+      <option name="closed" value="true" />
+      <created>1782139987373</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1782139987373</updated>
+    </task>
+    <task id="LOCAL-00019" summary="added test_polyhedra to constants.py">
+      <option name="closed" value="true" />
+      <created>1782140006650</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1782140006650</updated>
+    </task>
+    <task id="LOCAL-00020" summary="New buttons for octadist">
+      <option name="closed" value="true" />
+      <created>1782140017569</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1782140017569</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Some refactoring, added octadist">
+      <option name="closed" value="true" />
+      <created>1782140047112</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1782140047112</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -393,6 +439,11 @@
     <MESSAGE value="Update todo.md" />
     <MESSAGE value="Commented noisy print() used for debugging." />
     <MESSAGE value="Working version of autoSHAPE now parses output tables." />
-    <option name="LAST_COMMIT_MESSAGE" value="Working version of autoSHAPE now parses output tables." />
+    <MESSAGE value="Created helper_functions.py moved small functions there." />
+    <MESSAGE value="created octahedralDistortion.py" />
+    <MESSAGE value="added test_polyhedra to constants.py" />
+    <MESSAGE value="New buttons for octadist" />
+    <MESSAGE value="Some refactoring, added octadist" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some refactoring, added octadist" />
   </component>
 </project>
