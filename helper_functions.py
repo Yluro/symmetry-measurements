@@ -98,6 +98,7 @@ def get_neighbours(atom_labels):
     #print(f'Unique neighbours:{unique_neighbours}')
     return neighbours_tags_list, unique_neighbours
 
+
 def get_neighbours_on_sel():
     sel = olex.f('sel()')
     atom_labels = sel.split(' ')
