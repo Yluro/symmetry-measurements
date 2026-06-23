@@ -1,3 +1,4 @@
+import inspect
 
 from olexFunctions import OlexFunctions
 
@@ -13,7 +14,7 @@ import gui
 import shutil
 from constants import *
 import subprocess
-from octahedralDistortion import *
+from octahedral_distortion import *
 
 
 import time
@@ -57,94 +58,6 @@ def can_find_shape_msg(silent=True):
             print(f"SHAPE executable found at: {shape_path}")
         return True
 
-
-def get_neighbours(atom_labels):
-    # Gets the list of atoms from the loaded model.
-    # The orm is a list of dictionaries, containing labels, atom_ids, parts, ADPs, etc.
-    orm_atoms = olexex.OlexRefinementModel().atoms()
-
-    ##selection = get_selected_atoms()
-    if atom_labels == [""]:
-        print("No atoms")
-        return None
-
-    ##selection = selection.split(' ')
-    ##print(selection)
-
-    neighbours_tags_list = []
-    unique_neighbours = []
-    ##neighbours_labels = []
-    for atom_label in atom_labels:
-        # next finds the first occurrence in orm_atoms in which the label matches
-        # with the sel and returns the atoms neighbours as a tuple of tags:
-        neighbour_tags = next((atom['neighbours'] for atom in orm_atoms if atom['label'] == atom_label), ())
-        #tags is an empty tuple if it wasn't found in the orm: selected a Qpick
-        #tags is a list of len() = 0 if selected a
-        if neighbour_tags is None or len(neighbour_tags) == 0:
-            print(f'No connected atoms to {atom_label}')
-
-        #print(neighbour_tags) #(3, (1.332173751267887, 9.570147745635163, 1.1004595820674223), ((-1, 0, 0), (0, -1, 0), (0, 0, -1), (0.0, 1.0, 0.0)))
-        neighbours_tags_list.append(neighbour_tags)
-
-        for neighbour in neighbour_tags:
-            if neighbour not in unique_neighbours:
-                unique_neighbours.append(neighbour)
-
-
-        # DEPRECATED - THIS CODE HERE RETURNED THE NEIGHBOURHOOD AS A LIST OF UNIQUE TAGS - DEPRECATED
-        # NOW THIS FUNTIONS RETURNS A LIST OF UNIQUE NEIGHBOUR LABELS
-        '''for tag in neighbour_tags:  
-            if tag not in neighbour_tags:
-                neighbour_tags.append(tag)
-                # Use a similar next constructor to retrieve the
-                # label from the orm and append it to the Neighbours list
-                neighbours_label = next((atom['label'] for atom in orm_atoms if atom['tag'] == tag), None)
-                neighbours_labels.append(neighbours_label)'''
-    #print(f'Neighbours for each atom selected:{neighbours_tags_list}')
-    #print(f'Unique neighbours:{unique_neighbours}')
-    return neighbours_tags_list, unique_neighbours
-
-def get_neighbours_on_sel():
-    sel = olex.f('sel()')
-    atom_labels = sel.split(' ')
-    return get_neighbours(atom_labels)
-
-
-def build_polyhedra_from_centre(atom_label=('Mn1',)):
-    neighbours = get_neighbours(atom_label)
-    if neighbours is None:
-        print(f'No neighbours can be found for {atom_label}')
-        return None
-
-    _, unique_neighbours = neighbours
-    #print(unique_neighbours)
-    if len(atom_label) > 1:
-        print('More than one atom, wrong function!')
-        return None
-
-    centre = atom_label[0]
-    centre_id = get_id_from_label(centre)
-    crd = olx.xf.au.GetAtomCrd(centre_id)
-    xyz = olx.xf.au.Orthogonalise(crd)
-
-    polyhedra = [(centre, xyz)]
-
-
-    for neighbour in unique_neighbours:
-        if type(neighbour) == tuple:
-            #print(f'Found tuple: {neighbour}')
-            # get_neigours() returns a complicated tuple if the neighbour is outside the ASU.
-            # This list already contains the "extended coordinates of the neighbour atoms"
-            xyz = ' '.join(f'{x:.4f}' for x in neighbour[1]) # Join the xyz tuple values into a string
-            label = get_label_from_id(neighbour[0])
-            polyhedra.append((label, xyz))
-        else:
-            xyz = get_xyz(neighbour)
-            label = get_label_from_id(neighbour)
-            polyhedra.append((label, xyz))
-
-    #print(polyhedra)
-    return polyhedra
 
 def build_dat_file(polyhedra= test_Mn1_polyhedra):
     """
@@ -234,6 +147,8 @@ def autoSHAPE():
         if sel != '':
             label = sel.split(' ')
             poly = build_polyhedra_from_centre(label)
+            if poly is None:
+                return None
             file_contents, title = build_dat_file(poly)
             folder = write_dat(file_contents, title)
             files = run_shape(folder)
@@ -246,22 +161,6 @@ def autoSHAPE():
         print('SHAPE executable not found in PATH.')
     return None
 
-
-#--------------------------------------------------------------------------------
-#S H A P E   v2.1         Continuous Shape Measures calculation
-#(c) 2013  Electronic Structure Group, Universitat de Barcelona
-#                   Contact:  llunell@ub.edu
-#--------------------------------------------------------------------------------
-#
-#Co110_Co
-#
-#SP-4            1 D4h   Square
-#T-4             2 Td    Tetrahedron
-#SS-4            3 C2v   Seesaw
-#vTBPY-4         4 C3v   Vacant trigonal bipyramid
-
-#Structure [ML4 ]         SP-4          T-4         SS-4      vTBPY-4
-# CO             ,      23.891,       5.528,       8.804,       8.079
 
 def parse_shape_tab(tab_path):
 
@@ -296,6 +195,7 @@ def parse_shape_tab(tab_path):
 
         return atom_label, shape_labels, values
 
+
 def print_shape_table(tab_path):
     result = parse_shape_tab(tab_path)
     if result is None:
@@ -313,20 +213,24 @@ def print_shape_table(tab_path):
     print('-'*50)
     return None
 
-'''def smart_build_polyhedra():
-    selection = olex.f('sel()')
-    atom_labels = selection.split(' ')
-    if atom_labels == ['']:
-        print('Unimplemented!')
-        return None # Search orm for metal centres -> build_polyhedra from centre
-    elif len(atom_labels) == 1 and atom_labels[0] in METALS:
-        # If you only selected ONE METAL ATOM
-        return None # build_poly_from_centre
-    else:
-        # If selection is more than One atom and has no metal atoms to call a centre just get all xyz coordinates and hope for the best.
-        pass
 
-    return None'''
+def autoOCTADIST():
+    sel = olex.f('sel()')  # Gets the selection
+    if sel != '':
+        label = sel.split(' ')
+        poly = build_polyhedra_from_centre(label)
+        if len(poly) != 7:
+            print('Invalid polyhedra: central atom has more than six connected atoms.')
+            return False
+
+        print('Valid 6-coordinate atom.')
+        results = octadist_calc(poly)
+        print(f'Results: {results}')
+        #print(parse_oc_results(results))
+
+        return True
+    else:
+        return False
 
 
 class SymmetryMeasurements(PT):
@@ -350,7 +254,7 @@ class SymmetryMeasurements(PT):
         OV.registerFunction(build_dat_file, True, "SymmetryMeasurements")
         OV.registerFunction(write_dat, True, "SymmetryMeasurements")
         OV.registerFunction(autoSHAPE, True, "SymmetryMeasurements")
-        OV.registerFunction(octadist, True, "SymmetryMeasurements")
+        OV.registerFunction(autoOCTADIST, True, "SymmetryMeasurements")
     # END Generated =======================================
 
 
