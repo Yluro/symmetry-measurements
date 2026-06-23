@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="Random pycharm files">
+    <list default="true" id="6039f06a-1963-4b02-88bf-0005659e4eaf" name="Changes" comment="get_neighbours() now returns unique neighbour list + a list of tuples for neighbours of each atom in selection">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/h3-SymmetryMeasurements-extras.htm" beforeDir="false" afterPath="$PROJECT_DIR$/h3-SymmetryMeasurements-extras.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/octahedral_distortion.py" beforeDir="false" afterPath="$PROJECT_DIR$/octahedral_distortion.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,34 +21,23 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Stub" />
-        <option value="Python Unit Test" />
-        <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="part-check" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
-  &quot;history&quot;: [
-    {
-      &quot;state&quot;: &quot;OPEN&quot;
-    }
-  ],
   &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Lyxn-git&quot;
   }
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Yluro/symmetry-measurements&quot;,
-    &quot;accountId&quot;: &quot;eaf8bdb3-96f1-477c-8391-30b9d18b0a30&quot;
+    &quot;url&quot;: &quot;https://github.com/Lyxn-git/symmetry-measurements.git&quot;,
+    &quot;accountId&quot;: &quot;c4f3e498-d56e-4ad4-914b-37bfdb692416&quot;
   }
 }</component>
   <component name="McpProjectServerCommands">
@@ -56,61 +46,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0000026236378061" />
-      <entry key="MS500" value="1.0765210253369009" />
-      <entry key="S2" value="1.5312894193420465" />
-      <entry key="S5" value="1.9012839756268338" />
-      <entry key="S10" value="2.3388531236005488" />
-      <entry key="S30" value="3.63274682124496" />
-      <entry key="S60" value="4.519024872680218" />
-      <entry key="M2" value="5.224508167280608" />
-      <entry key="M5" value="8.358386704792611" />
-      <entry key="M10" value="17.201604118049175" />
-      <entry key="M15" value="25.209642299140086" />
-      <entry key="M30" value="44.24023239216995" />
-      <entry key="H1" value="69.10502817557936" />
-      <entry key="H2" value="92.38640462602774" />
-      <entry key="H4" value="108.88399036268642" />
-      <entry key="D1" value="126.1030682571676" />
-      <entry key="W1" value="129.43319862648187" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0" />
+      <entry key="S5" value="1.0000000000001361" />
+      <entry key="S10" value="1.0000015351194673" />
+      <entry key="S30" value="1.105617199401994" />
+      <entry key="S60" value="2.8342462324879136" />
+      <entry key="M2" value="8.744436473253993" />
+      <entry key="M5" value="19.459596086316324" />
+      <entry key="M10" value="25.757870496880596" />
+      <entry key="M15" value="28.842634351366154" />
+      <entry key="M30" value="37.92100825437531" />
+      <entry key="H1" value="61.35583643801131" />
+      <entry key="H2" value="98.5013359597622" />
+      <entry key="H4" value="134.74531120221025" />
+      <entry key="D1" value="181.9436180024655" />
+      <entry key="W1" value="192.21435308691284" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="0.0" />
-      <entry key="S2" value="1.731467348624073E-160" />
-      <entry key="S5" value="1.2455630677905497E-64" />
-      <entry key="S10" value="1.1160479690060419E-32" />
-      <entry key="S30" value="2.236794535427647E-11" />
-      <entry key="S60" value="4.910813522001286E-6" />
-      <entry key="M2" value="0.0027622400701916234" />
-      <entry key="M5" value="0.1628465143421377" />
-      <entry key="M10" value="0.691605403882831" />
-      <entry key="M15" value="1.1729855132002782" />
-      <entry key="M30" value="2.3052413512224033" />
-      <entry key="H1" value="3.7244170940966095" />
-      <entry key="H2" value="5.0027538114022745" />
-      <entry key="H4" value="5.887402354866565" />
-      <entry key="D1" value="6.796133275750489" />
-      <entry key="W1" value="6.970386201867717" />
+      <entry key="MS500" value="3.754360240469827E-159" />
+      <entry key="S2" value="2.4753350165440375E-40" />
+      <entry key="S5" value="1.436989498061794E-16" />
+      <entry key="S10" value="1.1987449678984245E-8" />
+      <entry key="S30" value="0.002288630066073997" />
+      <entry key="S60" value="0.04783962861555258" />
+      <entry key="M2" value="0.2187227208489154" />
+      <entry key="M5" value="0.5444494634980025" />
+      <entry key="M10" value="0.7380975240465205" />
+      <entry key="M15" value="0.8221755188862655" />
+      <entry key="M30" value="1.0631963761842584" />
+      <entry key="H1" value="1.9304577293331047" />
+      <entry key="H2" value="3.541018096064119" />
+      <entry key="H4" value="5.203895344271288" />
+      <entry key="D1" value="7.426243009425548" />
+      <entry key="W1" value="7.91490398094227" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.6461785463748415" />
-      <entry key="MS500" value="0.9897725186048824" />
-      <entry key="S2" value="1.504109448759695" />
-      <entry key="S5" value="1.8880008701362028" />
-      <entry key="S10" value="2.3301468807363324" />
-      <entry key="S30" value="3.627373558919402" />
-      <entry key="S60" value="4.515429583027226" />
-      <entry key="M2" value="5.224611620342456" />
-      <entry key="M5" value="8.507773508765709" />
-      <entry key="M10" value="17.863868102717902" />
-      <entry key="M15" value="26.34957746329454" />
-      <entry key="M30" value="46.51618603381922" />
-      <entry key="H1" value="72.80891673860663" />
-      <entry key="H2" value="97.37668152014513" />
-      <entry key="H4" value="114.76445157240627" />
-      <entry key="D1" value="132.8979301524545" />
-      <entry key="W1" value="136.40340014060538" />
+      <entry key="MS100" value="0.08838834764831845" />
+      <entry key="MS500" value="0.6155722066724582" />
+      <entry key="S2" value="0.8857675191023606" />
+      <entry key="S5" value="0.9526379980440661" />
+      <entry key="S10" value="0.9760332668538456" />
+      <entry key="S30" value="1.0988834396513223" />
+      <entry key="S60" value="2.869517573057956" />
+      <entry key="M2" value="8.942979745040502" />
+      <entry key="M5" value="19.98583669998519" />
+      <entry key="M10" value="26.483838776573513" />
+      <entry key="M15" value="29.655516522373045" />
+      <entry key="M30" value="38.976256796296674" />
+      <entry key="H1" value="63.27692940721753" />
+      <entry key="H2" value="102.03349214369096" />
+      <entry key="H4" value="139.94283488636353" />
+      <entry key="D1" value="189.36839577863685" />
+      <entry key="W1" value="200.12903551647366" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -125,7 +115,6 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.main.executor&quot;: &quot;Debug&quot;,
     &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
@@ -140,7 +129,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
     &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -188,11 +177,6 @@
       <updated>1781200496810</updated>
       <workItem from="1781200501297" duration="104000" />
       <workItem from="1781200609220" duration="4369000" />
-      <workItem from="1781515626042" duration="12110000" />
-      <workItem from="1781540259074" duration="6000" />
-      <workItem from="1781600185384" duration="15938000" />
-      <workItem from="1781700609598" duration="2141000" />
-      <workItem from="1782201382107" duration="15901000" />
     </task>
     <task id="LOCAL-00001" summary="Removed duplicate functions">
       <option name="closed" value="true" />
@@ -234,278 +218,17 @@
       <option name="project" value="LOCAL" />
       <updated>1781273347401</updated>
     </task>
-    <task id="LOCAL-00006" summary="philospphical comments on function building">
-      <option name="closed" value="true" />
-      <created>1781275662184</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1781275662184</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Basic functionality of build_polyhedra_from_centre() working">
-      <option name="closed" value="true" />
-      <created>1781523131244</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1781523131245</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Refactored build_polyhedra_from_centre() and some other functions. Fixed some anoying syntax">
-      <option name="closed" value="true" />
-      <created>1781538886278</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1781538886278</updated>
-    </task>
-    <task id="LOCAL-00009" summary="First iteration of build_shape_file">
-      <option name="closed" value="true" />
-      <created>1781540239915</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1781540239915</updated>
-    </task>
-    <task id="LOCAL-00010" summary="build_dat_file() done. Added a testing polyhedra. First iteration of write_dat()">
-      <option name="closed" value="true" />
-      <created>1781605671199</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1781605671199</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Refactoring some functions. write_dat() working a bit more">
-      <option name="closed" value="true" />
-      <created>1781613803239</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1781613803239</updated>
-    </task>
-    <task id="LOCAL-00012" summary="First working Version of autoSHAPE()">
-      <option name="closed" value="true" />
-      <created>1781620857700</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1781620857700</updated>
-    </task>
-    <task id="LOCAL-00013" summary="Update todo.md">
-      <option name="closed" value="true" />
-      <created>1781620898495</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1781620898495</updated>
-    </task>
-    <task id="LOCAL-00014" summary="Commented noisy print() used for debugging.">
-      <option name="closed" value="true" />
-      <created>1781701031419</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1781701031419</updated>
-    </task>
-    <task id="LOCAL-00015" summary="Commented noisy print() used for debugging.">
-      <option name="closed" value="true" />
-      <created>1781701218645</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1781701218645</updated>
-    </task>
-    <task id="LOCAL-00016" summary="Working version of autoSHAPE now parses output tables.">
-      <option name="closed" value="true" />
-      <created>1782136255422</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1782136255422</updated>
-    </task>
-    <task id="LOCAL-00017" summary="Created helper_functions.py moved small functions there.">
-      <option name="closed" value="true" />
-      <created>1782139912587</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1782139912587</updated>
-    </task>
-    <task id="LOCAL-00018" summary="created octahedralDistortion.py">
-      <option name="closed" value="true" />
-      <created>1782139987373</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1782139987373</updated>
-    </task>
-    <task id="LOCAL-00019" summary="added test_polyhedra to constants.py">
-      <option name="closed" value="true" />
-      <created>1782140006650</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1782140006650</updated>
-    </task>
-    <task id="LOCAL-00020" summary="New buttons for octadist">
-      <option name="closed" value="true" />
-      <created>1782140017569</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1782140017569</updated>
-    </task>
-    <task id="LOCAL-00021" summary="Some refactoring, added octadist">
-      <option name="closed" value="true" />
-      <created>1782140047112</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1782140047112</updated>
-    </task>
-    <task id="LOCAL-00022" summary="Updated reload button. Now works independent of olex instalation.">
-      <option name="closed" value="true" />
-      <created>1782222726547</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1782222726547</updated>
-    </task>
-    <task id="LOCAL-00023" summary="Formatting">
-      <option name="closed" value="true" />
-      <created>1782222795006</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1782222795006</updated>
-    </task>
-    <task id="LOCAL-00024" summary="Added Zeta Calculation. First Working Version.">
-      <option name="closed" value="true" />
-      <created>1782222826922</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1782222826922</updated>
-    </task>
-    <task id="LOCAL-00025" summary="Name change to octahedral_distortion.py">
-      <option name="closed" value="true" />
-      <created>1782222854951</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1782222854951</updated>
-    </task>
-    <task id="LOCAL-00026" summary="reload_all.py reloads the pluggin and all of its components. Independent on Olex2 Instalation.">
-      <option name="closed" value="true" />
-      <created>1782222885330</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1782222885330</updated>
-    </task>
-    <task id="LOCAL-00027" summary="Updated html table">
-      <option name="closed" value="true" />
-      <created>1782222908043</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1782222908043</updated>
-    </task>
-    <task id="LOCAL-00028" summary="Deleted duplicated functions. Added some error handling and added some octadist functionality">
-      <option name="closed" value="true" />
-      <created>1782222972721</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1782222972721</updated>
-    </task>
-    <task id="LOCAL-00029" summary="Random pycharm files">
-      <option name="closed" value="true" />
-      <created>1782223000345</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1782223000345</updated>
-    </task>
-    <option name="localTasksCounter" value="30" />
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="RECENT_FILTERS">
-      <map>
-        <entry key="Branch">
-          <value>
-            <list>
-              <RecentGroup>
-                <option name="FILTER_VALUES">
-                  <option value="master" />
-                </option>
-              </RecentGroup>
-            </list>
-          </value>
-        </entry>
-        <entry key="Paths">
-          <value>
-            <list>
-              <RecentGroup>
-                <option name="FILTER_VALUES">
-                  <option value="file:$PROJECT_DIR$/SymmetryMeasurements.py" />
-                </option>
-              </RecentGroup>
-            </list>
-          </value>
-        </entry>
-        <entry key="User">
-          <value>
-            <list>
-              <RecentGroup>
-                <option name="FILTER_VALUES">
-                  <option value="*" />
-                </option>
-              </RecentGroup>
-            </list>
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="Removed duplicate functions" />
+    <MESSAGE value="Added constants.py" />
     <MESSAGE value="Refactored get_neighbours() to generalise. Created get_neighbours_on_sel() that maintains original behaviour." />
     <MESSAGE value="get_neighbours() now returns unique neighbour list + a list of tuples for neighbours of each atom in selection" />
-    <MESSAGE value="philospphical comments on function building" />
-    <MESSAGE value="Basic functionality of build_polyhedra_from_centre() working" />
-    <MESSAGE value="Refactored build_polyhedra_from_centre() and some other functions. Fixed some anoying syntax" />
-    <MESSAGE value="First iteration of build_shape_file" />
-    <MESSAGE value="build_dat_file() done. Added a testing polyhedra. First iteration of write_dat()" />
-    <MESSAGE value="Refactoring some functions. write_dat() working a bit more" />
-    <MESSAGE value="First working Version of autoSHAPE()" />
-    <MESSAGE value="Update todo.md" />
-    <MESSAGE value="Commented noisy print() used for debugging." />
-    <MESSAGE value="Working version of autoSHAPE now parses output tables." />
-    <MESSAGE value="Created helper_functions.py moved small functions there." />
-    <MESSAGE value="created octahedralDistortion.py" />
-    <MESSAGE value="added test_polyhedra to constants.py" />
-    <MESSAGE value="New buttons for octadist" />
-    <MESSAGE value="Some refactoring, added octadist" />
-    <MESSAGE value="Updated reload button. Now works independent of olex instalation." />
-    <MESSAGE value="Formatting" />
-    <MESSAGE value="Added Zeta Calculation. First Working Version." />
-    <MESSAGE value="Name change to octahedral_distortion.py" />
-    <MESSAGE value="reload_all.py reloads the pluggin and all of its components. Independent on Olex2 Instalation." />
-    <MESSAGE value="Updated html table" />
-    <MESSAGE value="Deleted duplicated functions. Added some error handling and added some octadist functionality" />
-    <MESSAGE value="Random pycharm files" />
-    <option name="LAST_COMMIT_MESSAGE" value="Random pycharm files" />
+    <option name="LAST_COMMIT_MESSAGE" value="get_neighbours() now returns unique neighbour list + a list of tuples for neighbours of each atom in selection" />
   </component>
 </project>
