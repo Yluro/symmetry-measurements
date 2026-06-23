@@ -43,5 +43,21 @@ def calc_zeta(polyhedron):
 
 
 
+class CalcDistortion:
+    def __init__(self, coords):
+        if type(coords) is np.ndarray:
+            pass
+        else:
+            coords = np.asarray(coords, dtype=np.float64)
+
+        self.coords = coords
+        self.distances = self.calc_distances(coords)
+
+
+    def calc_distances(self, coords):
+        pass
+
+
+
 
 
