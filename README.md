@@ -19,14 +19,14 @@ SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/) plugin that a
 
 1. Open a structure in Olex2.
 2. Select the central atom of the polyhedron you want to analyse.
-3. Run `spy.SymmetryMeasurements.autoSHAPE()` from the Olex2 console or in the Tools/SymmetryMeasurements
+3. Run `spy.SymmetryMeasurements.autoSHAPE()` from the Olex2 console or from the Tools/SymmetryMeasurements panel.
 4. Results are printed to the console and saved in `<dataset_path>/autoSHAPE/`.
 
 ## Known Limitations / TODO
 
-- [ ] Cannot handle disordered structures yet
-- [ ] Smarter program logic is missing (automatic coordination site detection, multiple selections, etc.)
-- [ ] Reimplementation of octahedral distortion parameters (Zeta, Sigma, Theta) — relevant for spin-crossover (SCO) complexes
+- [ ] Cannot handle disordered structures yet.
+- [ ] Smarter program logic is missing (automatic coordination site detection, multiple selections, etc.).
+- [ ] Reimplementation of octahedral distortion parameters (Zeta, Sigma, Theta) — relevant for spin-crossover (SCO) complexes.
 - [ ] Support for other symmetry measurement programs (Polynator, Continuous Symmetry Operations, etc.)
 - [ ] Clean html UI.
 
