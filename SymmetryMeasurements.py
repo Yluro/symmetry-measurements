@@ -137,8 +137,8 @@ def run_shape(folder):
         out, err = process.communicate(input=f'{file}\n')
         print(out)  # Send Enter key (newline character)
 
-    ouput_files = [f[:-4] for f in dat_files]
-    return ouput_files
+    output_files = [f[:-4] for f in dat_files]
+    return output_files
 
 
 def autoSHAPE():
@@ -173,7 +173,7 @@ def parse_shape_tab(tab_path):
         # Find the polyhedra table
         # (Label    N   Symm    Name)
         shape_labels = []
-        for tab_line in lines[5:]: # The array splinginc skips the header of the tab file. That messes up the search
+        for tab_line in lines[5:]: # The array splicing skips the header of the tab file. That messes up the search
             if len(tab_line.split()) >= 4 and tab_line.split()[1].isdigit():
                 shape_labels.append(tab_line.split()[0])
 
@@ -223,13 +223,18 @@ def autoOCTADIST():
             print('Invalid polyhedra: central atom has more than six connected atoms.')
             return False
 
-        print('Valid 6-coordinate atom.')
-        results = octadist_calc(poly)
-        print(f'Results: {results}')
-        #print(parse_oc_results(results))
+        #print('Valid 6-coordinate atom.')
+
+        coords = [poly[i][1] for i in range(len(poly))]
+        calculation = CalcDistortion(coords)
+        for c in calculation.coords:
+            print(c)
+        print_od_results(calculation, sel, olx.FileName())
+
 
         return True
     else:
+        print('No atom selected.')
         return False
 
 
