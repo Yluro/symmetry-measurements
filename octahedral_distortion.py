@@ -45,19 +45,72 @@ def calc_zeta(polyhedron):
 
 class CalcDistortion:
     def __init__(self, coords):
-        if type(coords) is np.ndarray:
-            pass
-        else:
-            coords = np.asarray(coords, dtype=np.float64)
 
-        self.coords = coords
-        self.distances = self.calc_distances(coords)
+        points = []
+        for c in coords:
+            if type(c) is not np.array:
+                c = np.array(c.split(' '), dtype=np.float64)
+            points.append(c)
+
+        self.coords = points # xyz Coordinates of central (first) and ligands (rest)
+        self.vectors = self.calc_vectors() # Vectors pointing from metal to ligand
+        self.bond_distances = self.calc_bond_distances(coords)
+        self.mean_bond_distance = np.mean(self.bond_distances)
+
+        self.angles = self.calc_all_angles() # Angles is a sorted list. The last three elements will be
+        self.cis_angles = self.angles[:-3]
+        self.trans_angles = self.angles[-3:]
 
 
-    def calc_distances(self, coords):
-        pass
+        self.zeta = self.calc_zeta()
+        self.sigma = self.calc_sigma()
 
 
+    def calc_vectors(self):
+        vs = []
+        for coord in self.coords[1:]:
+            v = coord - self.coords[0]
+            vs.append(v)
+        return np.array(vs)
+
+    def calc_bond_distances(self, coords):
+        ds = []
+        for v in self.vectors:
+            d = np.linalg.norm(v)
+            ds.append(d)
+        return np.array(ds, dtype=np.float64)
+
+    def calc_all_angles(self):
+        angles = []
+        for i in range(0,6):
+            for j in range(i+1,6):
+                v1 = self.vectors[i] / np.linalg.norm(self.vectors[i])
+                v2 = self.vectors[j] / np.linalg.norm(self.vectors[j])
+
+                angle = np.degrees(np.arccos(np.dot(v1, v2)))
+                angles.append(angle)
+        angles.sort()
+        return np.array(angles)
 
 
+    def calc_zeta(self):
+        deviations = [np.abs(d - self.mean_bond_distance) for d in self.bond_distances]
+        return np.sum(deviations)
 
+
+    def calc_sigma(self):
+        sigma = np.sum(np.abs(90 - self.cis_angles))
+        return sigma
+
+    def calc_theta(self):
+
+
+def print_od_results(calculation: CalcDistortion, atom_label, file):
+    print('\n' + '-'*70)
+    print(f'Octahedral distortion parameters calculated for {atom_label} in {os.path.basename(file)}')
+    print('-' * 70)
+    print(f"{'Mean d(M-X)':<12}{calculation.mean_bond_distance:>10}")
+    print(f"{'Zeta':<12}{calculation.zeta:>10}")
+    print(f"{'Sigma':<12}{calculation.sigma:>10}")
+    #print(f"{'Theta':<12}{calculation.theta:>10}")
+    print('-' * 70)
