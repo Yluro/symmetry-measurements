@@ -12,3 +12,4 @@
  - [ ] Make SMART polyhedra builder.
  - [ ] Read Nature Paper https://www.nature.com/articles/s41467-025-66054-7
  - [ ] Incorporate other programs. Not only SHAPE2.1
+ - [x] Half made octadist reimplementation
