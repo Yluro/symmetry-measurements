@@ -11,6 +11,7 @@ import subprocess
 import numpy as np
 from helper_functions import *
 from constants import *
+from scipy.spatial import ConvexHull
 
 #sys.path.insert(0, os.path.dirname(__file__))
 
@@ -61,10 +62,12 @@ class CalcDistortion:
         self.cis_angles = self.angles[:-3]
         self.trans_angles = self.angles[-3:]
 
+        self.convex_hull = ConvexHull(self.coords)
+        self.volume = self.convex_hull.volume
 
         self.zeta = self.calc_zeta()
         self.sigma = self.calc_sigma()
-
+        self.theta = self.calc_theta()
 
     def calc_vectors(self):
         vs = []
@@ -103,14 +106,19 @@ class CalcDistortion:
         return sigma
 
     def calc_theta(self):
+        return 12345
+
+
+
 
 
 def print_od_results(calculation: CalcDistortion, atom_label, file):
-    print('\n' + '-'*70)
+    print('\n' + '='*70)
     print(f'Octahedral distortion parameters calculated for {atom_label} in {os.path.basename(file)}')
     print('-' * 70)
-    print(f"{'Mean d(M-X)':<12}{calculation.mean_bond_distance:>10}")
-    print(f"{'Zeta':<12}{calculation.zeta:>10}")
-    print(f"{'Sigma':<12}{calculation.sigma:>10}")
-    #print(f"{'Theta':<12}{calculation.theta:>10}")
-    print('-' * 70)
+    print(f"{'Mean d(M-X)':<12}{calculation.mean_bond_distance:>12.4f}{'   '}{'Angstroms':<12}")
+    print(f"{'Zeta':<12}{calculation.zeta:>12.4f}{'   '}{'Angstroms':<12}")
+    print(f"{'Sigma':<12}{calculation.sigma:>12.4f}{'   '}{'Degrees':<12}")
+    print(f"{'Theta':<12}{calculation.theta:>12.4f}{'   '}{'Degrees':<12}")
+    print(f"{'Volume':<12}{calculation.volume:>12.4f}{'   '}{'Angstrom^3':<12}")
+    print('=' * 70)
