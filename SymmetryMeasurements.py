@@ -202,7 +202,7 @@ def print_shape_table(tab_path):
         return False
     atom_label, shape_labels, values = result
     min_val = min(values)
-    print('\n'+'-' * 50)
+    print('\n'+'=' * 50)
     print(f'SHAPE2.1 results for {atom_label} in {os.path.basename(tab_path)}:')
     print('-'*50)
     print(f"{'Polyhedron':<12}{'CShM':>10}")
@@ -210,7 +210,7 @@ def print_shape_table(tab_path):
     for label, val in zip(shape_labels, values):
         marker = ' <---- best fit' if val == min_val else ''
         print(f'{label:<12}{val:>10}{marker:>10}')
-    print('-'*50)
+    print('='*50)
     return None
 
 
