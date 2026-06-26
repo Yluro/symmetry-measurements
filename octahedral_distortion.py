@@ -12,6 +12,7 @@ import numpy as np
 from helper_functions import *
 from constants import *
 from scipy.spatial import ConvexHull
+from itertools import combinations
 
 #sys.path.insert(0, os.path.dirname(__file__))
 
@@ -53,7 +54,7 @@ class CalcDistortion:
                 c = np.array(c.split(' '), dtype=np.float64)
             points.append(c)
 
-        self.coords = points # xyz Coordinates of central (first) and ligands (rest)
+        self.coords = np.array(points) # xyz Coordinates of central (first) and ligands (rest)
         self.vectors = self.calc_vectors() # Vectors pointing from metal to ligand
         self.bond_distances = self.calc_bond_distances(coords)
         self.mean_bond_distance = np.mean(self.bond_distances)
@@ -64,6 +65,10 @@ class CalcDistortion:
 
         self.convex_hull = ConvexHull(self.coords)
         self.volume = self.convex_hull.volume
+        self.faces = self.convex_hull.simplices # Array of arrays with indices of self.coords that make a triangle.
+        self.oposite_faces = self.opposite_pairs() # [[[1 2 3] [4 5 6]] ... ] Array of arrays of arrays.
+        self.planes = self.calc_planes()
+        # Each array of oposite faces contains two arrays for the indices of the two oposite faces
 
         self.zeta = self.calc_zeta()
         self.sigma = self.calc_sigma()
@@ -95,22 +100,89 @@ class CalcDistortion:
         angles.sort()
         return np.array(angles)
 
-
     def calc_zeta(self):
         deviations = [np.abs(d - self.mean_bond_distance) for d in self.bond_distances]
         return np.sum(deviations)
-
 
     def calc_sigma(self):
         sigma = np.sum(np.abs(90 - self.cis_angles))
         return sigma
 
     def calc_theta(self):
-        return 12345
+        #Unimplemented
+        return 123
+
+    def calc_planes(self):
+
+        planes = []
+        for face in self.faces:
+            # A face a tuple of indices that form a tringle in self.coords
+            p1, p2, p3 = self.coords[face[0]], self.coords[face[1]], self.coords[face[2]]
+            # Calculate two in-plane vectors of the plane
+            v1 = p2 - p1
+            v2 = p3 - p1
+            normal = np.cross(v1, v2)
+            normal = normal / np.linalg.norm(normal)
+            a, b, c = normal
+            d = - np.dot(p1, normal)
+            planes.append((a, b, c, d))
+
+        return np.array(planes)
+
+    def opposite_pairs(self):
+        pairs = []
+        # for each combination of faces:
+        for i, j in combinations(range(len(self.faces)), 2):
+            # If the set of the intersection is empty (len == 0)
+            # They don't share any vertex in the octahedron.
+            # Means the faces are opposite to each other.
+            intersection = set(self.faces[i]) & set(self.faces[j])
+            if len(intersection) == 0:
+                pairs.append((i, j))
+                pass
+        return np.array(pairs)
 
 
 
+import matplotlib
+#matplotlib.use('Qt5Agg')  # or 'Qt5Agg' if Tk isn't available
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
+
+'''def plot_planes(planes, vertices):
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    # Plot vertices
+    ax.scatter(vertices[:, 0], vertices[:, 1], vertices[:, 2], color='red', s=50, zorder=5)
+
+    # Define plot range from vertices
+    x_range = np.linspace(vertices[:, 0].min() - 1, vertices[:, 0].max() + 1, 10)
+    y_range = np.linspace(vertices[:, 1].min() - 1, vertices[:, 1].max() + 1, 10)
+    xx, yy = np.meshgrid(x_range, y_range)
+
+    colors = plt.cm.tab10(np.linspace(0, 1, len(planes)))
+
+    for i, (a, b, c, d) in enumerate(planes):
+        if abs(c) > 1e-10:  # solve for z: z = (-ax - by - d) / c
+            zz = (-a * xx - b * yy - d) / c
+            ax.plot_surface(xx, yy, zz, alpha=0.3, color=colors[i])
+        elif abs(b) > 1e-10:  # solve for y
+            y_range2 = np.linspace(vertices[:, 1].min() - 1, vertices[:, 1].max() + 1, 10)
+            zz2 = np.linspace(vertices[:, 2].min() - 1, vertices[:, 2].max() + 1, 10)
+            xx2, zz2 = np.meshgrid(x_range, zz2)
+            yy2 = (-a * xx2 - c * zz2 - d) / b
+            ax.plot_surface(xx2, yy2, zz2, alpha=0.3, color=colors[i])
+
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+    plt.tight_layout()
+    #plt.show()
+    plt.savefig(f'{os.path.join(olx.FilePath(), 'distortion.png')}')'''
+
+## All of this Is made by Claude Ill have a look later
 
 def print_od_results(calculation: CalcDistortion, atom_label, file):
     print('\n' + '='*70)
@@ -122,3 +194,5 @@ def print_od_results(calculation: CalcDistortion, atom_label, file):
     print(f"{'Theta':<12}{calculation.theta:>12.4f}{'   '}{'Degrees':<12}")
     print(f"{'Volume':<12}{calculation.volume:>12.4f}{'   '}{'Angstrom^3':<12}")
     print('=' * 70)
+    print(calculation.planes)
+    #plot_planes(calculation.planes, calculation.coords)
