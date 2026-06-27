@@ -61,25 +61,34 @@ class CalcDistortion:
         self.bond_distances = self.calc_bond_distances(coords)
         self.mean_bond_distance = np.mean(self.bond_distances)
 
-        self.angles = self.calc_all_angles() # Angles is a sorted list. The last three elements will be
+        self.angles = self._all_angles() # Angles is a sorted list. The last three elements will be
         self.cis_angles = self.angles[:-3]
         self.trans_angles = self.angles[-3:]
 
-        self.convex_hull = ConvexHull(self.coords)
+        self.convex_hull = ConvexHull(self.vertices)
         self.volume = self.convex_hull.volume
-        self.faces = self.convex_hull.simplices # Array of arrays with indices of self.coords that make a triangle.
-        self.oposite_faces = self.opposite_pairs() # [[[1 2 3] [4 5 6]] ... ] Array of arrays of arrays.
-        self.planes = self.calc_planes()
-        # Each array of oposite faces contains two arrays for the indices of the two oposite faces
 
+        # Array of arrays with indices of self.vertices that make a triangle.
+        self.faces = self.convex_hull.simplices
+        self.normals = self.calc_normals()
+        # Array[(a,b,c,d)] that solve for plane ax + by + cz + d = 0
+        self.planes = self.calc_planes()
+
+        # Each array of opposite faces contains two arrays for the indices of the two opposite faces
+        # [[[1 2 3] [4 5 6]] ... ] Array of arrays of arrays.
+        self.opposite_faces = self._opposite_faces()
+        self.opposite_vertices = self._opposite_vertices()
+
+
+        # Final calculations
         self.zeta = self.calc_zeta()
         self.sigma = self.calc_sigma()
         self.theta = self.calc_theta()
 
     def calc_vectors(self):
         vs = []
-        for coord in self.coords[1:]:
-            v = coord - self.coords[0]
+        for coord in self.vertices:
+            v = coord - self.central_atom
             vs.append(v)
         return np.array(vs)
 
@@ -90,7 +99,7 @@ class CalcDistortion:
             ds.append(d)
         return np.array(ds, dtype=np.float64)
 
-    def calc_all_angles(self):
+    def _all_angles(self):
         angles = []
         for i in range(0,6):
             for j in range(i+1,6):
@@ -102,36 +111,42 @@ class CalcDistortion:
         angles.sort()
         return np.array(angles)
 
-    def calc_zeta(self):
+    def calc_zeta(self) -> float:
         deviations = [np.abs(d - self.mean_bond_distance) for d in self.bond_distances]
         return np.sum(deviations)
 
-    def calc_sigma(self):
+    def calc_sigma(self) -> float:
         sigma = np.sum(np.abs(90 - self.cis_angles))
         return sigma
 
-    def calc_theta(self):
+    def calc_theta(self) -> float:
         #Unimplemented
         return 123
 
-    def calc_planes(self):
-
-        planes = []
+    def calc_normals(self):
+        normals = []
         for face in self.faces:
             # A face a tuple of indices that form a tringle in self.coords
-            p1, p2, p3 = self.coords[face[0]], self.coords[face[1]], self.coords[face[2]]
+            p1, p2, p3 = self.vertices[face[0]], self.vertices[face[1]], self.vertices[face[2]]
             # Calculate two in-plane vectors of the plane
             v1 = p2 - p1
             v2 = p3 - p1
             normal = np.cross(v1, v2)
             normal = normal / np.linalg.norm(normal)
+            normals.append(normal)
+        return np.array(normals)
+
+    def calc_planes(self):
+        planes = []
+        for face, normal in zip(self.faces, self.normals):
+            p1 = self.vertices[face[0]]
             a, b, c = normal
             d = - np.dot(p1, normal)
             planes.append((a, b, c, d))
 
         return np.array(planes)
 
-    def opposite_pairs(self):
+    def _opposite_faces(self):
         pairs = []
         # for each combination of faces:
         for i, j in combinations(range(len(self.faces)), 2):
@@ -144,12 +159,29 @@ class CalcDistortion:
                 pass
         return np.array(pairs)
 
+    def _opposite_vertices(self):
+        pairs = []
+        # For every combination of vertex i and j
+        for i, j in combinations(range(len(self.vertices)), 2):
 
+            # Get all faces that contain vertex i
+            faces_with_i = [face for face in self.faces if i in face]
+
+            # For each of those faces, get all vertices that form them
+            vertices_near_i = set(v for face in faces_with_i for v in face)
+
+            # If j is not in the set, then i and j share no common faces
+            # Thus, i and j are not oposite.
+            if j not in vertices_near_i:
+                pairs.append((i, j))
+
+        return np.array(pairs)
 
 import matplotlib
 #matplotlib.use('Qt5Agg')  # or 'Qt5Agg' if Tk isn't available
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 
 '''def plot_planes(planes, vertices):
@@ -182,7 +214,41 @@ from mpl_toolkits.mplot3d import Axes3D
     ax.set_zlabel('Z')
     plt.tight_layout()
     #plt.show()
-    plt.savefig(f'{os.path.join(olx.FilePath(), 'distortion.png')}')'''
+    save_dir = os.path.join(olx.FilePath(), 'Oh_distortion')
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+
+    plt.savefig(os.path.join(save_dir, 'planes.png'))
+    print(f'Saved to {save_dir}')'''
+
+def draw_octahedron(centre, vertices, faces):
+    vertices = np.array(vertices)
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    # Plot centre and vertices
+    ax.scatter(centre[0], centre[1], centre[2], color='blue', s=50, zorder=5)
+    ax.scatter(vertices[:, 0], vertices[:, 1], vertices[:, 2], color='red', s=50, zorder=5)
+
+    colors = plt.cm.tab10(np.linspace(0, 1, len(faces)))
+
+    for i, face in enumerate(faces):
+        triangle = [vertices[face[0]], vertices[face[1]], vertices[face[2]]]
+        poly = Poly3DCollection([triangle], alpha=0.3, facecolor=colors[i], edgecolor='black')
+        ax.add_collection3d(poly)
+
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+    plt.tight_layout()
+    save_dir = os.path.join(olx.FilePath(), 'Oh_distortion')
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+
+    plt.savefig(os.path.join(save_dir, 'octahedron.png'))
+    print(f'Saved to {save_dir}')
+
+
 
 ## All of this Is made by Claude Ill have a look later
 
@@ -190,11 +256,12 @@ def print_od_results(calculation: CalcDistortion, atom_label, file):
     print('\n' + '='*70)
     print(f'Octahedral distortion parameters calculated for {atom_label} in {os.path.basename(file)}')
     print('-' * 70)
-    print(f"{'Mean d(M-X)':<12}{calculation.mean_bond_distance:>12.4f}{'   '}{'Angstroms':<12}")
-    print(f"{'Zeta':<12}{calculation.zeta:>12.4f}{'   '}{'Angstroms':<12}")
-    print(f"{'Sigma':<12}{calculation.sigma:>12.4f}{'   '}{'Degrees':<12}")
-    print(f"{'Theta':<12}{calculation.theta:>12.4f}{'   '}{'Degrees':<12}")
-    print(f"{'Volume':<12}{calculation.volume:>12.4f}{'   '}{'Angstrom^3':<12}")
+    print(f"{'Mean d(M-X)':<12}{calculation.mean_bond_distance:>12.4f}{'   '}{'Ang':<12}")
+    print(f"{'Zeta':<12}{calculation.zeta:>12.4f}{'   '}{'Ang':<12}")
+    print(f"{'Sigma':<12}{calculation.sigma:>12.4f}{'   '}{'deg':<12}")
+    print(f"{'Theta':<12}{calculation.theta:>12.4f}{'   '}{'deg':<12}")
+    print(f"{'Volume':<12}{calculation.volume:>12.4f}{'   '}{'Ang^3':<12}")
     print('=' * 70)
-    print(calculation.planes)
-    #plot_planes(calculation.planes, calculation.coords)
+    print(calculation.opposite_vertices)
+    print(calculation.normals)
+    draw_octahedron(calculation.central_atom, calculation.vertices, calculation.faces)
