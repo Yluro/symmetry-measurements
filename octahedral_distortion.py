@@ -55,6 +55,8 @@ class CalcDistortion:
             points.append(c)
 
         self.coords = np.array(points) # xyz Coordinates of central (first) and ligands (rest)
+        self.central_atom = self.coords[0]
+        self.vertices = self.coords[1:]
         self.vectors = self.calc_vectors() # Vectors pointing from metal to ligand
         self.bond_distances = self.calc_bond_distances(coords)
         self.mean_bond_distance = np.mean(self.bond_distances)
