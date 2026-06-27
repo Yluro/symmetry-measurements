@@ -246,7 +246,7 @@ def draw_octahedron(centre, vertices, faces):
         os.makedirs(save_dir)
 
     plt.savefig(os.path.join(save_dir, 'octahedron.png'))
-    print(f'Saved to {save_dir}')
+    print(f'Octahedron graph saved to {save_dir}.')
 
 
 
@@ -262,6 +262,6 @@ def print_od_results(calculation: CalcDistortion, atom_label, file):
     print(f"{'Theta':<12}{calculation.theta:>12.4f}{'   '}{'deg':<12}")
     print(f"{'Volume':<12}{calculation.volume:>12.4f}{'   '}{'Ang^3':<12}")
     print('=' * 70)
-    print(calculation.opposite_vertices)
-    print(calculation.normals)
+    #print(calculation.opposite_vertices)
+    #print(calculation.normals)
     draw_octahedron(calculation.central_atom, calculation.vertices, calculation.faces)
