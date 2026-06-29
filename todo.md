@@ -13,3 +13,7 @@
  - [ ] Read Nature Paper https://www.nature.com/articles/s41467-025-66054-7
  - [ ] Incorporate other programs. Not only SHAPE2.1
  - [x] Half made octadist reimplementation
+   - Theta calculation:
+     - 1. For each pair of oposite faces:
+     - Make orthogonal projection of points:
+     - Get the angles between the vectors of the front face and back face if vectors are not from oposite points.

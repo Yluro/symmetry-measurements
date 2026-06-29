@@ -1,5 +1,7 @@
 import os
 import sys
+from hashlib import algorithms_guaranteed
+
 import htmlTools
 import olex
 import olexex
@@ -13,6 +15,7 @@ from helper_functions import *
 from constants import *
 from scipy.spatial import ConvexHull
 from itertools import combinations
+from itertools import permutations
 
 #sys.path.insert(0, os.path.dirname(__file__))
 
@@ -60,6 +63,7 @@ class CalcDistortion:
         self.vectors = self.calc_vectors() # Vectors pointing from metal to ligand
         self.bond_distances = self.calc_bond_distances(coords)
         self.mean_bond_distance = np.mean(self.bond_distances)
+        self.norm_vectors = np.array([v / np.linalg.norm(v) for v in self.vectors])
 
         self.angles = self._all_angles() # Angles is a sorted list. The last three elements will be
         self.cis_angles = self.angles[:-3]
@@ -101,13 +105,12 @@ class CalcDistortion:
 
     def _all_angles(self):
         angles = []
-        for i in range(0,6):
-            for j in range(i+1,6):
-                v1 = self.vectors[i] / np.linalg.norm(self.vectors[i])
-                v2 = self.vectors[j] / np.linalg.norm(self.vectors[j])
+        for i, j in combinations(range(len(self.vectors)), 2):
+            v1 = self.vectors[i] / np.linalg.norm(self.vectors[i])
+            v2 = self.vectors[j] / np.linalg.norm(self.vectors[j])
+            angle = np.degrees(np.arccos(np.clip(np.dot(v1, v2), -1, 1)))
+            angles.append(angle)
 
-                angle = np.degrees(np.arccos(np.dot(v1, v2)))
-                angles.append(angle)
         angles.sort()
         return np.array(angles)
 
@@ -120,8 +123,48 @@ class CalcDistortion:
         return sigma
 
     def calc_theta(self) -> float:
-        #Unimplemented
-        return 123
+        thetas = []
+
+        for face_pair in self.opposite_faces:
+            angles = []
+            # asign front and back faces
+            front, back = face_pair
+            # the normal is calculated from the front face
+            normal = self.normals[front]
+            print(f'Front face: {self.faces[front]}')
+            print(f'Back face {self.faces[back]}')
+
+            # For each index of the front face
+            for i in self.faces[front]:
+                # Get the vector i and its projection to the front face normal
+                v_i = self.vectors[i]
+                p_i = self._project_onto_plane(v_i, normal)
+                p_i = p_i / np.linalg.norm(p_i)
+                #print(f'Projection of {i} to plane {front}: {p_i}')
+
+                for j in self.faces[back]:
+                    pair = [i, j]
+                    pair_r = [j, i]
+                    is_opposite = any(np.array_equal(pair, ov) or np.array_equal(pair_r, ov)
+                                      for ov in self.opposite_vertices)
+                    if is_opposite:
+                        #print(f'Skipped {j} becasue is op of {i}')
+                        continue
+                    v_j = self.vectors[j]
+                    p_j = self._project_onto_plane(v_j, normal)
+                    p_j = p_j / np.linalg.norm(p_j)
+                    angle = np.degrees(np.arccos(np.clip(np.dot(p_i, p_j), -1, 1)))
+                    print(f'Angle between {i} and {j} is {angle} degs')
+                    abs_angle = np.abs(angle)
+                    angles.append(abs_angle)
+
+            print(f'Measured {len(angles)} for face {front}')
+            theta = np.sum([np.abs(60 - angle) for angle in angles])
+            thetas.append(theta)
+            print(theta)
+
+        final_theta = np.average(thetas) * 4
+        return final_theta
 
     def calc_normals(self):
         normals = []
@@ -149,7 +192,7 @@ class CalcDistortion:
     def _opposite_faces(self):
         pairs = []
         # for each combination of faces:
-        for i, j in combinations(range(len(self.faces)), 2):
+        for i, j in permutations(range(len(self.faces)), 2):
             # If the set of the intersection is empty (len == 0)
             # They don't share any vertex in the octahedron.
             # Means the faces are opposite to each other.
@@ -163,7 +206,6 @@ class CalcDistortion:
         pairs = []
         # For every combination of vertex i and j
         for i, j in combinations(range(len(self.vertices)), 2):
-
             # Get all faces that contain vertex i
             faces_with_i = [face for face in self.faces if i in face]
 
@@ -177,13 +219,27 @@ class CalcDistortion:
 
         return np.array(pairs)
 
+    def _angle_sign(self, v1, v2, ref):
+        n1, n2 = np.linalg.norm(v1), np.linalg.norm(v2)
+        if n1 < 1e-10 or n2 < 1e-10:
+            return 0.0
+        angle = np.degrees(np.arccos(np.clip(np.dot(v1, v2) / (n1 * n2), -1, 1)))
+        if np.dot(np.cross(v1, v2), ref) < 0:
+            angle = -angle
+        return angle
+
+    def _project_onto_plane(self, vector, normal):
+        return vector - np.dot(vector, normal) * normal
+
+
 import matplotlib
-#matplotlib.use('Qt5Agg')  # or 'Qt5Agg' if Tk isn't available
+# matplotlib.use('Qt5Agg')  # or 'Qt5Agg' if Tk isn't available
+# Olex2 uses non GUI version of matplotlib so I can only save graphs and show them later - I cannot get 3dview.
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
-
+# Draw planes function, absolute mess made by claude I dont understand anything.
 '''def plot_planes(planes, vertices):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -248,9 +304,7 @@ def draw_octahedron(centre, vertices, faces):
     plt.savefig(os.path.join(save_dir, 'octahedron.png'))
     print(f'Octahedron graph saved to {save_dir}.')
 
-
-
-## All of this Is made by Claude Ill have a look later
+## All of draw function was made by Claude I'll have a look later
 
 def print_od_results(calculation: CalcDistortion, atom_label, file):
     print('\n' + '='*70)
@@ -262,6 +316,11 @@ def print_od_results(calculation: CalcDistortion, atom_label, file):
     print(f"{'Theta':<12}{calculation.theta:>12.4f}{'   '}{'deg':<12}")
     print(f"{'Volume':<12}{calculation.volume:>12.4f}{'   '}{'Ang^3':<12}")
     print('=' * 70)
+    #print('Oposite faces:')
+    #print(calculation.opposite_faces)
+    #print('All faces')
+    #print(calculation.faces)
+    #print('Oposite vertices')
     #print(calculation.opposite_vertices)
     #print(calculation.normals)
-    draw_octahedron(calculation.central_atom, calculation.vertices, calculation.faces)
+    #draw_octahedron(calculation.central_atom, calculation.vertices, calculation.faces)
