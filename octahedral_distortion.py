@@ -248,7 +248,7 @@ class CalcDistortion:
     def _project_onto_plane(self, vector, normal):
         return vector - np.dot(vector, normal) * normal
 
-    def print_results(self, file):
+    def print_results(self, file=__file__):
         print('\n' + '=' * 70)
         print(f'Octahedral distortion parameters calculated for {self.labels[0]} in {os.path.basename(file)}')
         print('-' * 70)
