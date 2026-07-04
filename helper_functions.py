@@ -140,3 +140,11 @@ def build_polyhedra_from_centre(atom_label=('Mn1',)):
 
     #print(polyhedra)
     return polyhedra
+
+
+def build_poly_on_sel():
+    sel = olex.f('sel()')
+    label = sel.split(' ')
+    poly = build_polyhedra_from_centre(label)
+    print(poly)
+    return poly

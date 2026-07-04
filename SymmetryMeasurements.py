@@ -258,6 +258,7 @@ class SymmetryMeasurements(PT):
         OV.registerFunction(write_dat, True, "SymmetryMeasurements")
         OV.registerFunction(autoSHAPE, True, "SymmetryMeasurements")
         OV.registerFunction(autoOCTADIST, True, "SymmetryMeasurements")
+        OV.registerFunction(build_poly_on_sel, True, "SymmetryMeasurements")
     # END Generated =======================================
 
 
