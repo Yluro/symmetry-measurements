@@ -227,7 +227,7 @@ def autoOCTADIST():
 
         coords = [poly[i][1] for i in range(len(poly))]
         calculation = CalcDistortion(coords)
-        print_od_results(calculation, sel, olx.FileName())
+        calculation.print_results(os.path.basename(olx.FilePath()))
 
 
         return True

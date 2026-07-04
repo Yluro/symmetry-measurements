@@ -1,69 +1,29 @@
-import os
-import sys
-from hashlib import algorithms_guaranteed
-
-import htmlTools
-import olex
-import olexex
-import olx
-import gui
-import shutil
-from constants import *
-import subprocess
 import numpy as np
-from helper_functions import *
-from constants import *
 from scipy.spatial import ConvexHull
-from itertools import combinations
-from itertools import permutations
+from itertools import combinations, permutations
+import matplotlib.pyplot as plt
 
-#sys.path.insert(0, os.path.dirname(__file__))
-
-
-def octadist_calc(polyhedron=test_Mn1_polyhedra):
-    zeta = calc_zeta(polyhedron)
-    #sigma = 'S_placeholder'
-    #theta = 'T_placeholder'
-
-    return zeta #, sigma, theta
-
-def calc_zeta(polyhedron):
-    """
-    Calculate the zeta value for the Octahedron
-    :returns: zeta value (float)
-    """
-    # Gets the central atom from the octahedron.
-    # By default, Build poly will always have the central atom in the first position of the array
-    # xyz are stored as strings. This divides the strings and makes a np array
-    centre_xyz = np.array(polyhedron[0][1].split(' '), dtype=float)
-    ligands_xyz = [np.array(np.array(xyz.split(' ')), dtype=float) for name, xyz in polyhedron[1:]]
-
-    distances = [np.linalg.norm((xyz - centre_xyz)) for xyz in ligands_xyz]
-    print(f'Distances: {distances}')
-    mean_bond_distance = np.mean(distances)
-    deviations = [np.linalg.norm(np.abs(d - mean_bond_distance)) for d in distances]
-    zeta = np.mean(deviations)
-    print(f'Zeta: {zeta}')
-    return zeta
-
+import os
+from collections.abc import Iterable
 
 
 class CalcDistortion:
-    def __init__(self, coords):
+    def __init__(self, polyhedron):
+        self._DEFAULT_OH_LABELS = ['Z'] + [f'L{i}' for i in range(1, 7)]
 
-        points = []
-        for c in coords:
-            if type(c) is not np.array:
-                c = np.array(c.split(' '), dtype=np.float64)
-            points.append(c)
+        self.labels = self._DEFAULT_OH_LABELS
+        self.coords = []
+        self._parse_input(polyhedron) # Parse Input updates values of coords and labels
 
-        self.coords = np.array(points) # xyz Coordinates of central (first) and ligands (rest)
+        #self.coords = np.array(points) # xyz Coordinates of central (first) and ligands (rest)
         self.central_atom = self.coords[0]
         self.vertices = self.coords[1:]
+
         self.vectors = self.calc_vectors() # Vectors pointing from metal to ligand
-        self.bond_distances = self.calc_bond_distances(coords)
-        self.mean_bond_distance = np.mean(self.bond_distances)
         self.norm_vectors = np.array([v / np.linalg.norm(v) for v in self.vectors])
+
+        self.bond_distances = self.calc_bond_distances()
+        self.mean_bond_distance = np.mean(self.bond_distances)
 
         self.angles = self._all_angles() # Angles is a sorted list. The last three elements will be
         self.cis_angles = self.angles[:-3]
@@ -75,7 +35,7 @@ class CalcDistortion:
         # Array of arrays with indices of self.vertices that make a triangle.
         self.faces = self.convex_hull.simplices
         self.normals = self.calc_normals()
-        # Array[(a,b,c,d)] that solve for plane ax + by + cz + d = 0
+        # Array[(a,b,c,d)] that solve for plane ax + by + cz + d = 0 for each face
         self.planes = self.calc_planes()
 
         # Each array of opposite faces contains two arrays for the indices of the two opposite faces
@@ -89,6 +49,63 @@ class CalcDistortion:
         self.sigma = self.calc_sigma()
         self.theta = self.calc_theta()
 
+    def _parse_input(self, polyhedra):
+        print(type(polyhedra), polyhedra)
+        """
+        The standard polyhedron from build_polyhedra_from_centre() gives an array:
+        [('centre', 'x y z'), ('L1', 'x y z'),...]
+
+        The function will also get
+        :param input:
+        :return:
+        """
+        def parse_coordinate(xyz):
+            crd = None
+            if isinstance(xyz, str):
+                crd = tuple(map(float, xyz.split(' ')))
+            elif isinstance(xyz, Iterable):
+                crd = tuple([float(v) for v in xyz])
+            else:
+                raise TypeError(f'Could not parse coordinate: {xyz}')
+
+            if crd is None:
+                raise TypeError(f'Could not parse coordinate: {xyz}')
+
+            if len(crd) != 3:
+                raise ValueError(f'Invalid coordinate. Expected 3 coordinates, found {len(crd)}.')
+
+            return crd
+
+        labels = []
+        coords = []
+
+        for p in polyhedra:
+            if isinstance(p, str):
+                coords.append(parse_coordinate(p))
+
+            elif isinstance(p, Iterable):
+                vals = tuple(p)
+
+                if len(vals) == 2 and isinstance(vals[0], str):
+                    labels.append(vals[0])
+                    coords.append(parse_coordinate(vals[1]))
+                else:
+                    coords.append(parse_coordinate(vals))
+
+            else:
+                raise TypeError(f"Cannot parse {p!r}")
+
+        if len(labels) == 7:
+            self.labels = np.array(labels, dtype=str)
+        elif not labels:
+            print(f'Warning, expected 7 labels, found {len(labels)}. Using default label Names.')
+
+        if len(coords) != 7:
+            raise ValueError(f'Invalid number of points. Expected 7 points, found {len(polyhedra)}.')
+
+        self.coords = np.array(coords, dtype=np.float64)
+
+
     def calc_vectors(self):
         vs = []
         for coord in self.vertices:
@@ -96,7 +113,7 @@ class CalcDistortion:
             vs.append(v)
         return np.array(vs)
 
-    def calc_bond_distances(self, coords):
+    def calc_bond_distances(self):
         ds = []
         for v in self.vectors:
             d = np.linalg.norm(v)
@@ -127,7 +144,7 @@ class CalcDistortion:
 
         for face_pair in self.opposite_faces:
             angles = []
-            # asign front and back faces
+            # assign front and back faces
             front, back = face_pair
             # the normal is calculated from the front face
             normal = self.normals[front]
@@ -148,7 +165,7 @@ class CalcDistortion:
                     is_opposite = any(np.array_equal(pair, ov) or np.array_equal(pair_r, ov)
                                       for ov in self.opposite_vertices)
                     if is_opposite:
-                        #print(f'Skipped {j} becasue is op of {i}')
+                        #print(f'Skipped {j} because is op of {i}')
                         continue
                     v_j = self.vectors[j]
                     p_j = self._project_onto_plane(v_j, normal)
@@ -213,7 +230,7 @@ class CalcDistortion:
             vertices_near_i = set(v for face in faces_with_i for v in face)
 
             # If j is not in the set, then i and j share no common faces
-            # Thus, i and j are not oposite.
+            # Thus, i and j are not opposite.
             if j not in vertices_near_i:
                 pairs.append((i, j))
 
@@ -231,15 +248,55 @@ class CalcDistortion:
     def _project_onto_plane(self, vector, normal):
         return vector - np.dot(vector, normal) * normal
 
+    def print_results(self, file):
+        print('\n' + '=' * 70)
+        print(f'Octahedral distortion parameters calculated for {self.labels[0]} in {os.path.basename(file)}')
+        print('-' * 70)
+        print(f"{'Mean d(M-X)':<12}{self.mean_bond_distance:>12.4f}{'   '}{'Ang':<12}")
+        print(f"{'Zeta':<12}{self.zeta:>12.4f}{'   '}{'Ang':<12}")
+        print(f"{'Sigma':<12}{self.sigma:>12.4f}{'   '}{'deg':<12}")
+        print(f"{'Theta':<12}{self.theta:>12.4f}{'   '}{'deg':<12}")
+        print(f"{'Volume':<12}{self.volume:>12.4f}{'   '}{'Ang^3':<12}")
+        print('=' * 70)
 
-import matplotlib
-# matplotlib.use('Qt5Agg')  # or 'Qt5Agg' if Tk isn't available
-# Olex2 uses non GUI version of matplotlib so I can only save graphs and show them later - I cannot get 3dview.
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
-# Draw planes function, absolute mess made by claude I dont understand anything.
+    def draw_octahedron(self):
+        from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+        from mpl_toolkits.mplot3d import Axes3D
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+        ax.set_box_aspect((1, 1, 1))
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        ax.set_zlabel('Z')
+        plt.tight_layout()
+
+        ax.scatter(self.central_atom[0], self.central_atom[1], self.central_atom[2], color='blue', s=50, zorder=5)
+        ax.scatter(self.vertices[:, 0], self.vertices[:, 1], self.vertices[:, 2], color='red', s=50, zorder=5)
+
+        colors = plt.cm.tab10(np.linspace(0, 1, len(self.faces)))
+
+        for i, face in enumerate(self.faces):
+            triangle = [self.vertices[face[0]], self.vertices[face[1]], self.vertices[face[2]]]
+            poly = Poly3DCollection([triangle], alpha=0.3, facecolor=colors[i], edgecolor='black')
+            ax.add_collection3d(poly)
+
+        for label, coord in zip(self.labels, self.coords):
+            ax.text(coord[0], coord[1], coord[2], label, ha='right', va='top', zorder=10)
+
+        # Olex2 uses non GUI version of matplotlib so
+        # I can only save graphs and show them later
+        # - I cannot get 3d view.
+        plt.show()
+        ## For using inside Olex
+        # save_dir = os.path.join(olx.FilePath(), 'Oh_distortion')
+        # if not os.path.exists(save_dir):
+        #    os.makedirs(save_dir)
+        # plt.savefig(os.path.join(save_dir, 'octahedron.png'))
+        # print(f'Octahedron graph saved to {save_dir}.')
+        # plt.savefig('octahedron.png')
+
+# Draw planes function, absolute mess made by claude I don't understand anything.
 '''def plot_planes(planes, vertices):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -277,50 +334,13 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
     plt.savefig(os.path.join(save_dir, 'planes.png'))
     print(f'Saved to {save_dir}')'''
 
-def draw_octahedron(centre, vertices, faces):
-    vertices = np.array(vertices)
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
 
-    # Plot centre and vertices
-    ax.scatter(centre[0], centre[1], centre[2], color='blue', s=50, zorder=5)
-    ax.scatter(vertices[:, 0], vertices[:, 1], vertices[:, 2], color='red', s=50, zorder=5)
 
-    colors = plt.cm.tab10(np.linspace(0, 1, len(faces)))
-
-    for i, face in enumerate(faces):
-        triangle = [vertices[face[0]], vertices[face[1]], vertices[face[2]]]
-        poly = Poly3DCollection([triangle], alpha=0.3, facecolor=colors[i], edgecolor='black')
-        ax.add_collection3d(poly)
-
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_zlabel('Z')
-    plt.tight_layout()
-    save_dir = os.path.join(olx.FilePath(), 'Oh_distortion')
-    if not os.path.exists(save_dir):
-        os.makedirs(save_dir)
-
-    plt.savefig(os.path.join(save_dir, 'octahedron.png'))
-    print(f'Octahedron graph saved to {save_dir}.')
-
-## All of draw function was made by Claude I'll have a look later
-
-def print_od_results(calculation: CalcDistortion, atom_label, file):
-    print('\n' + '='*70)
-    print(f'Octahedral distortion parameters calculated for {atom_label} in {os.path.basename(file)}')
-    print('-' * 70)
-    print(f"{'Mean d(M-X)':<12}{calculation.mean_bond_distance:>12.4f}{'   '}{'Ang':<12}")
-    print(f"{'Zeta':<12}{calculation.zeta:>12.4f}{'   '}{'Ang':<12}")
-    print(f"{'Sigma':<12}{calculation.sigma:>12.4f}{'   '}{'deg':<12}")
-    print(f"{'Theta':<12}{calculation.theta:>12.4f}{'   '}{'deg':<12}")
-    print(f"{'Volume':<12}{calculation.volume:>12.4f}{'   '}{'Ang^3':<12}")
-    print('=' * 70)
-    #print('Oposite faces:')
+    #print('Opposite faces:')
     #print(calculation.opposite_faces)
     #print('All faces')
     #print(calculation.faces)
-    #print('Oposite vertices')
+    #print('Opposite vertices')
     #print(calculation.opposite_vertices)
     #print(calculation.normals)
     #draw_octahedron(calculation.central_atom, calculation.vertices, calculation.faces)
