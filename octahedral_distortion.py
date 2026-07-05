@@ -51,6 +51,7 @@ class CalcDistortion:
         self.zeta = self.calc_zeta()
         self.delta = self.calc_delta()
         self.sigma = self.calc_sigma()
+        self.tau = self.calc_tau()
         self.theta = self.calc_theta()
 
     def _parse_input(self, polyhedra):
@@ -116,11 +117,16 @@ class CalcDistortion:
         return np.sum(deviations)
 
     def calc_delta(self) -> float:
-        return np.sum(np.power((bond_distance - self.mean_bond_distance)/self.mean_bond_distance, 2) for bond_distance in self.bond_distances) / 6
+        delta = np.sum(np.power((self.bond_distances - self.mean_bond_distance)/self.mean_bond_distance, 2)) / 6
+        return delta
 
     def calc_sigma(self) -> float:
         sigma = np.sum(np.abs(90 - self.cis_angles))
         return sigma
+
+    def calc_tau(self):
+        tau = np.sum(np.abs(180 - self.trans_angles))
+        return tau
 
     def calc_theta(self) -> float:
         thetas = []
@@ -238,8 +244,9 @@ class CalcDistortion:
         print(f"{'Mean d(M-X)':<12}{self.mean_bond_distance:>12.4f}{'   '}{'Ang':<12}")
         print(f"{'Zeta':<12}{self.zeta:>12.4f}{'   '}{'Ang':<12}")
         print(f"{'Delta':<12}{self.delta:>12.4f}{'   '}{'':<12}")
-        print(f"{'Sigma':<12}{self.sigma:>12.4f}{'   '}{'deg':<12}")
-        print(f"{'Theta':<12}{self.theta:>12.4f}{'   '}{'deg':<12}")
+        print(f"{'Sigma':<12}{self.sigma:>12.1f}{'   '}{'deg':<12}")
+        print(f"{'Tau':<12}{self.tau:>12.1f}{'   '}{'deg':<12}")
+        print(f"{'Theta':<12}{self.theta:>12.1f}{'   '}{'deg':<12}")
         print(f"{'Volume':<12}{self.volume:>12.4f}{'   '}{'Ang^3':<12}")
         print('=' * 70)
 
