@@ -148,3 +148,21 @@ def build_poly_on_sel():
     poly = build_polyhedra_from_centre(label)
     print(poly)
     return poly
+
+
+def parse_coordinate(xyz):
+    crd = None
+    if isinstance(xyz, str):
+        crd = tuple(map(float, xyz.split(' ')))
+    elif isinstance(xyz, Iterable):
+        crd = tuple([float(v) for v in xyz])
+    else:
+        raise TypeError(f'Could not parse coordinate: {xyz}')
+
+    if crd is None:
+        raise TypeError(f'Could not parse coordinate: {xyz}')
+
+    if len(crd) != 3:
+        raise ValueError(f'Invalid coordinate. Expected 3 coordinates, found {len(crd)}.')
+
+    return crd
