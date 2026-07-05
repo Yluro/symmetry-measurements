@@ -35,7 +35,7 @@ Symmetry Measurements comes with a reimplementation of the [OctaDist](https://oc
 where $d_i$ is individual M-X bond distance and $d_{mean}$ is the mean metal-ligand bond distance.
 - Octahedral tilting parameter:
 ```math
-\Delta = \sum_{i=1}^6 \left|\frac{d_i - d_{mean}}{d_{mean}}\right|
+\Delta = \sum_{i=1}^6 \left(\frac{d_i - d_{mean}}{d_{mean}}\right)^2
 ```
 where $d_i$ is individual M-X bond distance and $d_{mean}$ is the mean metal-ligand bond distance.
 - Cis-angle distortion:
