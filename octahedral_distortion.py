@@ -15,8 +15,8 @@ class CalcDistortion:
         self.coords = []
         self._parse_input(polyhedron) # Parse Input updates values of coords and labels
 
-        print(self.coords)
-        print(self.labels)
+        #print(self.coords)
+        #print(self.labels)
 
         #self.coords = np.array(points) # xyz Coordinates of central (first) and ligands (rest)
         self.central_atom = self.coords[0]
@@ -55,7 +55,7 @@ class CalcDistortion:
         self.theta = self.calc_theta()
 
     def _parse_input(self, polyhedra):
-        print(type(polyhedra), polyhedra)
+        #print(type(polyhedra), polyhedra)
         """
         The standard polyhedron from build_polyhedra_from_centre() gives an array:
         [('centre', 'x y z'), ('L1', 'x y z'),...]
@@ -137,8 +137,8 @@ class CalcDistortion:
             front, back = face_pair
             # the normal is calculated from the front face
             normal = self.normals[front]
-            print(f'Front face: {self.faces[front]}')
-            print(f'Back face {self.faces[back]}')
+            #print(f'Front face: {self.faces[front]}')
+            #print(f'Back face {self.faces[back]}')
 
             # For each index of the front face
             for i in self.faces[front]:
@@ -160,14 +160,14 @@ class CalcDistortion:
                     p_j = self._project_onto_plane(v_j, normal)
                     p_j = p_j / np.linalg.norm(p_j)
                     angle = np.degrees(np.arccos(np.clip(np.dot(p_i, p_j), -1, 1)))
-                    print(f'Angle between {i} and {j} is {angle} degs')
+                    #print(f'Angle between {i} and {j} is {angle} degs')
                     abs_angle = np.abs(angle)
                     angles.append(abs_angle)
 
-            print(f'Measured {len(angles)} for face {front}')
+            #print(f'Measured {len(angles)} for face {front}')
             theta = np.sum([np.abs(60 - angle) for angle in angles])
             thetas.append(theta)
-            print(theta)
+            #print(theta)
 
         final_theta = np.average(thetas) * 4
         return final_theta
@@ -243,7 +243,7 @@ class CalcDistortion:
         print('-' * 70)
         print(f"{'Mean d(M-X)':<12}{self.mean_bond_distance:>12.4f}{'   '}{'Ang':<12}")
         print(f"{'Zeta':<12}{self.zeta:>12.4f}{'   '}{'Ang':<12}")
-        print(f"{'Delta':<12}{self.delta:>12.4f}{'   '}{'':<12}")
+        print(f"{'Delta':<12}{self.delta:>12.6f}{'   '}{'':<12}")
         print(f"{'Sigma':<12}{self.sigma:>12.1f}{'   '}{'deg':<12}")
         print(f"{'Tau':<12}{self.tau:>12.1f}{'   '}{'deg':<12}")
         print(f"{'Theta':<12}{self.theta:>12.1f}{'   '}{'deg':<12}")
