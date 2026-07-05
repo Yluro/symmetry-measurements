@@ -179,10 +179,10 @@ def autoOCTADIST():
 
         calculation = CalcDistortion(poly)
         calculation.print_results(os.path.basename(olx.FilePath()))
-        print(f'Opposite vertices {calculation.opposite_vertices}')
-        print([calculation.labels[v] for v in calculation.opposite_vertices.flatten()])
-        print(f'Opposite faces {calculation.opposite_faces}')
-        print(f'Found {len(calculation.faces)} faces.')
+        #print(f'Opposite vertices {calculation.opposite_vertices}')
+        #print([calculation.labels[v] for v in calculation.opposite_vertices.flatten()])
+        #print(f'Opposite faces {calculation.opposite_faces}')
+        #print(f'Found {len(calculation.faces)} faces.')
         calculation.draw_octahedron()
 
         return True
