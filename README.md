@@ -1,6 +1,6 @@
 # SymmetryMeasurements
 
-SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/) plugin that serves as a bridge to [SHAPE 2.1](https://www.ee.ub.edu/continuous-shape-and-symmetry-measures/) to calculate Continuous Shape Measures  (CShM's) directly from within Olex2.
+SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/)$^1$ plugin that serves as a bridge to [SHAPE 2.1](https://www.ee.ub.edu/continuous-shape-and-symmetry-measures/)$^2$ to calculate Continuous Shape Measures (CShM's) directly from within Olex2.
 
 ## Requirements
 
@@ -22,26 +22,28 @@ All analysis methods in Symmetry Measurements will read the atomic coordinates d
 4. Results are printed to the console and saved in `<dataset_path>/autoSHAPE/`.
 
 ## Octahedral Distortion Parameters.
-Reimplementation of the OctaDist algorithm based on a topological approach. Values are normally consistent with OctaDist. 
-- Bond length distortion
+Symmetry Measurements comes with a reimplementation of the [OctaDist](https://octadist.github.io/)$^3$ algorithm. This implementation is based on a topological approach. Several features from the original program have been pruned for the ease of portability to Olex2 and overall redundancy. The Octahedral distortion parameters module calculates all the values normally produced by Octadist.Values are normally consistent with OctaDist. 
+- Bond length distortion:
 ```math
 \zeta = \sum_{i=1}^6 |d_i - d_{mean}|
 ```
 where $d_i$ is individual M-X bond distance and $d_{mean}$ is the mean metal-ligand bond distance.
-- Octahedral tilting parameter
+- Octahedral tilting parameter:
 ```math
 \Delta = \sum_{i=1}^6 \left|\frac{d_i - d_{mean}}{d_{mean}}\right|
 ```
 where $d_i$ is individual M-X bond distance and $d_{mean}$ is the mean metal-ligand bond distance.
-- Cis-angle distortion
+- Cis-angle distortion:
 ```math
 \Sigma = \sum_{i=1}^{12} |90^\circ - \phi_i|
 ```
+- Trans angle distortion:
 where $\phi_i$ are the cis angles.
 ```math
 \tau = \sum_{i=1}^3 |180^\circ - \psi_i|
 ```
 where $\psi_i$ are the trans angles.
+- Octahedral twisting distortion:
 ```math
 \Theta = \sum_{i=1}^{24}  |60^\circ - \theta_i|
 ```
@@ -58,7 +60,7 @@ where $\theta_i$ are the individual twisting angles between the vectors of two o
 
 - [ ] Cannot handle disordered structures yet.
 - [ ] Smarter program logic is missing (automatic coordination site detection, multiple selections, etc.).
-- [ ] Reimplementation of octahedral distortion parameters (Zeta, Sigma, Theta) — relevant for spin-crossover (SCO) complexes.
+- [x] Reimplementation of octahedral distortion parameters (Zeta, Sigma, Theta) — relevant for spin-crossover (SCO) complexes.
 - [ ] Support for other symmetry measurement programs (Polynator, Continuous Symmetry Operations, etc.)
 - [ ] Clean html UI.
 
@@ -67,6 +69,6 @@ where $\theta_i$ are the individual twisting angles between the vectors of two o
 
 ## Citations
 
-1. Olex2 1.5: J. Appl. Cryst. (2009). 42, 339–341. DOI: https://doi.org/10.1107/S0021889808042726
-
-2. SHAPE 2.1: Organometallics (2005), 24, 7, 1556–1562. DOI: https://doi.org/10.1021/om049150z
+1. _J. Appl. Cryst._ (2009). 42, 339–341. DOI: https://doi.org/10.1107/S0021889808042726
+2. _Organometallics_ (2005), 24, 7, 1556–1562. DOI: https://doi.org/10.1021/om049150z
+3. _Dalton Trans._ (2021) 50, 3, 1086–1096. DOI: https://doi.org/10.1039/d0dt03988h
