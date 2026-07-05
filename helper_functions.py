@@ -60,7 +60,7 @@ def get_neighbours(atom_labels):
 
     ##selection = get_selected_atoms()
     if atom_labels == [""]:
-        print("No atoms")
+        print("Could not find neighbours. No atoms selected.")
         return None
 
     ##selection = selection.split(' ')
@@ -76,7 +76,7 @@ def get_neighbours(atom_labels):
         #tags is an empty tuple if it wasn't found in the orm: selected a Qpick
         #tags is a list of len() = 0 if selected a
         if neighbour_tags is None or len(neighbour_tags) == 0:
-            print(f'No connected atoms to {atom_label}')
+            print(f'No connected atoms to {atom_label}.')
 
         #print(neighbour_tags) #(3, (1.332173751267887, 9.570147745635163, 1.1004595820674223), ((-1, 0, 0), (0, -1, 0), (0, 0, -1), (0.0, 1.0, 0.0)))
         neighbours_tags_list.append(neighbour_tags)
@@ -109,13 +109,13 @@ def get_neighbours_on_sel():
 def build_polyhedra_from_centre(atom_label=('Mn1',)):
     neighbours = get_neighbours(atom_label)
     if neighbours is None:
-        print(f'No neighbours can be found for {atom_label}')
+        print(f'No neighbours can be found for {atom_label}.')
         return None
 
     _, unique_neighbours = neighbours
     #print(unique_neighbours)
     if len(atom_label) > 1:
-        print('More than one atom, wrong function!')
+        print(f'Invalid selection: expected 1 atom, found {len(atom_label)}.')
         return None
 
     centre = atom_label[0]
