@@ -2,7 +2,7 @@ import numpy as np
 from scipy.spatial import ConvexHull
 from itertools import combinations, permutations
 import matplotlib.pyplot as plt
-
+from helper_functions import *
 import os
 from collections.abc import Iterable
 
@@ -15,11 +15,14 @@ class CalcDistortion:
         self.coords = []
         self._parse_input(polyhedron) # Parse Input updates values of coords and labels
 
+        print(self.coords)
+        print(self.labels)
+
         #self.coords = np.array(points) # xyz Coordinates of central (first) and ligands (rest)
         self.central_atom = self.coords[0]
         self.vertices = self.coords[1:]
 
-        self.vectors = np.array(coord - self.central_atom for coord in self.vertices) # Vectors pointing from metal to ligand
+        self.vectors = np.array([coord - self.central_atom for coord in self.vertices]) # Vectors pointing from metal to ligand
         self.norm_vectors = np.array([v / np.linalg.norm(v) for v in self.vectors])
 
         self.bond_distances = self.calc_bond_distances()
@@ -60,23 +63,6 @@ class CalcDistortion:
         :param input:
         :return:
         """
-        def parse_coordinate(xyz):
-            crd = None
-            if isinstance(xyz, str):
-                crd = tuple(map(float, xyz.split(' ')))
-            elif isinstance(xyz, Iterable):
-                crd = tuple([float(v) for v in xyz])
-            else:
-                raise TypeError(f'Could not parse coordinate: {xyz}')
-
-            if crd is None:
-                raise TypeError(f'Could not parse coordinate: {xyz}')
-
-            if len(crd) != 3:
-                raise ValueError(f'Invalid coordinate. Expected 3 coordinates, found {len(crd)}.')
-
-            return crd
-
         labels = []
         coords = []
 
@@ -251,12 +237,11 @@ class CalcDistortion:
         print('-' * 70)
         print(f"{'Mean d(M-X)':<12}{self.mean_bond_distance:>12.4f}{'   '}{'Ang':<12}")
         print(f"{'Zeta':<12}{self.zeta:>12.4f}{'   '}{'Ang':<12}")
-        print(f"{'Zeta':<12}{self.delta:>12.4f}{'   '}{'':<12}")
+        print(f"{'Delta':<12}{self.delta:>12.4f}{'   '}{'':<12}")
         print(f"{'Sigma':<12}{self.sigma:>12.4f}{'   '}{'deg':<12}")
         print(f"{'Theta':<12}{self.theta:>12.4f}{'   '}{'deg':<12}")
         print(f"{'Volume':<12}{self.volume:>12.4f}{'   '}{'Ang^3':<12}")
         print('=' * 70)
-
 
     def draw_octahedron(self):
         from mpl_toolkits.mplot3d.art3d import Poly3DCollection
@@ -287,58 +272,14 @@ class CalcDistortion:
         # - I cannot get 3d view.
         plt.show()
         ## For using inside Olex
-        # save_dir = os.path.join(olx.FilePath(), 'Oh_distortion')
-        # if not os.path.exists(save_dir):
-        #    os.makedirs(save_dir)
-        # plt.savefig(os.path.join(save_dir, 'octahedron.png'))
-        # print(f'Octahedron graph saved to {save_dir}.')
-        # plt.savefig('octahedron.png')
+        try:
+            save_dir = os.path.join(olx.FilePath(), 'Oh_distortion')
+            if not os.path.exists(save_dir):
+                os.makedirs(save_dir)
+                plt.savefig(os.path.join(save_dir, 'octahedron.png'))
+                plt.savefig('octahedron.png')
+                print(f'Octahedron graph saved to {save_dir}.')
+        except:
+            pass
 
 # Draw planes function, absolute mess made by claude I don't understand anything.
-'''def plot_planes(planes, vertices):
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-
-    # Plot vertices
-    ax.scatter(vertices[:, 0], vertices[:, 1], vertices[:, 2], color='red', s=50, zorder=5)
-
-    # Define plot range from vertices
-    x_range = np.linspace(vertices[:, 0].min() - 1, vertices[:, 0].max() + 1, 10)
-    y_range = np.linspace(vertices[:, 1].min() - 1, vertices[:, 1].max() + 1, 10)
-    xx, yy = np.meshgrid(x_range, y_range)
-
-    colors = plt.cm.tab10(np.linspace(0, 1, len(planes)))
-
-    for i, (a, b, c, d) in enumerate(planes):
-        if abs(c) > 1e-10:  # solve for z: z = (-ax - by - d) / c
-            zz = (-a * xx - b * yy - d) / c
-            ax.plot_surface(xx, yy, zz, alpha=0.3, color=colors[i])
-        elif abs(b) > 1e-10:  # solve for y
-            y_range2 = np.linspace(vertices[:, 1].min() - 1, vertices[:, 1].max() + 1, 10)
-            zz2 = np.linspace(vertices[:, 2].min() - 1, vertices[:, 2].max() + 1, 10)
-            xx2, zz2 = np.meshgrid(x_range, zz2)
-            yy2 = (-a * xx2 - c * zz2 - d) / b
-            ax.plot_surface(xx2, yy2, zz2, alpha=0.3, color=colors[i])
-
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_zlabel('Z')
-    plt.tight_layout()
-    #plt.show()
-    save_dir = os.path.join(olx.FilePath(), 'Oh_distortion')
-    if not os.path.exists(save_dir):
-        os.makedirs(save_dir)
-
-    plt.savefig(os.path.join(save_dir, 'planes.png'))
-    print(f'Saved to {save_dir}')'''
-
-
-
-    #print('Opposite faces:')
-    #print(calculation.opposite_faces)
-    #print('All faces')
-    #print(calculation.faces)
-    #print('Opposite vertices')
-    #print(calculation.opposite_vertices)
-    #print(calculation.normals)
-    #draw_octahedron(calculation.central_atom, calculation.vertices, calculation.faces)

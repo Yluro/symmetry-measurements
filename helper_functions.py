@@ -3,6 +3,7 @@ import htmlTools
 import olex
 import olexex
 import olx
+from collections.abc import Iterable
 import gui
 import shutil
 from constants import *

@@ -9,13 +9,21 @@ from collections.abc import Iterable
 
 
 class DatHandler:
-    def __init__(self, polyhedron):
+    def __init__(self, polyhedron, centered=True, keywords='\n%fullout'):
         self.labels = []
         self.coords = []
         self._parse_input(polyhedron)  # Parse Input updates values of coords and labels
-
-
         self.dat_title = 0
+
+        self.dat_keywords = keywords
+        if centered:
+            self.centre = 1
+            self.ligands = len(self.coords) - 1
+        else:
+            self.centre = 0
+            self.ligands = len(self.coords)
+
+
 
     def _parse_input(self, polyhedra):
         """
@@ -26,8 +34,6 @@ class DatHandler:
         :param input:
         :return:
         """
-
-
         labels = []
         coords = []
 
@@ -56,11 +62,8 @@ class DatHandler:
             raise ValueError(f'Invalid number of points. Expected 7 points, found {len(polyhedra)}.')
 
         self.coords = np.array(coords, dtype=np.float64)
-
-
-class AutoShape:
-    def __init__(self):
         pass
+
 
 def can_find_shape_msg(silent=True):
     shape_path = shutil.which("shape")
@@ -164,9 +167,12 @@ def parse_shape_tab(tab_path):
         # Find the polyhedra table
         # (Label    N   Symm    Name)
         shape_labels = []
+        shape_names = []
         for tab_line in lines[5:]: # The array splicing skips the header of the tab file. That messes up the search
             if len(tab_line.split()) >= 4 and tab_line.split()[1].isdigit():
                 shape_labels.append(tab_line.split()[0])
+                name = ' '.join(tab_line.split()[3:])
+                shape_names.append(name)
 
         #print(shape_labels)
         # Second pass through the tab file to find the data with the CShMs
@@ -184,4 +190,25 @@ def parse_shape_tab(tab_path):
         atom_label = parts[0]
         values = [float(v) for v in parts[1:]]
 
-        return atom_label, shape_labels, values
+        return atom_label, shape_names, shape_labels, values
+
+
+def print_shape_table(tab_path):
+    result = parse_shape_tab(tab_path)
+    if result is None:
+        return False
+    atom_label, shape_names, shape_labels, values = result
+    length = max(len(name) for name in shape_names) + 2
+
+
+    min_val = min(values)
+    print('\n'+'=' * 60)
+    print(f'SHAPE 2.1 results for {atom_label} in {os.path.basename(tab_path)}:')
+    print('-'*60)
+    print(f"{'Polyhedron':<{length}}{'Symbol':<7}{'CShM':>10}")
+    print('-'*60)
+    for name, label, val in zip(shape_names, shape_labels, values):
+        marker = ' <---- best fit' if val == min_val else ''
+        print(f'{name:<{length}}{label:<7}{val:>10}{marker:>10}')
+    print('='*60)
+    return None

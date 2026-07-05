@@ -163,60 +163,6 @@ def autoSHAPE():
     return None
 
 
-def parse_shape_tab(tab_path):
-
-    #print(f"Parsing: {tab_path}")
-    #print(f"Exists: {os.path.exists(tab_path)}")
-
-    with open(tab_path, 'r') as f:
-        lines = f.readlines()
-
-        # Find the polyhedra table
-        # (Label    N   Symm    Name)
-        shape_labels = []
-        shape_names = []
-        for tab_line in lines[5:]: # The array splicing skips the header of the tab file. That messes up the search
-            if len(tab_line.split()) >= 4 and tab_line.split()[1].isdigit():
-                shape_labels.append(tab_line.split()[0])
-                shape_names.append(tab_line.split()[-1])
-
-        #print(shape_labels)
-        # Second pass through the tab file to find the data with the CShMs
-        data_row = None
-        for tab_line in lines[5:]:
-            if ',' in tab_line and any(c.isdigit() for c in tab_line):
-                #print(tab_line)
-                data_row = tab_line
-
-        if data_row is None:
-            print(f"Could not parse data row in {tab_path}")
-            return None
-
-        parts = [c.strip() for c in data_row.split(',')]
-        atom_label = parts[0]
-        values = [float(v) for v in parts[1:]]
-
-        return atom_label, shape_names, shape_labels, values
-
-
-def print_shape_table(tab_path):
-    result = parse_shape_tab(tab_path)
-    if result is None:
-        return False
-    atom_label, shape_names, shape_labels, values = result
-    min_val = min(values)
-    print('\n'+'=' * 60)
-    print(f'SHAPE 2.1 results for {atom_label} in {os.path.basename(tab_path)}:')
-    print('-'*60)
-    print(f"{'Polyhedron':<15}{'Symbol':<7}{'CShM':>10}")
-    print('-'*60)
-    for name, label, val in zip(shape_names, shape_labels, values):
-        marker = ' <---- best fit' if val == min_val else ''
-        print(f'{name:<15}{label:<7}{val:>10}{marker:>10}')
-    print('='*60)
-    return None
-
-
 def autoOCTADIST():
     sel = olex.f('sel()')  # Gets the selection
     if sel != '':
@@ -228,10 +174,12 @@ def autoOCTADIST():
 
         #print('Valid 6-coordinate atom.')
 
-        coords = [poly[i][1] for i in range(len(poly))]
-        calculation = CalcDistortion(coords)
+        calculation = CalcDistortion(poly)
         calculation.print_results(os.path.basename(olx.FilePath()))
-
+        print(f'Opposite vertices {calculation.opposite_vertices}')
+        print(f'Opposite faces {calculation.opposite_faces}')
+        print(f'Found {len(calculation.faces)} faces.')
+        calculation.draw_octahedron()
 
         return True
     else:
