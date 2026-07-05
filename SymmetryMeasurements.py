@@ -14,6 +14,7 @@ import gui
 import shutil
 from constants import *
 import subprocess
+from autoshape import *
 from octahedral_distortion import *
 
 
@@ -48,7 +49,7 @@ OV.SetVar('SymmetryMeasurements_plugin_path', p_path)
 from PluginTools import PluginTools as PT
 
 
-def can_find_shape_msg(silent=True):
+'''def can_find_shape_msg(silent=True):
     shape_path = shutil.which("shape")
     if shape_path is None:
         print(f"Unable to find shape.exe in the system path.")
@@ -138,7 +139,7 @@ def run_shape(folder):
         print(out)  # Send Enter key (newline character)
 
     output_files = [f[:-4] for f in dat_files]
-    return output_files
+    return output_files'''
 
 
 def autoSHAPE():
@@ -173,9 +174,11 @@ def parse_shape_tab(tab_path):
         # Find the polyhedra table
         # (Label    N   Symm    Name)
         shape_labels = []
+        shape_names = []
         for tab_line in lines[5:]: # The array splicing skips the header of the tab file. That messes up the search
             if len(tab_line.split()) >= 4 and tab_line.split()[1].isdigit():
                 shape_labels.append(tab_line.split()[0])
+                shape_names.append(tab_line.split()[-1])
 
         #print(shape_labels)
         # Second pass through the tab file to find the data with the CShMs
@@ -193,24 +196,24 @@ def parse_shape_tab(tab_path):
         atom_label = parts[0]
         values = [float(v) for v in parts[1:]]
 
-        return atom_label, shape_labels, values
+        return atom_label, shape_names, shape_labels, values
 
 
 def print_shape_table(tab_path):
     result = parse_shape_tab(tab_path)
     if result is None:
         return False
-    atom_label, shape_labels, values = result
+    atom_label, shape_names, shape_labels, values = result
     min_val = min(values)
-    print('\n'+'=' * 50)
-    print(f'SHAPE2.1 results for {atom_label} in {os.path.basename(tab_path)}:')
-    print('-'*50)
-    print(f"{'Polyhedron':<12}{'CShM':>10}")
-    print('-'*50)
-    for label, val in zip(shape_labels, values):
+    print('\n'+'=' * 60)
+    print(f'SHAPE 2.1 results for {atom_label} in {os.path.basename(tab_path)}:')
+    print('-'*60)
+    print(f"{'Polyhedron':<15}{'Symbol':<7}{'CShM':>10}")
+    print('-'*60)
+    for name, label, val in zip(shape_names, shape_labels, values):
         marker = ' <---- best fit' if val == min_val else ''
-        print(f'{label:<12}{val:>10}{marker:>10}')
-    print('='*50)
+        print(f'{name:<15}{label:<7}{val:>10}{marker:>10}')
+    print('='*60)
     return None
 
 
