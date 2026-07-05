@@ -2,14 +2,17 @@
 
 SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/)$^1$ plugin that serves as a bridge to [SHAPE 2.1](https://www.ee.ub.edu/continuous-shape-and-symmetry-measures/)$^2$ to calculate Continuous Shape Measures (CShM's) directly from within Olex2.
 
-## Requirements
+### Features
+- All analysis methods in Symmetry Measurements will read the atomic coordinates directly from the `OlexRefinementModel` — no manual input files needed.
+- SHAPE 2.1 direct bridge and output parser.
+- Octahedral distortion parameter calculations.
 
+
+## Requirements
 - Olex2 1.5.
 - SHAPE 2.1 executable available on your system `PATH`.
   - Download [SHAPE2.1 from the Electronic Strucutre Group's webpage](https://www.ee.ub.edu/downloads/)
 
-## Features
-All analysis methods in Symmetry Measurements will read the atomic coordinates directly from the `OlexRefinementModel` — no manual input files needed.
 ## AutoSHAPE
 - Generates the necessary `.dat` input files for SHAPE automatically.
 - Runs SHAPE and parses the resulting `.tab` output.
