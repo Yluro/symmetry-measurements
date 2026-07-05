@@ -42,8 +42,8 @@ where $d_i$ is individual M-X bond distance and $d_{mean}$ is the mean metal-lig
 ```math
 \Sigma = \sum_{i=1}^{12} |90^\circ - \phi_i|
 ```
-- Trans angle distortion:
 where $\phi_i$ are the cis angles.
+- Trans angle distortion:
 ```math
 \tau = \sum_{i=1}^3 |180^\circ - \psi_i|
 ```
