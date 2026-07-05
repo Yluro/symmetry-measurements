@@ -19,7 +19,7 @@ class CalcDistortion:
         self.central_atom = self.coords[0]
         self.vertices = self.coords[1:]
 
-        self.vectors = self.calc_vectors() # Vectors pointing from metal to ligand
+        self.vectors = np.array(coord - self.central_atom for coord in self.vertices) # Vectors pointing from metal to ligand
         self.norm_vectors = np.array([v / np.linalg.norm(v) for v in self.vectors])
 
         self.bond_distances = self.calc_bond_distances()
@@ -46,6 +46,7 @@ class CalcDistortion:
 
         # Final calculations
         self.zeta = self.calc_zeta()
+        self.delta = self.calc_delta()
         self.sigma = self.calc_sigma()
         self.theta = self.calc_theta()
 
@@ -106,13 +107,6 @@ class CalcDistortion:
         self.coords = np.array(coords, dtype=np.float64)
 
 
-    def calc_vectors(self):
-        vs = []
-        for coord in self.vertices:
-            v = coord - self.central_atom
-            vs.append(v)
-        return np.array(vs)
-
     def calc_bond_distances(self):
         ds = []
         for v in self.vectors:
@@ -134,6 +128,9 @@ class CalcDistortion:
     def calc_zeta(self) -> float:
         deviations = [np.abs(d - self.mean_bond_distance) for d in self.bond_distances]
         return np.sum(deviations)
+
+    def calc_delta(self) -> float:
+        return np.sum(np.power((bond_distance - self.mean_bond_distance)/self.mean_bond_distance, 2) for bond_distance in self.bond_distances) / 6
 
     def calc_sigma(self) -> float:
         sigma = np.sum(np.abs(90 - self.cis_angles))
@@ -254,6 +251,7 @@ class CalcDistortion:
         print('-' * 70)
         print(f"{'Mean d(M-X)':<12}{self.mean_bond_distance:>12.4f}{'   '}{'Ang':<12}")
         print(f"{'Zeta':<12}{self.zeta:>12.4f}{'   '}{'Ang':<12}")
+        print(f"{'Zeta':<12}{self.delta:>12.4f}{'   '}{'':<12}")
         print(f"{'Sigma':<12}{self.sigma:>12.4f}{'   '}{'deg':<12}")
         print(f"{'Theta':<12}{self.theta:>12.4f}{'   '}{'deg':<12}")
         print(f"{'Volume':<12}{self.volume:>12.4f}{'   '}{'Ang^3':<12}")
@@ -272,7 +270,7 @@ class CalcDistortion:
         plt.tight_layout()
 
         ax.scatter(self.central_atom[0], self.central_atom[1], self.central_atom[2], color='blue', s=50, zorder=5)
-        ax.scatter(self.vertices[:, 0], self.vertices[:, 1], self.vertices[:, 2], color='red', s=50, zorder=5)
+        ax.scatter(self.vertices[:,0], self.vertices[:,1], self.vertices[:,2], color='red', s=50, zorder=5)
 
         colors = plt.cm.tab10(np.linspace(0, 1, len(self.faces)))
 
