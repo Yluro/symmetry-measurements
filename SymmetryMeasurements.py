@@ -167,9 +167,12 @@ def autoOCTADIST():
     sel = olex.f('sel()')  # Gets the selection
     if sel != '':
         label = sel.split(' ')
+        if len(label) != 1:
+            print(f'Invalid atom selection: expected 1 atom, found {len(label)}.')
+            return False
         poly = build_polyhedra_from_centre(label)
         if len(poly) != 7:
-            print('Invalid polyhedra: central atom has more than six connected atoms.')
+            print(f'Invalid polyhedra: expected 6 atoms connected to the central atom, found {len(poly) - 1}.')
             return False
 
         #print('Valid 6-coordinate atom.')
@@ -177,13 +180,14 @@ def autoOCTADIST():
         calculation = CalcDistortion(poly)
         calculation.print_results(os.path.basename(olx.FilePath()))
         print(f'Opposite vertices {calculation.opposite_vertices}')
+        print([calculation.labels[v] for v in calculation.opposite_vertices.flatten()])
         print(f'Opposite faces {calculation.opposite_faces}')
         print(f'Found {len(calculation.faces)} faces.')
         calculation.draw_octahedron()
 
         return True
     else:
-        print('No atom selected.')
+        print('Invalid atom selection: no atom selected.')
         return False
 
 
