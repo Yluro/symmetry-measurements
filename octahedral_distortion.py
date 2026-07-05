@@ -277,16 +277,20 @@ class CalcDistortion:
         # Olex2 uses non GUI version of matplotlib so
         # I can only save graphs and show them later
         # - I cannot get 3d view.
-        plt.show()
+        try:
+            plt.show()
+        except UserWarning:
+            plt.close()
         ## For using inside Olex
         try:
             save_dir = os.path.join(olx.FilePath(), 'Oh_distortion')
             if not os.path.exists(save_dir):
                 os.makedirs(save_dir)
-                plt.savefig(os.path.join(save_dir, 'octahedron.png'))
-                plt.savefig('octahedron.png')
-                print(f'Octahedron graph saved to {save_dir}.')
+            plt.savefig(os.path.join(save_dir, 'octahedron.png'))
+            #plt.savefig('octahedron.png')
+            print(f'Octahedron graph saved to {save_dir}.')
+            plt.close()
         except:
-            pass
+            plt.close()
 
 # Draw planes function, absolute mess made by claude I don't understand anything.
