@@ -13,11 +13,25 @@ SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/)$^1$ plugin th
 - SHAPE 2.1 executable available on your system `PATH`.
   - Download [SHAPE2.1 from the Electronic Strucutre Group's webpage](https://www.ee.ub.edu/downloads/)
 
+## Instalation
+1. Download the source code from any GitHub release.
+2.  Go to the base directory of your Olex2 instalation. You can open the directory by typing `shell BaseDir()` in the Olex2 console.
+3. Create a file called `plugins.xld` and write the following contents inside `plugins.xld`:
+```xml
+<Plugin
+ <SymmetryMeasurements>
+>
+```
+4. Go to the `BaseDir\util\pyUtil\PluginLib\` folder and create a folder called `plugin-SymmetryMeasurements`.
+5. Extract the downloaded zip into that folder.
+6. On restarting Olex2, a SymmetryMeasurements window should appear under the Tools tab.
+
 ## AutoSHAPE
-[SHAPE 2.1](https://www.ee.ub.edu/continuous-shape-and-symmetry-measures/)$^2$ is a software published by ESG used to calculate Continuous Shape Measures (CShM's). Symmetry Measurements automatically:
-- Generates the necessary `.dat` input files for SHAPE automatically.
-- Runs SHAPE and parses the resulting `.tab` output.
-- Creates a dedicated folder inside the current dataset directory (`FilePath/autoSHAPE/`) containing all input and output files.
+[SHAPE 2.1](https://www.ee.ub.edu/continuous-shape-and-symmetry-measures/)$^2$ is a software published by ESG used to calculate Continuous Shape Measures (CShM's). autoSHAPE used to be a collection of Python scripts to run and parse SHAPE files. Symmetry Measurements contains an implementation of autoSHAPE to:
+- Generate the necessary `.dat` input files for SHAPE automatically.
+- Run SHAPE and parse the resulting `.tab` output.
+- Output a summary table from the `.out` and `.tab` files.
+SM's autoSHAPE does not overwrite previous runs as it stores each run in a dedicated folder inside `FilePath\autoSHAPE\` .
 
 ### Usage
 
@@ -27,7 +41,7 @@ SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/)$^1$ plugin th
 4. Results are printed to the console and saved in `<dataset_path>/autoSHAPE/`.
 
 ## Octahedral Distortion Parameters.
-Symmetry Measurements comes with a reimplementation of the [OctaDist](https://octadist.github.io/)$^3$ algorithm. This implementation is based on a topological approach. Several features from the original program have been pruned for the ease of portability to Olex2 and overall redundancy. The Octahedral distortion parameters module calculates all the values normally produced by Octadist.Values are normally consistent with OctaDist. 
+Symmetry Measurements comes with a reimplementation of the [OctaDist](https://octadist.github.io/)$^3$ algorithm. This implementation is based on a topological approach. Several features from the original program have been pruned for the ease of portability to Olex2 and overall redundancy. The Octahedral distortion parameters module calculates all the values normally produced by Octadist plus a $\tau$ parameter that tells the deviation from the ideal $180^\circ$ degree trans angles. **Values are normally consistent with OctaDist but may differ in extremely distorted octahedrons or ideal trigonal prisms.** 
 - Bond length distortion:
 ```math
 \zeta = \sum_{i=1}^6 |d_i - d_{mean}|
@@ -38,7 +52,7 @@ where $d_i$ are the M-X bond distances and $d_{mean}$ is the mean M-X bond dista
 \Delta = \sum_{i=1}^6 \left(\frac{d_i - d_{mean}}{d_{mean}}\right)^2
 ```
 where $d_i$ are the M-X bond distances and $d_{mean}$ is the mean M-X bond distance.
-- Cis-angle distortion:
+- Cis angle distortion:
 ```math
 \Sigma = \sum_{i=1}^{12} |90^\circ - \phi_i|
 ```
