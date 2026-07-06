@@ -190,6 +190,13 @@ def autoOCTADIST():
         print('Invalid atom selection: no atom selected.')
         return False
 
+def shape_status_html():
+    import shutil
+    where = shutil.which('shape')
+    found = where is not None
+    color = OV.GetParam('gui.green') if found else OV.GetParam('gui.grey')
+    text = f'SHAPE executable found at: {where}' if found else 'Unable to find shape.exe in the system path.'
+    return f"<font color='{color}'>{text}</font>"
 
 class SymmetryMeasurements(PT):
     def __init__(self):
@@ -214,6 +221,7 @@ class SymmetryMeasurements(PT):
         OV.registerFunction(autoSHAPE, True, "SymmetryMeasurements")
         OV.registerFunction(autoOCTADIST, True, "SymmetryMeasurements")
         OV.registerFunction(build_poly_on_sel, True, "SymmetryMeasurements")
+        OV.registerFunction(shape_status_html, False, 'SymmetryMeasurements')
     # END Generated =======================================
 
 

@@ -1,5 +1,4 @@
 import shutil
-import olx
 import os
 import subprocess
 from constants import *
@@ -9,13 +8,15 @@ from collections.abc import Iterable
 
 
 class DatHandler:
-    def __init__(self, polyhedron, centered=True, keywords='\n%fullout'):
+    def __init__(self, polyhedron, centered=True, keywords: list[str] =['%fullout']):
         self.labels = []
         self.coords = []
         self._parse_input(polyhedron)  # Parse Input updates values of coords and labels
-        self.dat_title = 0
+        self.dat_title = f'$ {olx.FileName()}_{self.labels[0]}\n'
+        self.can_find_shape = can_find_shape_msg()
 
-        self.dat_keywords = keywords
+        self.dat_keywords = '\n'.join(keywords)+('\n'
+                                                 '')
         if centered:
             self.centre = 1
             self.ligands = len(self.coords) - 1
@@ -23,6 +24,21 @@ class DatHandler:
             self.centre = 0
             self.ligands = len(self.coords)
 
+        self.positions = f'{self.ligands} {self.centre}\n'
+
+        try:
+            self.geometries = f'{REF_SHAPE_DICT[self.ligands]}\n'  # The SHAPE2.1 documentation gives these strings of numbers
+
+        except KeyError:
+            print(f'No defined geometries for {self.ligands} vertices. Check the structure for extra bonds.')
+
+        self.subtitle = f'{self.labels[self.centre]}\n'.upper()
+        self.table = '\n'.join(f'{label} {xyz}' for label, xyz in polyhedra)  # Joins all rows of the table
+        self.dat_file_contents = self.dat_title + self.dat_keywords + self.positions + self.geometries + self.subtitle + self.table
+
+
+    def write_tab(self, folder):
+        pass
 
 
     def _parse_input(self, polyhedra):
