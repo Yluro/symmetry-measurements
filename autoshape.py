@@ -198,7 +198,7 @@ def print_shape_table(tab_path):
     if result is None:
         return False
     atom_label, shape_names, shape_labels, values = result
-Re    max_name_length = max(len(name) for name in shape_names) + 2
+    max_name_length = max(len(name) for name in shape_names) + 2
     min_val = min(values)
     print('\n'+'=' * 65)
     print(f'SHAPE 2.1 results for {atom_label} in {os.path.basename(tab_path)}:')
