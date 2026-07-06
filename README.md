@@ -13,6 +13,8 @@ SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/)$^1$ plugin th
 - SHAPE 2.1 executable available on your system `PATH`.
   - Download [SHAPE2.1 from the Electronic Strucutre Group's webpage](https://www.ee.ub.edu/downloads/)
 
+The plugin was developed/tested using a Windows 10/11 machine. The plugin should be system agnostic but please report any bugs found in any other operating systems.
+
 ## Instalation
 1. Download the source code from the lastest GitHub release.
 2.  Go to the base directory of your Olex2 instalation. You can open the directory by typing `shell BaseDir()` in the Olex2 console.
