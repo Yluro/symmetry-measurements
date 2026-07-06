@@ -152,6 +152,12 @@ def build_poly_on_sel():
 
 
 def parse_coordinate(xyz):
+    """
+    Parses a coordinate into a tuple of floats,
+    Accepts any Iter(float) or strings separated by spaces.
+    :param xyz: Iter(Any) or str
+    :return crd: tuple(x, y, z)
+    """
     crd = None
     if isinstance(xyz, str):
         crd = tuple(map(float, xyz.split(' ')))
