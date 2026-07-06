@@ -1,19 +1,15 @@
- - [x] Make get_xyz() function
- - [X] Make build_polyhedra_function()
- - [X] Make run_shape()
+
  - [ ] Make GUI panel
- - [X] Make constants.py
- - [X] Deal with ASUnit
-   - (3, (1.332173751267887, 9.570147745635163, 1.1004595820674223), ((-1, 0, 0), (0, -1, 0), (0, 0, -1), (0.0, 1.0, 0.0))) Is a weird output from the 'neighbours' in orm
-   - I think its basically that neighbours lists:
-     - The atom with tag '3'
-     - And its related symmetry atom '3, (symmetry operations)'
+ - [ ] Make SelectionHandler() Class
+ - [ ] Make ShapeInput() handler Class
  - [ ] Deal with Disorder
  - [ ] Make SMART polyhedra builder.
  - [ ] Read Nature Paper https://www.nature.com/articles/s41467-025-66054-7
  - [ ] Incorporate other programs. Not only SHAPE2.1
+ - [x] Make get_xyz() function
+ - [X] Make build_polyhedra_function()
+ - [X] Make run_shape()
+ - [x] Theta calculation:
  - [x] Half made octadist reimplementation
-   - Theta calculation:
-     - 1. For each pair of oposite faces:
-     - Make orthogonal projection of points:
-     - Get the angles between the vectors of the front face and back face if vectors are not from oposite points.
+ - [X] Make constants.py
+ - [X] Deal with ASUnit
