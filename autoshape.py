@@ -198,17 +198,15 @@ def print_shape_table(tab_path):
     if result is None:
         return False
     atom_label, shape_names, shape_labels, values = result
-    length = max(len(name) for name in shape_names) + 2
-
-
+Re    max_name_length = max(len(name) for name in shape_names) + 2
     min_val = min(values)
-    print('\n'+'=' * 60)
+    print('\n'+'=' * 65)
     print(f'SHAPE 2.1 results for {atom_label} in {os.path.basename(tab_path)}:')
-    print('-'*60)
-    print(f"{'Polyhedron':<{length}}{'Symbol':<7}{'CShM':>10}")
-    print('-'*60)
+    print('-'*65)
+    print(f"{'Polyhedron':<{max_name_length}}{'Symbol':<10}{'CShM':>10}")
+    print('-'*65)
     for name, label, val in zip(shape_names, shape_labels, values):
         marker = ' <---- best fit' if val == min_val else ''
-        print(f'{name:<{length}}{label:<7}{val:>10}{marker:>10}')
-    print('='*60)
+        print(f'{name:<{max_name_length}}{label:<10}{val:>10}{marker:>10}')
+    print('='*65)
     return None
