@@ -22,7 +22,7 @@ SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/)$^1$ plugin th
  <SymmetryMeasurements>
 >
 ```
-4. Go to the `BaseDir\util\pyUtil\PluginLib\` folder and create a folder called `plugin-SymmetryMeasurements`.
+4. Go to the `<BaseDir>\util\pyUtil\PluginLib\` folder and create a folder called `plugin-SymmetryMeasurements`.
 5. Extract the downloaded zip into that folder.
 6. On restarting Olex2, a SymmetryMeasurements window should appear under the Tools tab.
 
@@ -31,14 +31,14 @@ SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/)$^1$ plugin th
 - Generate the necessary `.dat` input files for SHAPE automatically.
 - Run SHAPE and parse the resulting `.tab` output.
 - Output a summary table from the `.out` and `.tab` files.
-SM's autoSHAPE does not overwrite previous runs as it stores each run in a dedicated folder inside `FilePath\autoSHAPE\` .
+SM's autoSHAPE does not overwrite previous runs as it stores each run in a dedicated folder inside `<FilePath>\autoSHAPE\` .
 
 ### Usage
 
 1. Open a structure in Olex2.
 2. Select the central atom of the polyhedron you want to analyse.
 3. Run `spy.SymmetryMeasurements.autoSHAPE()` from the Olex2 console or from the Tools/SymmetryMeasurements panel.
-4. Results are printed to the console and saved in `<dataset_path>/autoSHAPE/`.
+4. Results are printed to the console and saved in `<FilePath>/autoSHAPE/`.
 
 ## Octahedral Distortion Parameters.
 Symmetry Measurements comes with a reimplementation of the [OctaDist](https://octadist.github.io/)$^3$ algorithm. This implementation is based on a topological approach. Several features from the original program have been pruned for the ease of portability to Olex2 and overall redundancy. The Octahedral distortion parameters module calculates all the values normally produced by Octadist plus a $\tau$ parameter that tells the deviation from the ideal $180^\circ$ degree trans angles. **Values are normally consistent with OctaDist but may differ in extremely distorted octahedrons or ideal trigonal prisms.** 
@@ -72,7 +72,7 @@ where $\theta_i$ are the individual twisting angles between the vectors of two o
 1. Open a structure in Olex2.
 2. Select the central atom of a 6-coordinate complex.
 3. Run `spy.SymmetryMeasurements.autoOCTADIST()`
-4. Results are printed in the console. A graph will saved in `FilePath/OH_distortion` showing the extracted octahedron. 
+4. Results are printed in the console. A graph will saved in `<FilePath>/OH_distortion` showing the extracted octahedron. 
 
 
 ## Known Limitations / TODO
