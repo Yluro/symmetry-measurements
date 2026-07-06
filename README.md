@@ -66,7 +66,7 @@ where $\psi_i$ are the trans angles.
 ```math
 \Theta = \sum_{i=1}^{24}  |60^\circ - \theta_i|
 ```
-where $\theta_i$ are the individual twisting angles between the vectors of two opposite faces.
+where $\theta_i$ are twisting angles between vectors of two opposite faces.
 
 ### Usage
 1. Open a structure in Olex2.
