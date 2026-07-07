@@ -5,10 +5,10 @@ from constants import *
 from helper_functions import *
 import numpy as np
 from collections.abc import Iterable
-
+from typing import List
 
 class DatHandler:
-    def __init__(self, polyhedron, centered=True, keywords: list[str] =['%fullout']):
+    def __init__(self, polyhedron, centered=True, keywords: List[str] =['%fullout']):
         self.labels = []
         self.coords = []
         self._parse_input(polyhedron)  # Parse Input updates values of coords and labels
