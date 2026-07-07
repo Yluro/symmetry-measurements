@@ -184,6 +184,8 @@ def autoOCTADIST():
         #print(f'Opposite faces {calculation.opposite_faces}')
         #print(f'Found {len(calculation.faces)} faces.')
         calculation.draw_octahedron()
+        print('This calculations were made using a reimplementation of the OctaDist algorithm by David J. Harding.')
+        print('Ketkaew, R., Tantirungrotechai, Y., Harding, P., Chastanet, G., Guionneau, P., Marchivie, M., & Harding, D. J. (2021). OctaDist: a tool for calculating distortion parameters in spin crossover and coordination complexes. Dalton Transactions, 50(3), 1086–1096.')
 
         return True
     else:
