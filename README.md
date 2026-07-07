@@ -2,7 +2,7 @@
 
 SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/)$^1$ plugin that integrates several symmetry and shape analysis tools into a single graphical interface within Olex2.
 ### Features
-- All analysis methods in Symmetry Measurements will read the atomic coordinates directly from the `OlexRefinementModel` — no manual input files needed.
+- All analysis methods in Symmetry Measurements will read the atomic coordinates directly from the `OlexRefinementModel` — no external input files needed.
 - Olex2 GUI panel.
 - SHAPE 2.1 wrapper and output parser.
 - Octahedral distortion parameters calculation.
