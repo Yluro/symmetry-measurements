@@ -11,7 +11,7 @@ SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/)$^1$ plugin th
 ## Requirements
 - Olex2 1.5.
 - SHAPE 2.1 executable available on your system `PATH`.
-  - Download [SHAPE2.1 from the Electronic Strucutre Group's webpage](https://www.ee.ub.edu/downloads/)
+  - Download SHAPE 2.1 from the [Electronic Strucutre Group's webpage](https://www.ee.ub.edu/downloads/)
 
 The plugin was developed/tested using a Windows 10/11 machine. The plugin should be system agnostic but please report any bugs found in any other operating systems.
 
@@ -43,7 +43,7 @@ SM's autoSHAPE does not overwrite previous runs as it stores each run in a dedic
 4. Results are printed to the console and saved in `<FilePath>/autoSHAPE/`.
 
 ## Octahedral Distortion Parameters.
-Symmetry Measurements comes with a reimplementation of the [OctaDist](https://octadist.github.io/)$^3$ algorithm. This implementation is based on a topological approach. Several features from the original program have been pruned for the ease of portability to Olex2 and overall redundancy. The Octahedral distortion parameters module calculates all the values normally produced by Octadist plus a $\tau$ parameter that tells the deviation from the ideal $180^\circ$ degree trans angles. **Values are normally consistent with OctaDist but may differ in extremely distorted octahedrons or ideal trigonal prisms.** 
+Symmetry Measurements comes with a reimplementation of the [OctaDist](https://octadist.github.io/)$^3$ algorithm. This implementation is based on topological arguments to find oposite faces and vertices of an octahedron and is dependant on fiding a convex hull topologically equivalent to a octahedron, this algorithm, while simpler than OctaDist's is known to fail if more than 3 points are coplanar and the convex hull degenerates to other shapes. Several features from the original program have been pruned for the ease of portability to Olex2 and overall redundancy. The Octahedral distortion parameters module calculates all the values normally produced by Octadist plus a $\tau$ parameter that tells the deviation from the ideal $180^\circ$ degree trans angles. **Values obtained for the parameters are consistent with OctaDist but may differ in extremely distorted octahedrons or ideal trigonal prisms.** 
 - Bond length distortion:
 ```math
 \zeta = \sum_{i=1}^6 |d_i - d_{mean}|
