@@ -79,12 +79,14 @@ where $\theta_i$ are twisting angles between vectors of two opposite faces.
 
 ## Known Limitations / TODO
 
-- [ ] Cannot handle disordered structures yet.
+- [ ] Disordered structures.
+- [ ] Non centered shapes.
 - [ ] Centroid search for pi-bonded olenfins and Cp ligands.
+- [ ] Custom reference shapes.
 - [ ] Smarter program logic (automatic coordination site detection, multiple selections, etc.).
 - [x] Reimplementation of octahedral distortion parameters (Zeta, Sigma, Theta) — relevant for spin-crossover (SCO) complexes.
 - [ ] Support for other symmetry measurement programs (Polynator, Continuous Symmetry Operations, etc.)
-- [ ] Clean html UI.
+- [x] Clean html UI.
 
 ## License
 - Not yet.
