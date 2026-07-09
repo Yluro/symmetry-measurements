@@ -173,3 +173,8 @@ def parse_coordinate(xyz):
         raise ValueError(f'Invalid coordinate. Expected 3 coordinates, found {len(crd)}.')
 
     return crd
+
+
+def print_console_bs():
+    import inspect
+    print(inspect.getsource(olexex.install_plugin))

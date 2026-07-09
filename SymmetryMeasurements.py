@@ -224,6 +224,7 @@ class SymmetryMeasurements(PT):
         OV.registerFunction(autoOCTADIST, True, "SymmetryMeasurements")
         OV.registerFunction(build_poly_on_sel, True, "SymmetryMeasurements")
         OV.registerFunction(shape_status_html, False, 'SymmetryMeasurements')
+        OV.registerFunction(print_console_bs, False, 'SymmetryMeasurements')
     # END Generated =======================================
 
 

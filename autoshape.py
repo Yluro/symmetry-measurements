@@ -225,4 +225,6 @@ def print_shape_table(tab_path):
         marker = ' <---- best fit' if val == min_val else ''
         print(f'{name:<{max_name_length}}{label:<10}{val:>10}{marker:>10}')
     print('='*65)
+    if min_val > 10:
+        print(f'Extremely distorted geometries found for {atom_label}. Make sure there is no unnatural bonds in the model.')
     return None
