@@ -79,7 +79,7 @@ where $\theta_i$ are twisting angles between vectors of two opposite faces.
 ### Usage
 1. Open a structure in Olex2.
 2. Select the central atom of a 6-coordinate complex.
-3. Run `spy.SymmetryMeasurements.autoOCTADIST()`
+3. Run `spy.SymmetryMeasurements.autoOCTADIST()` from the Olex2 console or from the Tools/SymmetryMeasurements panel.
 4. Results are printed in the console. A graph will saved in `<FilePath>/OH_distortion` showing the extracted octahedron. 
 
 
