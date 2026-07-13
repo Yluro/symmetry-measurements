@@ -26,7 +26,7 @@ The plugin was developed/tested using a Windows 10/11 machine. The plugin should
 ```
 4. Go to the `<BaseDir>\util\pyUtil\PluginLib\` folder and create a folder called `plugin-SymmetryMeasurements`.
 5. Extract the downloaded zip into that folder.
-6. On restarting Olex2, a SymmetryMeasurements window should appear under the Tools tab.
+6. On restarting Olex2, a SymmetryMeasurements panel should appear under the Tools tab.
 
 ## AutoSHAPE
 [SHAPE 2.1](https://www.ee.ub.edu/continuous-shape-and-symmetry-measures/)$^2$ is a software published by ESG used to calculate Continuous Shape Measures (CShM's). autoSHAPE used to be a collection of Python scripts to run and parse SHAPE files. Symmetry Measurements contains an implementation of autoSHAPE to:
