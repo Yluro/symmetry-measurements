@@ -26,7 +26,7 @@ The plugin was developed/tested using a Windows 10/11 machine. The plugin should
 ```
 4. Go to the `<BaseDir>\util\pyUtil\PluginLib\` folder and create a folder called `plugin-SymmetryMeasurements`.
 5. Extract the downloaded zip into that folder.
-6. On restarting Olex2, a SymmetryMeasurements window should appear under the Tools tab.
+6. On restarting Olex2, a SymmetryMeasurements panel should appear under the Tools tab.
 
 ## AutoSHAPE
 [SHAPE 2.1](https://www.ee.ub.edu/continuous-shape-and-symmetry-measures/)$^2$ is a software published by ESG used to calculate Continuous Shape Measures (CShM's). autoSHAPE used to be a collection of Python scripts to run and parse SHAPE files. Symmetry Measurements contains an implementation of autoSHAPE to:
@@ -43,7 +43,13 @@ SM's autoSHAPE does not overwrite previous runs as it stores each run in a dedic
 4. Results are printed to the console and saved in `<FilePath>/autoSHAPE/`.
 
 ## Octahedral Distortion Parameters.
-Symmetry Measurements comes with a reimplementation of the [OctaDist](https://octadist.github.io/)$^3$ algorithm. This implementation is based on topological arguments to find oposite faces and vertices of an octahedron and is dependant on fiding a convex hull topologically equivalent to a octahedron, this algorithm, while simpler than OctaDist's, is known to fail if more than 3 points are coplanar and the convex hull degenerates to other shapes. Several features from the original program have been pruned for the ease of portability to Olex2 and overall redundancy. The Octahedral distortion parameters module calculates all the values normally produced by Octadist plus a $\tau$ parameter that tells the deviation from the ideal $180^\circ$ degree trans angles. **Values obtained for the parameters are consistent with OctaDist but may differ in extremely distorted octahedrons or ideal trigonal prisms.** 
+Symmetry Measurements includes a reimplementation of the [OctaDist](https://octadist.github.io/)$^3$ algorithm. Unlike the original implementation, this version identifies opposite faces and vertices of an octahedron using topological criteria. It relies on constructing a convex hull that is topologically equivalent to an octahedron. As a result, the algorithm may fail when more than three vertices are coplanar, causing the convex hull to degenerate into a different polyhedral shape.
+
+Several features of the original OctaDist program have been omitted to simplify integration with Olex2 and to remove redundant functionality.
+
+The Octahedral Distortion Parameters module computes all distortion parameters reported by OctaDist, together with an additional $\tau$ parameter that quantifies the deviation of trans angles from the ideal 180 $^\circ$. The calculated values are generally consistent with those produced by OctaDist, although discrepancies may occur for highly distorted octahedra or for structures approaching an ideal trigonal prism.
+
+
 - Bond length distortion:
 ```math
 \zeta = \sum_{i=1}^6 |d_i - d_{mean}|
@@ -73,7 +79,7 @@ where $\theta_i$ are twisting angles between vectors of two opposite faces.
 ### Usage
 1. Open a structure in Olex2.
 2. Select the central atom of a 6-coordinate complex.
-3. Run `spy.SymmetryMeasurements.autoOCTADIST()`
+3. Run `spy.SymmetryMeasurements.autoOCTADIST()` from the Olex2 console or from the Tools/SymmetryMeasurements panel.
 4. Results are printed in the console. A graph will saved in `<FilePath>/OH_distortion` showing the extracted octahedron. 
 
 
