@@ -73,7 +73,7 @@ def get_neighbours(atom_labels):
         # next finds the first occurrence in orm_atoms in which the label matches
         # with the sel and returns the atoms neighbours as a tuple of tags:
         neighbour_tags = next((atom['neighbours'] for atom in orm_atoms if atom['label'] == atom_label), ())
-        #tags is an empty tuple if it wasn't found in the orm: selected a Qpick
+        #tags is an empty tuple if it wasn't found in the orm: selected a Q-peak
         #tags is a list of len() = 0 if selected a
         if neighbour_tags is None or len(neighbour_tags) == 0:
             print(f'No connected atoms to {atom_label}.')
@@ -87,7 +87,7 @@ def get_neighbours(atom_labels):
 
 
         # DEPRECATED - THIS CODE HERE RETURNED THE NEIGHBOURHOOD AS A LIST OF UNIQUE TAGS - DEPRECATED
-        # NOW THIS FUNTIONS RETURNS A LIST OF UNIQUE NEIGHBOUR LABELS
+        # NOW THIS FUNCTIONS RETURNS A LIST OF UNIQUE NEIGHBOUR LABELS
         '''for tag in neighbour_tags:  
             if tag not in neighbour_tags:
                 neighbour_tags.append(tag)
@@ -178,3 +178,16 @@ def parse_coordinate(xyz):
 def print_console_bs():
     import inspect
     print(inspect.getsource(olexex.install_plugin))
+
+
+class MolecularStructure:
+    def __init__(self, labels, coords):
+        self.structure = labels
+        self.coords = coords
+
+
+
+class CoordinationStructure(MolecularStructure):
+    def __init__(self, labels, coords):
+        super().__init__(labels, coords)
+        self.centre = self.structure.centre
