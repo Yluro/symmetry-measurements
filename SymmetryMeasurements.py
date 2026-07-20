@@ -150,8 +150,8 @@ def autoSHAPE():
             poly = build_polyhedra_from_centre(label)
             if poly is None:
                 return None
-            file_contents, title = build_dat_file(poly)
-            folder = write_dat(file_contents, title)
+            shape_measurement = ShapeCalculation(poly, olx.FileName(), True, ['%fullout'])
+            folder = shape_measurement.write_tab(olx.FilePath())
             files = run_shape(folder)
             for f in files:
                 print_shape_table(os.path.join(folder, f'{f}.tab'))
@@ -184,8 +184,8 @@ def autoOCTADIST():
         #print(f'Opposite faces {calculation.opposite_faces}')
         #print(f'Found {len(calculation.faces)} faces.')
         calculation.draw_octahedron()
-        print('This calculations were made using a reimplementation of the OctaDist algorithm by David J. Harding.')
-        print('Ketkaew, R., Tantirungrotechai, Y., Harding, P., Chastanet, G., Guionneau, P., Marchivie, M., & Harding, D. J. (2021). OctaDist: a tool for calculating distortion parameters in spin crossover and coordination complexes. Dalton Transactions, 50(3), 1086–1096.')
+        print('\nThis calculations were made using a reimplementation of the OctaDist algorithm by David J. Harding et al.')
+        print('Ketkaew, R., Tantirungrotechai, Y., Harding, P., Chastanet, G., Guionneau, P., Marchivie, M., & Harding, D. J. (2021). OctaDist: a tool for calculating distortion parameters in spin crossover and coordination complexes. Dalton Transactions, 50(3), 1086-1096.')
 
         return True
     else:
