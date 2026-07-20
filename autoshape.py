@@ -7,23 +7,26 @@ import numpy as np
 from collections.abc import Iterable
 from typing import List
 
-class DatHandler:
-    def __init__(self, polyhedron, centered=True, keywords: List[str] =['%fullout']):
+class ShapeCalculation:
+    def __init__(self, polyhedron, file_name: str, centered: bool, keywords: List[str]):
         self.labels = []
         self.coords = []
         self._parse_input(polyhedron)  # Parse Input updates values of coords and labels
-        self.dat_title = f'$ {olx.FileName()}_{self.labels[0]}\n'
         self.can_find_shape = can_find_shape_msg()
-
+        self.is_centered = centered
+        self.file_name = file_name
         self.dat_keywords = '\n'.join(keywords)+('\n'
                                                  '')
         if centered:
             self.centre = 1
             self.ligands = len(self.coords) - 1
+            self.dat_title = f'$ {self.file_name}_{self.labels[0]}\n'
         else:
             self.centre = 0
             self.ligands = len(self.coords)
+            self.dat_title = f"$ {self.file_name}_{''.join(self.labels)}\n"
 
+        self.subfolder_name = self.dat_title.strip().split(' ')[-1]
         self.positions = f'{self.ligands} {self.centre}\n'
 
         try:
@@ -33,11 +36,34 @@ class DatHandler:
             print(f'No defined geometries for {self.ligands} vertices. Check the structure for extra bonds.')
 
         self.subtitle = f'{self.labels[self.centre]}\n'.upper()
-        self.table = '\n'.join(f'{label} {xyz}' for label, xyz in polyhedra)  # Joins all rows of the table
+        self.table = '\n'.join(
+            f'{label} {" ".join(f"{x:g}" for x in xyz)}'
+            for label, xyz in zip(self.labels, self.coords)
+        )  # Joins all rows of the table
+
         self.dat_file_contents = self.dat_title + self.dat_keywords + self.positions + self.geometries + self.subtitle + self.table
 
+    def write_tab(self, file_path):
 
-    def write_tab(self, folder):
+        for i in range(9):
+            file_name = f'{self.subfolder_name}_{i}.dat'
+            file_dir = os.path.join(file_path, 'autoSHAPE', self.subfolder_name, str(i))
+            dat_file_path = os.path.join(file_dir, file_name)
+
+            if os.path.exists(dat_file_path):
+                continue
+
+            os.makedirs(file_dir, exist_ok=True)
+
+            with open(dat_file_path, 'w') as f:
+                print(f'Writing {file_name} at {dat_file_path}...')
+                f.write(self.dat_file_contents)
+
+            return file_dir
+
+        return None
+
+    def run_shape(self, ):
         pass
 
 
@@ -47,7 +73,7 @@ class DatHandler:
         [('centre', 'x y z'), ('L1', 'x y z'),...]
 
         The function will also get
-        :param input:
+        :param polyhedra:
         :return:
         """
         labels = []
@@ -135,7 +161,7 @@ def write_dat(dat_file_contents= None, title= None):
         file_dir = os.sep.join((base_dir, 'autoSHAPE', title.strip(), str(i)))
         file_path = os.sep.join((file_dir, file_name))
         i += 1
-        if i > 10: # Safe ward in case this While loop gets out of control.
+        if i > 9: # Safe ward in case this While loop gets out of control.
             break
 
     #print(f'Good file directory: {file_dir}')
@@ -226,5 +252,5 @@ def print_shape_table(tab_path):
         print(f'{name:<{max_name_length}}{label:<10}{val:>10}{marker:>10}')
     print('='*65)
     if min_val > 10:
-        print(f'Extremely distorted geometries found for {atom_label}. Make sure there is no unnatural bonds in the model.')
+        print(f'WARNING: extremely distorted geometries found for {atom_label}. Make sure there is no unnatural bonds in the model.')
     return None
