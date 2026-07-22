@@ -8,15 +8,12 @@ from collections.abc import Iterable
 
 
 class CalcDistortion:
-    def __init__(self, polyhedron):
-        self._DEFAULT_OH_LABELS = ['Z'] + [f'L{i}' for i in range(1, 7)]
+    def __init__(self, coords, labels=[]):
 
-        self.labels = self._DEFAULT_OH_LABELS
-        self.coords = []
-        self._parse_input(polyhedron) # Parse Input updates values of coords and labels
-
-        #print(self.coords)
-        #print(self.labels)
+        self.labels = labels
+        if not self.labels:
+            self.labels = ['Z'] + [f'L{i}' for i in range(1, 7)]
+        self.coords = np.array(coords, dtype=np.float64)
 
         #self.coords = np.array(points) # xyz Coordinates of central (first) and ligands (rest)
         self.central_atom = self.coords[0]

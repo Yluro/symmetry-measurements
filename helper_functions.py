@@ -46,11 +46,14 @@ def get_xyz_sel():
         return None
 
 
-def get_xyz(atom_label):
-    crd = olx.xf.au.GetAtomCrd(atom_label)
-    xyz = olx.xf.au.Orthogonalise(crd)
-    #print(xyz)
+def get_xyz(atom_tag):
+    crd = olx.xf.au.GetAtomCrd(atom_tag)
+    xyz_string = olx.xf.au.Orthogonalise(crd).split(' ')
+    xyz = tuple(float(x) for x in xyz_string)
     return xyz
+
+def get_part(atom_label):
+    return olx.xf.au.GetAtomPart(atom_label)
 
 
 def get_neighbours(atom_labels):
@@ -180,14 +183,69 @@ def print_console_bs():
     print(inspect.getsource(olexex.install_plugin))
 
 
-class MolecularStructure:
-    def __init__(self, labels, coords):
-        self.structure = labels
-        self.coords = coords
+class AtomSelection:
+    def __init__(self, selection_string):
+
+        self.labels = selection_string.split(' ')
+        self.tags = [get_id_from_label(label) for label in self.labels]
+        self.coords = [get_xyz(idx) for idx in self.tags]
+        self.parts = [get_part(idx) for idx in self.tags]
+
+        self.polyhedron = 0
 
 
+    def add_neighbours(self):
+        if not self.labels:
+            print("Could not find neighbours. Selection is empty.")
+            return []
 
-class CoordinationStructure(MolecularStructure):
-    def __init__(self, labels, coords):
-        super().__init__(labels, coords)
-        self.centre = self.structure.centre
+        orm_atoms = olexex.OlexRefinementModel().atoms()
+
+        for sel_label in self.labels.copy():
+            neighbour_tags = next((atom['neighbours']
+                                   for atom in orm_atoms
+                                   if atom['label'] == sel_label),
+                                  None)
+
+            if neighbour_tags is None:
+                print(f'Could not find neighbours for {sel_label}.')
+
+            unique_neighbours = []
+            for neighbour_tag in neighbour_tags:
+                if neighbour_tag not in unique_neighbours:
+                    unique_neighbours.append(neighbour_tag)
+
+            for neighbour_tag in unique_neighbours:
+                if type(neighbour_tag) == tuple:
+                    nei_label = get_label_from_id(neighbour_tag[0])
+                    coord = neighbour_tag[1]
+                    part = get_part(neighbour_tag[0])
+
+                    self.labels.append(nei_label)
+                    self.coords.append(coord)
+                    self.parts.append(part)
+
+                    pass
+                else:
+                    nei_label = get_label_from_id(neighbour_tag)
+                    coord = get_xyz(neighbour_tag)
+                    part = get_part(neighbour_tag)
+
+                    self.labels.append(nei_label)
+                    self.coords.append(coord)
+                    self.parts.append(part)
+
+
+        return None
+
+
+def test_selection_class():
+    selection = AtomSelection(olex.f('sel()'))
+    print(selection.labels)
+    print(selection.coords)
+    print(selection.parts)
+
+    selection.add_neighbours()
+    print(selection.labels)
+    print(selection.coords)
+    print(selection.parts)

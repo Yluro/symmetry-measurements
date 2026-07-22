@@ -143,54 +143,83 @@ def run_shape(folder):
 
 
 def autoSHAPE():
-    if can_find_shape_msg():
-        sel = olex.f('sel()') # Gets the selection
-        if sel != '':
-            label = sel.split(' ')
-            poly = build_polyhedra_from_centre(label)
-            if poly is None:
-                return None
-            shape_measurement = ShapeCalculation(poly, olx.FileName(), True, ['%fullout'])
-            folder = shape_measurement.write_tab(olx.FilePath())
-            files = run_shape(folder)
-            for f in files:
-                print_shape_table(os.path.join(folder, f'{f}.tab'))
-            return folder
-        else:
-            print('No atom selected!')
-    else:
+    print('\n' + '-' * 50)
+    print('Simple continuous Shape Analysis Using autoSHAPE')
+    if not can_find_shape_msg():
         print('SHAPE executable not found in PATH.')
-    return None
+        return False
+    selection = AtomSelection(olex.f('sel()'))
+
+    # Exit if selection is empty
+    if not selection.labels:
+        print(f'Invalid atom selection: no atoms selected.')
+        return False
+
+    # Exit if selection is more than one atom.
+    if len(selection.labels) != 1:
+        shape_measurement = ShapeCalculation(selection.coords, selection.labels, olx.FileName(), False, ['%fullout'])
+        folder = shape_measurement.write_tab(olx.FilePath())
+        files = run_shape(folder)
+        for f in files:
+            print_shape_table(os.path.join(folder, f'{f}.tab'))
+        return folder
+    elif len(selection.labels) == 1:
+        selection.add_neighbours()
+        shape_measurement = ShapeCalculation(selection.coords, selection.labels, olx.FileName(), True, ['%fullout'])
+        folder = shape_measurement.write_tab(olx.FilePath())
+        files = run_shape(folder)
+        for f in files:
+            print_shape_table(os.path.join(folder, f'{f}.tab'))
+        return folder
+
+    print('Invalid atom selection. Unknown error.')
+
+
+    return False
 
 
 def autoOCTADIST():
-    sel = olex.f('sel()')  # Gets the selection
-    if sel != '':
-        label = sel.split(' ')
-        if len(label) != 1:
-            print(f'Invalid atom selection: expected 1 atom, found {len(label)}.')
-            return False
-        poly = build_polyhedra_from_centre(label)
-        if len(poly) != 7:
-            print(f'Invalid polyhedra: expected 6 atoms connected to the central atom, found {len(poly) - 1}.')
-            return False
 
-        #print('Valid 6-coordinate atom.')
+    # Get the selected atoms.
+    selection = AtomSelection(olex.f('sel()'))  # Gets the selection
 
-        calculation = CalcDistortion(poly)
-        calculation.print_results(os.path.basename(olx.FilePath()))
+    # Exit if selection is empty
+    if not selection.labels:
+        print(f'Invalid atom selection: no atoms selected.')
+        return False
+
+    # Exit if selection is more than one atom.
+    if len(selection.labels) != 1:
+        print(f'Invalid atom selection: expected 1 atom, found {len(selection.labels)}.')
+        return False
+
+    #Add coordinated atoms to the current selection.
+    selection.add_neighbours()
+
+    # Exit if there are not 7 atoms.
+    if len(selection.labels) != 7:
+        print(f'Invalid polyhedra: expected 6 atoms connected to the central atom, found {len(selection.labels) - 1}.')
+        return False
+
+    #print('Valid 6-coordinate atom.')
+
+    # Calculate the distortion parameters
+    calculation = CalcDistortion(selection.coords, selection.labels)
+
+    # Print results to console.
+    calculation.print_results(os.path.basename(olx.FilePath()))
         #print(f'Opposite vertices {calculation.opposite_vertices}')
         #print([calculation.labels[v] for v in calculation.opposite_vertices.flatten()])
         #print(f'Opposite faces {calculation.opposite_faces}')
         #print(f'Found {len(calculation.faces)} faces.')
-        calculation.draw_octahedron()
-        print('\nThis calculations were made using a reimplementation of the OctaDist algorithm by David J. Harding et al.')
-        print('Ketkaew, R., Tantirungrotechai, Y., Harding, P., Chastanet, G., Guionneau, P., Marchivie, M., & Harding, D. J. (2021). OctaDist: a tool for calculating distortion parameters in spin crossover and coordination complexes. Dalton Transactions, 50(3), 1086-1096.')
 
-        return True
-    else:
-        print('Invalid atom selection: no atom selected.')
-        return False
+    # Make octahedron graph.
+    calculation.draw_octahedron()
+
+    #Citation
+    print('\nThis calculations were made using a reimplementation of the OctaDist algorithm by David J. Harding et al.')
+    print('Ketkaew, R., Tantirungrotechai, Y., Harding, P., Chastanet, G., Guionneau, P., Marchivie, M., & Harding, D. J. (2021). OctaDist: a tool for calculating distortion parameters in spin crossover and coordination complexes. Dalton Transactions, 50(3), 1086-1096.')
+    return True
 
 def shape_status_html():
     import shutil
@@ -225,6 +254,7 @@ class SymmetryMeasurements(PT):
         OV.registerFunction(build_poly_on_sel, True, "SymmetryMeasurements")
         OV.registerFunction(shape_status_html, False, 'SymmetryMeasurements')
         OV.registerFunction(print_console_bs, False, 'SymmetryMeasurements')
+        OV.registerFunction(test_selection_class, False, 'SymmetryMeasurements')
     # END Generated =======================================
 
 
