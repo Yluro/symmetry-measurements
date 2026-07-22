@@ -38,9 +38,11 @@ SM's autoSHAPE does not overwrite previous runs as it stores each run in a dedic
 ### Usage
 
 1. Open a structure in Olex2.
-2. Select the central atom of the polyhedron you want to analyse.
-3. Run `spy.SymmetryMeasurements.autoSHAPE()` from the Olex2 console or from the Tools/SymmetryMeasurements panel.
-4. Results are printed to the console and saved in `<FilePath>/autoSHAPE/`.
+2. Select the atoms you want to include in the measurement.
+ - If one atom is selected, the neighboring atoms will be taken into account to form a centered shape (i.e. a coordination structure).
+ - If multiple atoms are selected, the will be interpreted as a non centered shape (i.e. a borane cluster).
+4. Run `spy.SymmetryMeasurements.autoSHAPE()` from the Olex2 console or from the Tools/SymmetryMeasurements panel.
+5. Results are printed to the console and saved in `<FilePath>/autoSHAPE/`.
 
 ## Octahedral Distortion Parameters.
 Symmetry Measurements includes a reimplementation of the [OctaDist](https://octadist.github.io/)$^3$ algorithm. Unlike the original implementation, this version identifies opposite faces and vertices of an octahedron using topological criteria. It relies on constructing a convex hull that is topologically equivalent to an octahedron. As a result, the algorithm may fail when more than three vertices are coplanar, causing the convex hull to degenerate into a different polyhedral shape.
