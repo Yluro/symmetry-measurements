@@ -85,16 +85,18 @@ where $\theta_i$ are twisting angles between vectors of two opposite faces.
 4. Results are printed in the console. A graph will saved in `<FilePath>/OH_distortion` showing the extracted octahedron. 
 
 
-## Known Limitations / TODO
+## Known limitations/upcoming features.
 
-- [ ] Disordered structures.
-- [ ] Non centered shapes.
-- [ ] Centroid search for pi-bonded olenfins and Cp ligands.
-- [ ] Custom reference shapes.
-- [ ] Smarter program logic (automatic coordination site detection, multiple selections, etc.).
-- [x] Reimplementation of octahedral distortion parameters (Zeta, Sigma, Theta) — relevant for spin-crossover (SCO) complexes.
-- [ ] Support for other symmetry measurement programs (Polynator, Continuous Symmetry Operations, etc.)
-- [x] Clean html UI.
+| Status  | Features |
+| ------------- | ------------- |
+| WIP | Suppport for disordered structures.  |
+| ❌ | Centorid search for pi-bonded ligands.  |
+| WIP | Custom reference shapes. | 
+| ❌ | Smarter program logic (automatic coordination site detection, multiple selections, etc.). | 
+| ❌ | Support for other measurement programs (Polynator, Continuous Symmetry Operations, etc.). |
+| ✔️ | Reimplementation of octahedral distortion parameters (Zeta, Sigma, Theta) — relevant for spin-crossover (SCO) complexes. |
+| ✔️ | Non centered shapes. |
+| ✔️ | HTML UI. |
 
 ## License
 - Not yet.
