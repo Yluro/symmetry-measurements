@@ -52,7 +52,7 @@ class ShapeCalculation:
 
     def write_tab(self, file_path):
 
-        for i in range(9):
+        for i in range(99):
             file_name = f'{self.subfolder_name}_{i}.dat'
             file_dir = os.path.join(file_path, 'autoSHAPE', self.subfolder_name, str(i))
             dat_file_path = os.path.join(file_dir, file_name)
