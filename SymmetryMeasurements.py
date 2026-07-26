@@ -155,9 +155,13 @@ def autoSHAPE():
         print(f'Invalid atom selection: no atoms selected.')
         return False
 
-    # Exit if selection is more than one atom.
-    if len(selection.labels) != 1:
-        shape_measurement = ShapeCalculation(selection.coords, selection.labels, olx.FileName(), False, ['%fullout'])
+    # Non-centered calculation if selection is more than one atom.
+    if len(selection.labels) > 1:
+
+        #Remove duplicate atoms
+
+
+        shape_measurement = ShapeCalculation(selection.coords, selection.clean_labels, olx.FileName(), False, ['%fullout'])
         folder = shape_measurement.write_tab(olx.FilePath())
         files = run_shape(folder)
         for f in files:
@@ -247,7 +251,7 @@ class SymmetryMeasurements(PT):
         OV.registerFunction(get_xyz_sel, True, "SymmetryMeasurements")
         OV.registerFunction(get_neighbours_on_sel, True, "SymmetryMeasurements")
         OV.registerFunction(build_polyhedra_from_centre, True, "SymmetryMeasurements")
-        OV.registerFunction(build_dat_file, True, "SymmetryMeasurements")
+        #OV.registerFunction(build_dat_file, True, "SymmetryMeasurements")
         OV.registerFunction(write_dat, True, "SymmetryMeasurements")
         OV.registerFunction(autoSHAPE, True, "SymmetryMeasurements")
         OV.registerFunction(autoOCTADIST, True, "SymmetryMeasurements")

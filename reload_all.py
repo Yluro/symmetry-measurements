@@ -8,7 +8,7 @@ if base not in sys.path:
     sys.path.insert(0, base)
 
 for f in os.listdir(base):
-    if f.endswith('.py') and f != 'reload_all.py':
+    if f.endswith('.py') and f != 'reload_all.py' and f != 'deprecated.py':
         module_name = f[:-3]
         if module_name in sys.modules:
             importlib.reload(sys.modules[module_name])

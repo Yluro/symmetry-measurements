@@ -23,6 +23,12 @@ def get_selected_atoms() -> str:
 def get_id_from_label(atom_label) -> int:
     orm_atoms = olexex.OlexRefinementModel().atoms()
     tag = next((atom['tag'] for atom in orm_atoms if atom['label'] == atom_label), None)
+
+    if tag is None:
+        clean_label = atom_label.split('_$')[0]  # strip symmetry suffix e.g. 'N2_$1' -> 'N2'
+        orm_atoms = olexex.OlexRefinementModel().atoms()
+        tag = next((atom['tag'] for atom in orm_atoms if atom['label'] == clean_label), None)
+
     return tag
 
 
@@ -179,20 +185,24 @@ def parse_coordinate(xyz):
 
 
 def print_console_bs():
-    import inspect
-    print(inspect.getsource(olexex.install_plugin))
+    sel = olex.f('sel()')
+    print(f'Selection: {sel}')
+    print(olex.f('xf.au.GetAtomCrd()'))
+    print(olx.xf.au.GetAtomCrd())
+    print(olex.f('Env()'))
+    print(olex.f('Envi()'))
 
 
 class AtomSelection:
     def __init__(self, selection_string):
 
         self.labels = selection_string.split(' ')
+        self.clean_labels = [label.split('_$')[0] for label in self.labels]
         self.tags = [get_id_from_label(label) for label in self.labels]
         self.coords = [get_xyz(idx) for idx in self.tags]
         self.parts = [get_part(idx) for idx in self.tags]
 
         self.polyhedron = 0
-
 
     def add_neighbours(self):
         if not self.labels:
@@ -249,3 +259,6 @@ def test_selection_class():
     print(selection.labels)
     print(selection.coords)
     print(selection.parts)
+
+
+
