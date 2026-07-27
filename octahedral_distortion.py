@@ -50,7 +50,7 @@ class CalcDistortion:
         self.sigma = self.calc_sigma()
         self.tau = self.calc_tau()
         self.theta = self.calc_theta()
-
+        self.mu = self.calc_mu_alternate()
 
     def calc_bond_distances(self):
         ds = [np.linalg.norm(v) for v in self.vectors]
@@ -126,6 +126,14 @@ class CalcDistortion:
 
         final_theta = np.average(thetas) * 4
         return final_theta
+
+    def calc_mu(self):
+        mu = np.linalg.norm(np.sum(self.vectors))
+        return mu
+
+    def calc_mu_alternate(self):
+        centroid = self.coords.mean(axis=0)
+        return np.linalg.norm(self.coords[0] - centroid)
 
     def calc_normals(self):
         normals = []
@@ -204,6 +212,7 @@ class CalcDistortion:
         print(f"{'Volume':<12}{self.volume:>12.4f}{'   '}{'Ang^3':<12}")
         print('-' * 70)
         print(f"{'Tau':<12}{self.tau:>12.2f}{'   '}{'deg':<12}")
+        print(f"{'Mu':<12}{self.mu:>12.2f}{'   '}{'Ang':<12}")
         print('=' * 70)
 
     def draw_octahedron(self):
