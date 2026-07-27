@@ -16,7 +16,7 @@ from constants import *
 import subprocess
 from autoshape import *
 from octahedral_distortion import *
-
+from selection import AtomSelection
 
 import time
 debug = bool(OV.GetParam("olex2.debug", False))
@@ -65,7 +65,9 @@ def autoSHAPE():
     if len(selection.labels) > 1:
 
         #Remove duplicate atoms
-
+        # If the length of the list is not the length of the set it means that there are duplicate elements in the list.
+        if len(selection.labels) != len(set(selection.labels)):
+            selection.remove_duplicates()
 
         shape_measurement = ShapeCalculation(selection.coords, selection.clean_labels, olx.FileName(), False, ['%fullout'])
         folder = shape_measurement.write_tab(olx.FilePath())
@@ -159,7 +161,7 @@ class SymmetryMeasurements(PT):
         OV.registerFunction(get_neighbours_on_sel, True, "SymmetryMeasurements")
         OV.registerFunction(build_polyhedra_from_centre, True, "SymmetryMeasurements")
         #OV.registerFunction(build_dat_file, True, "SymmetryMeasurements")
-        OV.registerFunction(write_dat, True, "SymmetryMeasurements")
+        #OV.registerFunction(write_dat, True, "SymmetryMeasurements")
         OV.registerFunction(autoSHAPE, True, "SymmetryMeasurements")
         OV.registerFunction(autoOCTADIST, True, "SymmetryMeasurements")
         OV.registerFunction(build_poly_on_sel, True, "SymmetryMeasurements")

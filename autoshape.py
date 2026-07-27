@@ -94,9 +94,9 @@ def run_shape(folder):
     :param folder:
     :return files: Name of the output files without file extension.
     """
+    print(f"Running SHAPE...")
     dat_files = [f for f in os.listdir(folder) if f.endswith('.dat')]
     for file in dat_files:
-        print(f"Running SHAPE on {file}...")
         process = subprocess.Popen('shape', shell=True, stdin=subprocess.PIPE,
                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                     text=True, cwd=folder)
