@@ -42,7 +42,11 @@ class ShapeCalculation:
         except KeyError:
             print(f'No defined geometries for {self.ligands} vertices. Check the structure for extra bonds.')
 
-        self.subtitle = f'{self.labels[self.centre]}\n'.upper()
+        if centered:
+            self.subtitle = f'{self.labels[0]}\n'.upper() # First label contains the metal atom.
+        else:
+            self.subtitle = f'{self.labels[0]}-{self.labels[-1]}\n'.upper()
+
         self.table = '\n'.join(
             f'{label} {" ".join(f"{x:g}" for x in xyz)}'
             for label, xyz in zip(self.labels, self.coords)
