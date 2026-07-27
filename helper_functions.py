@@ -4,6 +4,7 @@ import olex
 import olexex
 import olx
 from collections.abc import Iterable
+from selection import AtomSelection
 import gui
 import shutil
 from constants import *
@@ -211,6 +212,8 @@ def test_selection_class():
     print(selection.labels)
     print(selection.coords)
     print(selection.parts)
+    print(selection.centroid_search())
+
 
 
 

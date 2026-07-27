@@ -9,18 +9,16 @@ class AtomSelection:
         self.tags = [get_id_from_label(label) for label in self.labels]
         self.coords = [get_xyz(idx) for idx in self.tags]
         self.parts = [get_part(idx) for idx in self.tags]
-
+        self.orm_atoms = olexex.OlexRefinementModel().atoms()
         self.polyhedron = 0
 
     def add_neighbours(self):
         if not self.labels:
             print("Could not find neighbours. Selection is empty.")
 
-        orm_atoms = olexex.OlexRefinementModel().atoms()
-
         for sel_label in self.labels.copy():
             neighbour_tags = next((atom['neighbours']
-                                   for atom in orm_atoms
+                                   for atom in self.orm_atoms
                                    if atom['label'] == sel_label),
                                   None)
 
@@ -69,3 +67,18 @@ class AtomSelection:
         self.tags = unique_tags
         self.coords = unique_coords
         self.parts = unique_parts
+
+    def centroid_search(self):
+        bonded_pairs = []
+        for label, tag in zip(self.labels[1:], self.tags[1:]): # For each ligand
+            print('Looking for neighbours for ' + label)
+            neighbours = get_neighbours([label,])
+            _, nei_uniques = neighbours
+
+            for nei_tag in nei_uniques:
+                if nei_tag in self.tags[1:]:
+                    bonded_pairs.append((nei_tag, tag))
+                else:
+                    print(f'centroid_search: Could not find neighbours for {label}.')
+        return bonded_pairs
+
