@@ -51,51 +51,9 @@ class CalcDistortion:
         self.tau = self.calc_tau()
         self.theta = self.calc_theta()
 
-    def _parse_input(self, polyhedra):
-        #print(type(polyhedra), polyhedra)
-        """
-        The standard polyhedron from build_polyhedra_from_centre() gives an array:
-        [('centre', 'x y z'), ('L1', 'x y z'),...]
-
-        The function will also get
-        :param input:
-        :return:
-        """
-        labels = []
-        coords = []
-
-        for p in polyhedra:
-            if isinstance(p, str):
-                coords.append(parse_coordinate(p))
-
-            elif isinstance(p, Iterable):
-                vals = tuple(p)
-
-                if len(vals) == 2 and isinstance(vals[0], str):
-                    labels.append(vals[0])
-                    coords.append(parse_coordinate(vals[1]))
-                else:
-                    coords.append(parse_coordinate(vals))
-
-            else:
-                raise TypeError(f"Cannot parse {p!r}")
-
-        if len(labels) == 7:
-            self.labels = np.array(labels, dtype=str)
-        elif not labels:
-            print(f'Warning, expected 7 labels, found {len(labels)}. Using default label Names.')
-
-        if len(coords) != 7:
-            raise ValueError(f'Invalid number of points. Expected 7 points, found {len(polyhedra)}.')
-
-        self.coords = np.array(coords, dtype=np.float64)
-
 
     def calc_bond_distances(self):
-        ds = []
-        for v in self.vectors:
-            d = np.linalg.norm(v)
-            ds.append(d)
+        ds = [np.linalg.norm(v) for v in self.vectors]
         return np.array(ds, dtype=np.float64)
 
     def _all_angles(self):

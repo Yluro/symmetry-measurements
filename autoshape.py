@@ -74,38 +74,6 @@ class ShapeCalculation:
         pass
 
 
-    def _parse_input(self, polyhedra):
-        """
-        The standard polyhedron from build_polyhedra_from_centre() gives an array:
-        [('centre', 'x y z'), ('L1', 'x y z'),...]
-
-        The function will also get
-        :param polyhedra:
-        :return:
-        """
-        labels = []
-        coords = []
-
-        for p in polyhedra:
-            if isinstance(p, str):
-                coords.append(parse_coordinate(p))
-
-            elif isinstance(p, Iterable):
-                vals = tuple(p)
-
-                if len(vals) == 2 and isinstance(vals[0], str):
-                    labels.append(vals[0])
-                    coords.append(parse_coordinate(vals[1]))
-                else:
-                    coords.append(parse_coordinate(vals))
-
-            else:
-                raise TypeError(f"Cannot parse {p!r}")
-
-        self.labels = np.array(labels, dtype=str)
-        self.coords = np.array(coords, dtype=np.float64)
-        pass
-
 
 def can_find_shape_msg(silent=True):
     shape_path = shutil.which("shape")

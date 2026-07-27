@@ -248,6 +248,13 @@ class AtomSelection:
 
         return None
 
+def print_orm():
+    orm = olexex.OlexRefinementModel().atoms()
+
+    with open('orm.txt', 'w') as f:
+        for line in orm:
+            f.write(str(line)+'\n')
+
 
 def test_selection_class():
     selection = AtomSelection(olex.f('sel()'))

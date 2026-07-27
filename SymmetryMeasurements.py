@@ -48,100 +48,6 @@ OV.SetVar('SymmetryMeasurements_plugin_path', p_path)
 
 from PluginTools import PluginTools as PT
 
-
-'''def can_find_shape_msg(silent=True):
-    shape_path = shutil.which("shape")
-    if shape_path is None:
-        print(f"Unable to find shape.exe in the system path.")
-        return False
-    else:
-        if not silent:
-            print(f"SHAPE executable found at: {shape_path}")
-        return True
-
-
-def build_dat_file(polyhedra= test_Mn1_polyhedra):
-    """
-    Builds a dat file for the given polyhedra.
-    :param polyhedra:
-    :return dat_file: str | None if incorrect number of vertices:
-    """
-    title = f'$ {olx.FileName()}_{polyhedra[0][0]}\n'
-    fullout ='%fullout\n'
-    ligands = len(polyhedra) - 1 # The dat file for SHAPE2.1 needs the amount of ligands there are
-    metal = 1 # Means the position of the metal. The build_polyhedra() functions will always put the metals at first
-    positions = f'{ligands} {metal}\n'
-    try:
-        geometries = f'{REF_SHAPE_DICT[ligands]}\n' # The SHAPE2.1 documentation gives these strings of numbers
-        subtitle = f'{polyhedra[0][0]}\n'.upper()
-        table = '\n'.join(f'{label} {xyz}' for label, xyz in polyhedra)  # Joins all rows of the table
-        dat_file_contents = title + fullout + positions + geometries + subtitle + table
-        #print(dat_file_contents)
-        return dat_file_contents, f'{olx.FileName()}_{polyhedra[0][0]}'
-
-    except KeyError:
-        print(f'No defined geometries for {ligands} vertices. Check the structure for extra bonds.')
-        return None, None
-
-
-def write_dat(dat_file_contents= None, title= None):
-    """
-    Writes a dat file given its contents. Will create autoSHAPE folder in FilePath().
-    Will create subfolders if ran multiple times.
-    :param dat_file_contents: Text of the .dat file
-    :param title: Name of the .dat file.
-    :return file_dir:
-    """
-    if (dat_file_contents, title) == (None, None):
-        dat_file_contents, title = build_dat_file(test_Mn1_polyhedra)
-
-    base_dir = olx.FilePath()
-    i = 0
-    file_name = f'{title.strip()}_{i}.dat'
-    file_dir = os.sep.join((base_dir, 'autoSHAPE', title.strip(), str(i)))
-    file_path = os.sep.join((file_dir, file_name))
-    while os.path.exists(file_path):
-        file_name = f'{title.strip()}_{i}.dat'
-        file_dir = os.sep.join((base_dir, 'autoSHAPE', title.strip(), str(i)))
-        file_path = os.sep.join((file_dir, file_name))
-        i += 1
-        if i > 10: # Safe ward in case this While loop gets out of control.
-            break
-
-    #print(f'Good file directory: {file_dir}')
-
-
-    if not os.path.exists(file_dir):
-        os.makedirs(file_dir)
-
-    with open(file_path, 'w') as f:
-        f.write(dat_file_contents)
-        print(f'Writing {file_name} at {file_path}...')
-
-    #print(file_path)
-
-    return file_dir
-
-
-def run_shape(folder):
-    """
-    Runs a SHAPE instance on all dat files in a specified folder.
-    :param folder:
-    :return files: Name of the output files without file extension.
-    """
-    dat_files = [f for f in os.listdir(folder) if f.endswith('.dat')]
-    for file in dat_files:
-        print(f"Running SHAPE on {file}...")
-        process = subprocess.Popen('shape', shell=True, stdin=subprocess.PIPE,
-                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                    text=True, cwd=folder)
-        out, err = process.communicate(input=f'{file}\n')
-        print(out)  # Send Enter key (newline character)
-
-    output_files = [f[:-4] for f in dat_files]
-    return output_files'''
-
-
 def autoSHAPE():
     print('\n' + '-' * 50)
     print('Simple continuous Shape Analysis Using autoSHAPE')
@@ -166,6 +72,7 @@ def autoSHAPE():
         files = run_shape(folder)
         for f in files:
             print_shape_table(os.path.join(folder, f'{f}.tab'))
+            print('M. Llunell, D. Casanova, J. Cirera, P. Alemany, S. Alvarez. SHAPE, version 2.1; Universitat de Barcelona: Barcelona, Spain, 2013.')
         return folder
     elif len(selection.labels) == 1:
         selection.add_neighbours()
@@ -174,13 +81,13 @@ def autoSHAPE():
         files = run_shape(folder)
         for f in files:
             print_shape_table(os.path.join(folder, f'{f}.tab'))
+            print('M. Llunell, D. Casanova, J. Cirera, P. Alemany, S. Alvarez. SHAPE, version 2.1; Universitat de Barcelona: Barcelona, Spain, 2013.')
         return folder
 
     print('Invalid atom selection. Unknown error.')
 
 
     return False
-
 
 def autoOCTADIST():
 
@@ -258,6 +165,7 @@ class SymmetryMeasurements(PT):
         OV.registerFunction(build_poly_on_sel, True, "SymmetryMeasurements")
         OV.registerFunction(shape_status_html, False, 'SymmetryMeasurements')
         OV.registerFunction(print_console_bs, False, 'SymmetryMeasurements')
+        OV.registerFunction(print_orm, False, 'SymmetryMeasurements')
         OV.registerFunction(test_selection_class, False, 'SymmetryMeasurements')
     # END Generated =======================================
 
