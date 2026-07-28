@@ -39,10 +39,13 @@ SM's autoSHAPE does not overwrite previous runs as it stores each run in a dedic
 
 1. Open a structure in Olex2.
 2. Select the atoms you want to include in the measurement.
- - If one atom is selected, the neighboring atoms will be taken into account to form a centered shape (i.e. a coordination structure).
+ - If one atom is selected, the neighbouring atoms will be taken into account to form a centered shape (i.e. a coordination structure).
  - If multiple atoms are selected, the will be interpreted as a non centered shape (i.e. a borane cluster).
 4. Run `spy.SymmetryMeasurements.autoSHAPE()` from the Olex2 console or from the Tools/SymmetryMeasurements panel.
 5. Results are printed to the console and saved in `<FilePath>/autoSHAPE/`.
+
+#### _New in version 0.2_
+There is an option to merge pi-bonded ligands into a centroid. If checked, autoshape will interpret pi-bonded ligands as the average of the fragments as per Cirera _et al_.$^4$ 
 
 ## Octahedral Distortion Parameters.
 Symmetry Measurements includes a reimplementation of the [OctaDist](https://octadist.github.io/)$^3$ algorithm. Unlike the original implementation, this version identifies opposite faces and vertices of an octahedron using topological criteria. It relies on constructing a convex hull that is topologically equivalent to an octahedron. As a result, the algorithm may fail when more than three vertices are coplanar, causing the convex hull to degenerate into a different polyhedral shape.
@@ -87,16 +90,16 @@ where $\theta_i$ are twisting angles between vectors of two opposite faces.
 
 ## Known limitations/upcoming features.
 
-| Status  | Features |
-| ------------- | ------------- |
-| WIP | Suppport for disordered structures.  |
-| ❌ | Centorid search for pi-bonded ligands.  |
-| WIP | Custom reference shapes. | 
-| ❌ | Smarter program logic (automatic coordination site detection, multiple selections, etc.). | 
-| ❌ | Support for other measurement programs (Polynator, Continuous Symmetry Operations, etc.). |
+| Status  | Features                                                                                                                 |
+| ------------- |--------------------------------------------------------------------------------------------------------------------------|
+| WIP | Suppport for disordered structures.                                                                                      |
+| ✔️ | Centorid search for pi-bonded ligands. *Doesn't work with ligands outside ASU.                                           |
+| WIP | Custom reference shapes.                                                                                                 | 
+| ✔️ | Smarter program logic (automatic coordination site detection, multiple selections, etc.).                                | 
+| ❌ | Support for other measurement programs (Polynator, Continuous Symmetry Operations, etc.).                                |
 | ✔️ | Reimplementation of octahedral distortion parameters (Zeta, Sigma, Theta) — relevant for spin-crossover (SCO) complexes. |
-| ✔️ | Non centered shapes. |
-| ✔️ | HTML UI. |
+| ✔️ | Non centered shapes.                                                                                                     |
+| ✔️ | HTML UI.                                                                                                                 |
 
 ## License
 - Not yet.
@@ -104,5 +107,6 @@ where $\theta_i$ are twisting angles between vectors of two opposite faces.
 ## Citations
 
 1. _J. Appl. Cryst._ (2009). 42, 339–341. DOI: https://doi.org/10.1107/S0021889808042726
-2. _Organometallics_ (2005), 24, 7, 1556–1562. DOI: https://doi.org/10.1021/om049150z
-3. _Dalton Trans._ (2021) 50, 3, 1086–1096. DOI: https://doi.org/10.1039/d0dt03988h
+2. _Organometallics_ (2005), 24, **7**, 1556–1562. DOI: https://doi.org/10.1021/om049150z
+3. _Dalton Trans._ (2021) 50, **3**, 1086–1096. DOI: https://doi.org/10.1039/d0dt03988h
+4. _Organometallics_ (2005); 24, **7**, 1556–1562. DOI: https://doi.org/10.1021/om049150z
