@@ -33,9 +33,9 @@ def get_id_from_label(atom_label) -> int:
     return tag
 
 
-def get_label_from_id(atom_label):
+def get_label_from_id(atom_tag):
     orm_atoms = olexex.OlexRefinementModel().atoms()
-    label = next((atom['label'] for atom in orm_atoms if atom['tag'] == atom_label), None)
+    label = next((atom['label'] for atom in orm_atoms if atom['tag'] == atom_tag), None)
     return label
 
 
