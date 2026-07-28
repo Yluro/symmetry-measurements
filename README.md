@@ -45,7 +45,7 @@ SM's autoSHAPE does not overwrite previous runs as it stores each run in a dedic
 5. Results are printed to the console and saved in `<FilePath>/autoSHAPE/`.
 
 #### _New in version 0.2_
-There is an option to merge pi-bonded ligands into a centroid. If checked, autoshape will interpret pi-bonded ligands as the average of the fragments as per Cirera _et al_.$^4$ 
+There is an option to merge pi-bonded ligands into a centroid. If checked, autoshape will interpret pi-bonded ligands as the average of the fragments as per Cirera _et al_$^4$ paper. 
 
 ## Octahedral Distortion Parameters.
 Symmetry Measurements includes a reimplementation of the [OctaDist](https://octadist.github.io/)$^3$ algorithm. Unlike the original implementation, this version identifies opposite faces and vertices of an octahedron using topological criteria. It relies on constructing a convex hull that is topologically equivalent to an octahedron. As a result, the algorithm may fail when more than three vertices are coplanar, causing the convex hull to degenerate into a different polyhedral shape.
