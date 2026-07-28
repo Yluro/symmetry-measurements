@@ -1,6 +1,7 @@
 import inspect
 
 from olexFunctions import OlexFunctions
+from reload_all import reload_all
 
 OV = OlexFunctions()
 
@@ -17,6 +18,7 @@ import subprocess
 from autoshape import *
 from octahedral_distortion import *
 from selection import AtomSelection
+from helper_functions import *
 
 import time
 debug = bool(OV.GetParam("olex2.debug", False))
@@ -45,6 +47,7 @@ p_img = eval(d['p_img'])
 p_scope = d['p_scope']
 
 OV.SetVar('SymmetryMeasurements_plugin_path', p_path)
+OV.SetParam('SymmetryMeasurements.merge_ligands', False)
 
 from PluginTools import PluginTools as PT
 
@@ -78,6 +81,12 @@ def autoSHAPE():
         return folder
     elif len(selection.labels) == 1:
         selection.add_neighbours()
+
+        # If merge ligands is ticked
+        merge = OV.GetParam('SymmetryMeasurements.merge_ligands')
+        if merge == 'true' or merge == True:
+            selection.merge_ligands()
+
         shape_measurement = ShapeCalculation(selection.coords, selection.labels, olx.FileName(), True, ['%fullout'])
         folder = shape_measurement.write_tab(olx.FilePath())
         files = run_shape(folder)
@@ -142,6 +151,7 @@ def shape_status_html():
     text = f'SHAPE executable found at: {where}' if found else 'Unable to find shape.exe in the system path.'
     return f"<font color='{color}'>{text}</font>"
 
+
 class SymmetryMeasurements(PT):
     def __init__(self):
         super(SymmetryMeasurements, self).__init__()
@@ -154,6 +164,7 @@ class SymmetryMeasurements(PT):
         self.print_version_date()
         if not from_outside:
             self.setup_gui()
+        #OV.SetParam('SymmetryMeasurements.merge_ligands', 'false')
         OV.registerFunction(get_selected_atoms, True, "SymmetryMeasurements")
         OV.registerFunction(get_neighbours, True, "SymmetryMeasurements")
         OV.registerFunction(can_find_shape_msg, True, "SymmetryMeasurements")
@@ -174,4 +185,6 @@ class SymmetryMeasurements(PT):
 
 
 SymmetryMeasurements_instance = SymmetryMeasurements()
-print("Loaded Symmetry Measurements by JSG.")
+print("Loading Symess modules.")
+reload_all()
+print("Symmetry Measurements by JSG loaded.")
