@@ -37,6 +37,7 @@ class AtomSelection:
                     part = get_part(neighbour_tag[0])
 
                     self.labels.append(nei_label)
+                    self.tags.append(nei_label[0])
                     self.coords.append(coord)
                     self.parts.append(part)
 
@@ -47,6 +48,7 @@ class AtomSelection:
                     part = get_part(neighbour_tag)
 
                     self.labels.append(nei_label)
+                    self.tags.append(neighbour_tag)
                     self.coords.append(coord)
                     self.parts.append(part)
 
@@ -68,17 +70,107 @@ class AtomSelection:
         self.coords = unique_coords
         self.parts = unique_parts
 
-    def centroid_search(self):
+    def merge_ligands(self):
+
+        ####################
+        # NEIGHBOUR SEARCH #
+        ####################
+
         bonded_pairs = []
+        #iterate over the ligands (atoms added with add_neighbours())
         for label, tag in zip(self.labels[1:], self.tags[1:]): # For each ligand
+
+            # Get the neighbours of each ligand atom
             print('Looking for neighbours for ' + label)
             neighbours = get_neighbours([label,])
             _, nei_uniques = neighbours
 
+            # If the neighbour of the ligand is also a ligand, add the bonded pair to the list.
             for nei_tag in nei_uniques:
                 if nei_tag in self.tags[1:]:
                     bonded_pairs.append((nei_tag, tag))
-                else:
-                    print(f'centroid_search: Could not find neighbours for {label}.')
-        return bonded_pairs
+                #else:
+                #    print(f'{get_label_from_id(nei_tag)} is neighbour of {label} but is not bonded to the main polyhedra.')
 
+        # If there are no bonded pairs of ligands, stop the function, return []
+        if not bonded_pairs:
+            print('Nothing to merge.')
+            return []
+
+        # Create an adjacency list from the bonded pairs. It will
+        adj = {}
+        for a, b in bonded_pairs: # Creates a dict with keys of all atoms and values are sets with all neighbours for all atoms.
+            # adj = {atom1: {atom2, atom3}, atom2: {atom1}, atom3: {atom1}}
+            adj.setdefault(a, set()).add(b) # If a isn't in the dictionary, add it with empty set. To this set, add b
+            adj.setdefault(b, set()).add(a)
+
+
+        #####################
+        # FRAGMENT BUILDING #
+        #####################
+
+        visited = set() # Keeps track of atoms assigned to a fragment
+        fragments = []  # Keeps list of final groups of fragments
+
+        # Iterate over all atoms in the adjacency list:
+        for atom in adj:
+            if atom in visited: # Skip if the atom was visited already
+                continue
+
+            stack = [atom]      # Add the atom to the stack (to-process list)
+            fragment = set()    # Create a new fragment as an emtpy set
+
+            while stack: #While there are items in the stack
+                current = stack.pop()       # Pop one atom
+                if current in fragment:     # If the atom is already in the fragment, skip
+                    continue
+                fragment.add(current)       # Add the current atom to the fragment
+
+                # Extend the stack to work on the adjacent atoms of the current one minus the ones already the fragment
+                stack.extend(adj[current] - fragment)
+
+            visited |= fragment             # Mark all atoms as visited (|= merges sets)
+            fragments.append(fragment)      # Adds the fragment to the final fragments list
+
+
+        ##################
+        # LIGAND MERGING #
+        ##################
+
+        tag_to_idx = {tag: i for i, tag in enumerate(self.tags)}
+        insert_at = {}  # index -> (label, coords) to place there
+        skip = set()  # indices to drop
+
+        for i, frag in enumerate(fragments):
+            idxs = sorted(tag_to_idx[tag] for tag in frag)
+
+            cx = sum(self.coords[j][0] for j in idxs) / len(frag)
+            cy = sum(self.coords[j][1] for j in idxs) / len(frag)
+            cz = sum(self.coords[j][2] for j in idxs) / len(frag)
+
+            first = idxs[0]
+            insert_at[first] = (f'Z{i}', (cx, cy, cz))
+            skip.update(idxs[1:])  # keep 'first', drop the rest
+
+        new_coords = []
+        new_labels = []
+        new_tags = []
+
+        for j in range(len(self.tags)):
+            if j in skip:
+                continue
+            if j in insert_at:
+                label, centroid = insert_at[j]
+                new_labels.append(label)
+                new_coords.append(centroid)
+                new_tags.append(-(j + 1))  # placeholder tag, adjust as needed
+            else:
+                new_labels.append(self.labels[j])
+                new_coords.append(self.coords[j])
+                new_tags.append(self.tags[j])
+
+        self.coords = new_coords
+        self.labels = new_labels
+        self.tags = new_tags
+
+        return fragments
