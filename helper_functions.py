@@ -204,15 +204,15 @@ def print_orm():
 
 def test_selection_class():
     selection = AtomSelection(olex.f('sel()'))
-    print(selection.labels)
-    print(selection.coords)
-    print(selection.parts)
-
+    print(selection.tags)
+    print('Add neighbours')
     selection.add_neighbours()
     print(selection.labels)
     print(selection.coords)
-    print(selection.parts)
-    print(selection.centroid_search())
+    print('Merge neighbours')
+    selection.merge_ligands()
+    print(selection.labels)
+    print(selection.coords)
 
 
 
