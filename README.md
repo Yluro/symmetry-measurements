@@ -47,7 +47,7 @@ SM's autoSHAPE does not overwrite previous runs as it stores each run in a dedic
 5. Results are printed to the console and saved in `<FilePath>/autoSHAPE/`.
 
 #### _New in version 0.2_
-There is an option to merge pi-bonded ligands into a centroid. If checked, autoshape will interpret pi-bonded ligands as the average of the fragments as per Cirera _et al_$^4$ paper. 
+There is an option to merge pi-bonded ligands into a centroid. If checked, autoshape will interpret pi-bonded ligands as the average of the fragments as per Cirera _et al_$^2$ paper. 
 
 ## Octahedral Distortion Parameters.
 Symmetry Measurements includes a reimplementation of the [OctaDist](https://octadist.github.io/)$^3$ algorithm. Unlike the original implementation, this version identifies opposite faces and vertices of an octahedron using topological criteria. It relies on constructing a convex hull that is topologically equivalent to an octahedron. As a result, the algorithm may fail when more than three vertices are coplanar, causing the convex hull to degenerate into a different polyhedral shape.
@@ -72,24 +72,28 @@ where $d_i$ are the M-X bond distances and $d_{mean}$ is the mean M-X bond dista
 \Sigma = \sum_{i=1}^{12} |90^\circ - \phi_i|
 ```
 where $\phi_i$ are the cis angles.
-- Trans angle distortion:
-```math
-\tau = \sum_{i=1}^3 |180^\circ - \psi_i|
-```
-where $\psi_i$ are the trans angles.
-
-- Deviation of the metal from the centroid:
-```math
-\vec{c} = \frac{1}{6}\sum^6_{i=1} \vec{r}_i \\
-\mu = |\vec{r}_M - \vec{c}
-```
-where $\vec{r}_M$ is the position of the metal and $$are the trans angles.
-
 - Octahedral twisting distortion:
 ```math
 \Theta = \sum_{i=1}^{24}  |60^\circ - \theta_i|
 ```
 where $\theta_i$ are twisting angles between vectors of two opposite faces.
+
+#### Extra parameters:
+- Trans angle distortion:
+```math
+\tau = \sum_{i=1}^3 |180^\circ - \psi_i|
+```
+where $\psi_i$ are the trans angles.
+- Deviation of the metal from the centroid:
+```math
+\vec{c} = \frac{1}{6}\sum^6_{i=1} \vec{r}_i
+```
+```math
+\mu = |\vec{r}_M - \vec{c}
+```
+where $\vec{r}_M$ is the position of the metal and $\vec{r}_i$ are the position of the donor atoms.
+
+
 
 ### Usage
 1. Open a structure in Olex2.
@@ -119,4 +123,3 @@ where $\theta_i$ are twisting angles between vectors of two opposite faces.
 1. _J. Appl. Cryst._ (2009). 42, 339–341. DOI: https://doi.org/10.1107/S0021889808042726
 2. _Organometallics_ (2005), 24, **7**, 1556–1562. DOI: https://doi.org/10.1021/om049150z
 3. _Dalton Trans._ (2021) 50, **3**, 1086–1096. DOI: https://doi.org/10.1039/d0dt03988h
-4. _Organometallics_ (2005); 24, **7**, 1556–1562. DOI: https://doi.org/10.1021/om049150z
