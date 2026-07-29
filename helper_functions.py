@@ -4,7 +4,7 @@ import olex
 import olexex
 import olx
 from collections.abc import Iterable
-from selection import AtomSelection
+from selection import AtomSelection, split_by_parts
 import gui
 import shutil
 from constants import *
@@ -60,7 +60,7 @@ def get_xyz(atom_tag):
     return xyz
 
 def get_part(atom_label):
-    return olx.xf.au.GetAtomPart(atom_label)
+    return int(olx.xf.au.GetAtomPart(atom_label))
 
 
 def get_neighbours(atom_labels):
@@ -204,15 +204,13 @@ def print_orm():
 
 def test_selection_class():
     selection = AtomSelection(olex.f('sel()'))
-    print(selection.tags)
+    print(selection.labels)
     print('Add neighbours')
     selection.add_neighbours()
     print(selection.labels)
-    print(selection.coords)
-    print('Merge neighbours')
-    selection.merge_ligands()
-    print(selection.labels)
-    print(selection.coords)
+    print('Splitting in parts.')
+    parts = split_by_parts(selection)
+    for p in parts: print(f'{p.coords}\n{p.labels}')
 
 
 
