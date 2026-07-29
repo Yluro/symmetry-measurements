@@ -8,18 +8,23 @@ from helper_functions import *
 import numpy as np
 from collections.abc import Iterable
 from typing import List
+from selection import *
+
 
 class ShapeCalculation:
-    def __init__(self, coords, labels, file_name: str, centered: bool, keywords: List[str]):
+    def __init__(self, structure: MolecularStructure, file_name: str, centered: bool, keywords: List[str]):
 
-        self.labels = labels
+
+        self.coords = np.array(structure.coords, dtype=np.float64)
+        self.labels = structure.labels
+        '''self.labels = labels
         if not self.labels:
             if centered:
                 self.labels = ['Z'] + [f'L{i}' for i in range(len(coords) - 1)]
             else:
                 self.labels = [f'A{i}' for i in range(len(coords))]
 
-        self.coords = np.array(coords, dtype=np.float64)
+        self.coords = np.array(coords, dtype=np.float64)'''
 
         self.can_find_shape = can_find_shape_msg()
         self.is_centered = centered
