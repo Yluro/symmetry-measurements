@@ -1,5 +1,37 @@
 from helper_functions import *
+from typing import List
 
+class MolecularStructure: # The mere purpose of this class is to hold a strucutre to pass onto SHAPE and Octadist
+    def __init__(self, coords, labels):
+        self.coords = coords
+        self.labels = labels
+
+
+def split_by_parts(selection: AtomSelection) -> List[MolecularStructure]:
+    if len(set(selection.parts)) > 2: # If there are more than 2 parts in the selection (i.e. part 0, part 1 and part 2)
+        # Separate atoms by parts:
+        parted_labels = []
+        parted_coords = []
+        for part in set(selection.parts):
+            labels = []
+            coords = []
+            for i in range(len(selection.labels)):
+                if selection.parts[i] == part:
+                    labels.append(selection.labels[i])
+                    coords.append(selection.coords[i])
+            parted_labels.append(labels)
+            parted_coords.append(coords)
+
+
+        structures = []
+        for i in range(1, len(parted_labels)):
+            part_0n_labels = parted_labels[0] + parted_labels[i]
+            part_0n_coords = parted_coords[0] + parted_coords[i]
+            struc = MolecularStructure(part_0n_coords, part_0n_labels)
+            structures.append(struc)
+        return structures
+    else:
+        return [MolecularStructure(selection.coords, selection.labels)]
 
 class AtomSelection:
     def __init__(self, selection_string):
@@ -10,7 +42,6 @@ class AtomSelection:
         self.coords = [get_xyz(idx) for idx in self.tags]
         self.parts = [get_part(idx) for idx in self.tags]
         self.orm_atoms = olexex.OlexRefinementModel().atoms()
-        self.polyhedron = 0
 
     def add_neighbours(self):
         if not self.labels:
