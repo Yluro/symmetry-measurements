@@ -28,12 +28,14 @@ The plugin was developed/tested using a Windows 10/11 machine. The plugin should
 5. Extract the downloaded zip into that folder.
 6. On restarting Olex2, a SymmetryMeasurements panel should appear under the Tools tab.
 
+_Note: I push development changes constantly to the master branch. You could git clone this repository to automatically keep the plugin updated. Usually, if changes are pushed it means that the plugin is in a usable state. But it does not guarantee that things won't break._
+
 ## AutoSHAPE
-[SHAPE 2.1](https://www.ee.ub.edu/continuous-shape-and-symmetry-measures/)$^2$ is a software published by ESG used to calculate Continuous Shape Measures (CShM's). autoSHAPE used to be a collection of Python scripts to run and parse SHAPE files. Symmetry Measurements contains an implementation of autoSHAPE to:
+[SHAPE 2.1](https://www.ee.ub.edu/continuous-shape-and-symmetry-measures/)$^2$ is a software published by ESG used to calculate Continuous Shape Measures (CShM's). autoSHAPE are a collection of personal Python scripts I developed and used to run and parse SHAPE i/o files. Symmetry Measurements contains an implementation of autoSHAPE to:
 - Generate the necessary `.dat` input files for SHAPE automatically.
 - Run SHAPE and parse the resulting `.tab` output.
 - Output a summary table from the `.out` and `.tab` files.
-SM's autoSHAPE does not overwrite previous runs as it stores each run in a dedicated folder inside `<FilePath>\autoSHAPE\` .
+SM's autoSHAPE does not overwrite previous runs as it stores each run in a dedicated folder inside `<FilePath>\autoSHAPE\`.
 
 ### Usage
 
