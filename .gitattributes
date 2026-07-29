@@ -5,6 +5,6 @@ olexex.pyi     export-ignore
 olx.pyi        export-ignore
 print_orm.txt  export-ignore
 todo.md        export-ignore
-olexFuctions.pyi export-ignore
+olexFunctions.pyi export-ignore
 .gitattributes export-ignore
 deprecated.py  export-ignore
