@@ -89,7 +89,7 @@ where $\psi_i$ are the trans angles.
 \vec{c} = \frac{1}{6}\sum^6_{i=1} \vec{r}_i
 ```
 ```math
-\mu = |\vec{r}_M - \vec{c}
+\mu = |\vec{r}_M - \vec{c}|
 ```
 where $\vec{r}_M$ is the position of the metal and $\vec{r}_i$ are the position of the donor atoms.
 
