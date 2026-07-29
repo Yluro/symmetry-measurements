@@ -51,54 +51,51 @@ OV.SetParam('SymmetryMeasurements.merge_ligands', False)
 
 from PluginTools import PluginTools as PT
 
+# MAIN LOGIC FUNCTIONS.
 def autoSHAPE():
     print('\n' + '-' * 50)
     print('Simple continuous Shape Analysis Using autoSHAPE')
     if not can_find_shape_msg():
         print('SHAPE executable not found in PATH.')
         return False
+
     selection = AtomSelection(olex.f('sel()'))
 
-    # Exit if selection is empty
     if not selection.labels:
-        print(f'Invalid atom selection: no atoms selected.')
+        print('Invalid atom selection: no atoms selected.')
         return False
 
-    # Non-centered calculation if selection is more than one atom.
     if len(selection.labels) > 1:
-
-        #Remove duplicate atoms
-        # If the length of the list is not the length of the set it means that there are duplicate elements in the list.
+        # Remove duplicate atoms if present
         if len(selection.labels) != len(set(selection.labels)):
             selection.remove_duplicates()
+        struc = MolecularStructure(selection.coords, selection.labels)
+        centered = False
 
-        shape_measurement = ShapeCalculation(selection.coords, selection.clean_labels, olx.FileName(), False, ['%fullout'])
-        folder = shape_measurement.write_tab(olx.FilePath())
-        files = run_shape(folder)
-        for f in files:
-            print_shape_table(os.path.join(folder, f'{f}.tab'))
-            print('M. Llunell, D. Casanova, J. Cirera, P. Alemany, S. Alvarez. SHAPE, version 2.1; Universitat de Barcelona: Barcelona, Spain, 2013.')
-        return folder
-    elif len(selection.labels) == 1:
+    else:  # single atom selected
         selection.add_neighbours()
-
-        # If merge ligands is ticked
         merge = OV.GetParam('SymmetryMeasurements.merge_ligands')
-        if merge == 'true' or merge == True:
+        if merge in ('true', True):
             selection.merge_ligands()
+        struc = MolecularStructure(selection.coords, selection.labels)
+        centered = True
 
-        shape_measurement = ShapeCalculation(selection.coords, selection.labels, olx.FileName(), True, ['%fullout'])
+
+    if len(set(selection.parts)) > 2: # If there are more than 2 parts in the selection, split it by parts
+        structures = split_by_parts(selection)
+    else:                             # Else use the default structure
+        structures = [struc]
+
+    for i, structure in enumerate(structures):
+        shape_measurement = ShapeCalculation(structure, f'{olx.FileName()}_{i}', centered, ['%fullout'])
         folder = shape_measurement.write_tab(olx.FilePath())
+
         files = run_shape(folder)
         for f in files:
             print_shape_table(os.path.join(folder, f'{f}.tab'))
-            print('M. Llunell, D. Casanova, J. Cirera, P. Alemany, S. Alvarez. SHAPE, version 2.1; Universitat de Barcelona: Barcelona, Spain, 2013.')
-        return folder
 
-    print('Invalid atom selection. Unknown error.')
-
-
-    return False
+    print(shape21_citation)
+    return True
 
 def autoOCTADIST():
 
@@ -117,30 +114,27 @@ def autoOCTADIST():
 
     #Add coordinated atoms to the current selection.
     selection.add_neighbours()
+    struc = MolecularStructure(selection.coords, selection.labels)
 
-    # Exit if there are not 7 atoms.
-    if len(selection.labels) != 7:
-        print(f'Invalid polyhedra: expected 6 atoms connected to the central atom, found {len(selection.labels) - 1}.')
-        return False
 
-    #print('Valid 6-coordinate atom.')
+    if len(set(selection.parts)) > 2:  # If there are more than 2 parts in the selection, split it by parts
+        structures = split_by_parts(selection)
+    else:  # Else use the default structure
+        structures = [struc]
 
-    # Calculate the distortion parameters
-    calculation = CalcDistortion(selection.coords, selection.labels)
+    for structure in structures:
+        # Skip this part if there are not 7 atoms.
+        if len(selection.labels) != 7:
+            print(f'Invalid polyhedra: expected 6 atoms connected to the central atom, found {len(selection.labels) - 1}.')
+            continue
 
-    # Print results to console.
-    calculation.print_results(os.path.basename(olx.FilePath()))
-        #print(f'Opposite vertices {calculation.opposite_vertices}')
-        #print([calculation.labels[v] for v in calculation.opposite_vertices.flatten()])
-        #print(f'Opposite faces {calculation.opposite_faces}')
-        #print(f'Found {len(calculation.faces)} faces.')
-
-    # Make octahedron graph.
-    calculation.draw_octahedron()
+        calculation = CalcDistortion(structure)
+        calculation.print_results(os.path.basename(olx.FilePath()))
+        calculation.draw_octahedron()
 
     #Citation
     print('\nThis calculations were made using a reimplementation of the OctaDist algorithm by David J. Harding et al.')
-    print('Ketkaew, R., Tantirungrotechai, Y., Harding, P., Chastanet, G., Guionneau, P., Marchivie, M., & Harding, D. J. (2021). OctaDist: a tool for calculating distortion parameters in spin crossover and coordination complexes. Dalton Transactions, 50(3), 1086-1096.')
+    print(octadist_citation)
     return True
 
 def shape_status_html():
