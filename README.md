@@ -6,6 +6,8 @@ SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/)$^1$ plugin th
 - Olex2 GUI panel.
 - SHAPE 2.1 wrapper and output parser.
 - Octahedral distortion parameters calculation.
+- Centroid merging for pi-bonded ligands
+- Automatic disorder handling. If more than two parts are found in the selected strucutre, calculations will be run on each part separately. 
 
 
 ## Requirements
