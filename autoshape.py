@@ -1,6 +1,8 @@
 import shutil
 import os
 import subprocess
+import sys
+
 from constants import *
 from helper_functions import *
 import numpy as np
@@ -28,25 +30,23 @@ class ShapeCalculation:
             self.centre = 1
             self.ligands = len(self.coords) - 1
             self.dat_title = f'$ {self.file_name}_{self.labels[0]}\n'
+            self.subtitle = f'{self.labels[0]}\n'.upper()  # First label contains the metal atom.
         else:
             self.centre = 0
             self.ligands = len(self.coords)
             self.dat_title = f"$ {self.file_name}_{self.labels[0]}-{self.labels[-1]}\n"
+            self.subtitle = f'{self.labels[0]}-{self.labels[-1]}\n'.upper()
 
         self.subfolder_name = self.dat_title.strip().split(' ')[-1]
         self.positions = f'{self.ligands} {self.centre}\n'
 
         try:
             self.geometries = f'{REF_SHAPE_DICT[self.ligands]}\n'  # The SHAPE2.1 documentation gives these strings of numbers
+        except KeyError as e:
+            print(f'ERROR: No defined geometries for {self.ligands} vertices. Check the structure for extra bonds or atoms.')
 
-        except KeyError:
-            print(f'No defined geometries for {self.ligands} vertices. Check the structure for extra bonds.')
 
-        if centered:
-            self.subtitle = f'{self.labels[0]}\n'.upper() # First label contains the metal atom.
-        else:
-            self.subtitle = f'{self.labels[0]}-{self.labels[-1]}\n'.upper()
-
+        # Builds Label x y z table.
         self.table = '\n'.join(
             f'{label} {" ".join(f"{x:g}" for x in xyz)}'
             for label, xyz in zip(self.labels, self.coords)
@@ -78,7 +78,6 @@ class ShapeCalculation:
         pass
 
 
-
 def can_find_shape_msg(silent=True):
     shape_path = shutil.which("shape")
     if shape_path is None:
@@ -88,8 +87,6 @@ def can_find_shape_msg(silent=True):
         if not silent:
             print(f"SHAPE executable found at: {shape_path}")
         return True
-
-
 
 
 def run_shape(folder):
