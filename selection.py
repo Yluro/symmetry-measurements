@@ -86,7 +86,7 @@ class AtomSelection:
         for label, tag in zip(self.labels[1:], self.tags[1:]): # For each ligand
 
             # Get the neighbours of each ligand atom
-            print('Looking for neighbours for ' + label)
+            #print('Looking for neighbours for ' + label)
             neighbours = get_neighbours([label,])
             _, nei_uniques = neighbours
 
