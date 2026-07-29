@@ -77,6 +77,14 @@ where $\phi_i$ are the cis angles.
 \tau = \sum_{i=1}^3 |180^\circ - \psi_i|
 ```
 where $\psi_i$ are the trans angles.
+
+- Deviation of the metal from the centroid:
+```math
+\vec{c} = \frac{1}{6}\sum^6_{i=1} \vec{r}_i \\
+\mu = |\vec{r}_M - \vec{c}
+```
+where $\vec{r}_M$ is the position of the metal and $$are the trans angles.
+
 - Octahedral twisting distortion:
 ```math
 \Theta = \sum_{i=1}^{24}  |60^\circ - \theta_i|
@@ -94,7 +102,7 @@ where $\theta_i$ are twisting angles between vectors of two opposite faces.
 
 | Status  | Features                                                                                                                 |
 | ------------- |--------------------------------------------------------------------------------------------------------------------------|
-| WIP | Suppport for disordered structures.                                                                                      |
+| ✔️ | Suppport for disordered structures.                                                                                      |
 | ✔️ | Centorid search for pi-bonded ligands. *Doesn't work with ligands outside ASU.                                           |
 | WIP | Custom reference shapes.                                                                                                 | 
 | ✔️ | Smarter program logic (automatic coordination site detection, multiple selections, etc.).                                | 
