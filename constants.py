@@ -34,3 +34,6 @@ test_Mn1_polyhedra = (('Mn1', '0 8.0648 0'),
                       ('O5', '1.617025 7.420422 -1.381456'),
                       ('O5', '-1.6170 8.7092 1.3815')
                       )
+
+shape21_citation = 'Llunell, M., Casanova, D., Cirera, J., Alemany P., Alvarez, S. (2013). SHAPE (Version 2.1). Universitat de Barcelona.'
+octadist_citation = 'Ketkaew, R., Tantirungrotechai, Y., Harding, P., Chastanet, G., Guionneau, P., Marchivie, M., & Harding, D. J. (2021). OctaDist: a tool for calculating distortion parameters in spin crossover and coordination complexes. Dalton Transactions, 50(3), 1086-1096.'
