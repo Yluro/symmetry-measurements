@@ -6,14 +6,14 @@ from helper_functions import *
 import os
 from collections.abc import Iterable
 
+from selection import MolecularStructure
+
 
 class CalcDistortion:
-    def __init__(self, coords, labels=[]):
+    def __init__(self, coordination_structure: MolecularStructure):
 
-        self.labels = labels
-        if not self.labels:
-            self.labels = ['Z'] + [f'L{i}' for i in range(1, 7)]
-        self.coords = np.array(coords, dtype=np.float64)
+        self.labels = coordination_structure.labels
+        self.coords = np.array(coordination_structure.coords, dtype=np.float64)
 
         #self.coords = np.array(points) # xyz Coordinates of central (first) and ligands (rest)
         self.central_atom = self.coords[0]
@@ -50,7 +50,7 @@ class CalcDistortion:
         self.sigma = self.calc_sigma()
         self.tau = self.calc_tau()
         self.theta = self.calc_theta()
-        self.mu = self.calc_mu_alternate()
+        self.mu = self.calc_mu()
 
     def calc_bond_distances(self):
         ds = [np.linalg.norm(v) for v in self.vectors]
@@ -128,12 +128,9 @@ class CalcDistortion:
         return final_theta
 
     def calc_mu(self):
-        mu = np.linalg.norm(np.sum(self.vectors))
+        centroid = self.coords[1:].mean(axis=0)
+        mu = np.linalg.norm(centroid - self.coords[0])
         return mu
-
-    def calc_mu_alternate(self):
-        centroid = self.coords.mean(axis=0)
-        return np.linalg.norm(self.coords[0] - centroid)
 
     def calc_normals(self):
         normals = []
