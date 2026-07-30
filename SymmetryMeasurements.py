@@ -59,11 +59,13 @@ def autoSHAPE():
         print('SHAPE executable not found in PATH.')
         return False
 
-    selection = AtomSelection(olex.f('sel()'))
-
-    if not selection.labels:
+    sel_string = olex.f('sel()')
+    if sel_string == '':
         print('Invalid atom selection: no atoms selected.')
         return False
+
+    selection = AtomSelection(sel_string)
+
 
     if len(selection.labels) > 1:
         # Remove duplicate atoms if present
@@ -100,7 +102,11 @@ def autoSHAPE():
 def autoOCTADIST():
 
     # Get the selected atoms.
-    selection = AtomSelection(olex.f('sel()'))  # Gets the selection
+    sel_string = olex.f('sel()')
+    if sel_string == '':
+        print('Invalid atom selection: no atoms selected.')
+        return False
+    selection = AtomSelection(sel_string)  # Gets the selection
 
     # Exit if selection is empty
     if not selection.labels:
@@ -116,15 +122,19 @@ def autoOCTADIST():
     selection.add_neighbours()
     struc = MolecularStructure(selection.coords, selection.labels)
 
-
+    print(selection.parts)
     if len(set(selection.parts)) > 2:  # If there are more than 2 parts in the selection, split it by parts
         structures = split_by_parts(selection)
     else:  # Else use the default structure
         structures = [struc]
 
     for structure in structures:
+        print(structure.coords)
+
+
+    for structure in structures:
         # Skip this part if there are not 7 atoms.
-        if len(selection.labels) != 7:
+        if len(structure.labels) != 7:
             print(f'Invalid polyhedra: expected 6 atoms connected to the central atom, found {len(selection.labels) - 1}.')
             continue
 
