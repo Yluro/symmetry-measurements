@@ -17,8 +17,8 @@ SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/)$^1$ plugin th
 
 The plugin was developed/tested using a Windows 10/11 machine. The plugin should be system agnostic but please report any bugs found in any other operating systems. 
 
-#### Note
-_It is known that SHAPE 2.1 gives trouble in Mac machines with operating systems newer than 2022 and some Linux systems. Unfortunately, I can't do anything about that since the ESG hasn't published a precompiled SHAPE version since 2013._ In the future I might introduce support for Cosymlib by ESG which is the updated version of their shape and symmetry measures program. 
+
+_**Note:** It is known that SHAPE 2.1 gives trouble in Mac machines with operating systems newer than 2022 and some Linux systems. Unfortunately, I can't do anything about that since the ESG hasn't published a precompiled SHAPE version since 2013. In the future I might introduce support for Cosymlib by ESG which is the updated version of their shape and symmetry measures program._
 
 ## Instalation
 1. Download the source code from the lastest GitHub release.
@@ -33,7 +33,7 @@ _It is known that SHAPE 2.1 gives trouble in Mac machines with operating systems
 5. Extract the downloaded zip into that folder.
 6. On restarting Olex2, a SymmetryMeasurements panel should appear under the Tools tab.
 
-_Note: I push development changes constantly to the master branch. You could git clone this repository to automatically keep the plugin updated. Usually, if changes are pushed it means that the plugin is in a usable state. But it does not guarantee that things won't break._
+_**Note:** I push development changes constantly to the master branch. You could git clone this repository to automatically keep the plugin updated. Usually, if changes are pushed it means that the plugin is in a usable state. But it does not guarantee that things won't break._
 
 ## AutoSHAPE
 [SHAPE 2.1](https://www.ee.ub.edu/continuous-shape-and-symmetry-measures/)$^2$ is a software published by ESG used to calculate Continuous Shape Measures (CShM's). autoSHAPE are a collection of personal Python scripts I developed and used to run and parse SHAPE i/o files. Symmetry Measurements contains an implementation of autoSHAPE to:
