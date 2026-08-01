@@ -15,7 +15,10 @@ SymmetryMeasurements is an [Olex2](https://www.olexsys.org/olex2/)$^1$ plugin th
 - SHAPE 2.1 executable available on your system `PATH`.
   - Download SHAPE 2.1 from the [Electronic Strucutre Group's webpage](https://www.ee.ub.edu/downloads/)
 
-The plugin was developed/tested using a Windows 10/11 machine. The plugin should be system agnostic but please report any bugs found in any other operating systems.
+The plugin was developed/tested using a Windows 10/11 machine. The plugin should be system agnostic but please report any bugs found in any other operating systems. 
+
+#### Note
+_It is known that SHAPE 2.1 gives trouble in Mac machines with operating systems newer than 2022 and some Linux systems. Unfortunately, I can't do anything about that since the ESG hasn't published a precompiled SHAPE version since 2013._ In the future I might introduce support for Cosymlib by ESG which is the updated version of their shape and symmetry measures program. 
 
 ## Instalation
 1. Download the source code from the lastest GitHub release.
@@ -37,7 +40,7 @@ _Note: I push development changes constantly to the master branch. You could git
 - Generate the necessary `.dat` input files for SHAPE automatically.
 - Run SHAPE and parse the resulting `.tab` output.
 - Output a summary table from the `.out` and `.tab` files.
-SM's autoSHAPE does not overwrite previous runs as it stores each run in a dedicated folder inside `<FilePath>\autoSHAPE\`.
+SM's autoSHAPE does not overwrite previous runs as it stores each run in a dedicated folder: `<FilePath>\autoSHAPE\<FileName>_<part>_<atoms>\<run>`.
 
 ### Usage
 
@@ -56,7 +59,7 @@ Symmetry Measurements includes a reimplementation of the [OctaDist](https://octa
 
 Several features of the original OctaDist program have been omitted to simplify integration with Olex2 and to remove redundant functionality.
 
-The Octahedral Distortion Parameters module computes all distortion parameters reported by OctaDist, together with an additional $\tau$ parameter that quantifies the deviation of trans angles from the ideal 180 $^\circ$. The calculated values are generally consistent with those produced by OctaDist, although discrepancies may occur for highly distorted octahedra or for structures approaching an ideal trigonal prism.
+The Octahedral Distortion Parameters module computes all distortion parameters reported by OctaDist, together with an additional $\tau$ and $\mu$ parameters that quantify the deviation of trans angles from the ideal 180 $^\circ$ and the deviation of the metal centre to the centroid of the octahedron, respectively. The calculated values are generally consistent with those produced by OctaDist, although discrepancies may occur for highly distorted octahedra or for structures approaching an ideal trigonal prism.
 
 
 - Bond length distortion:
