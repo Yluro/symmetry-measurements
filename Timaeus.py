@@ -370,7 +370,7 @@ def autoCSOM(point_groups=None, mode=None, vector=None, full=None, table=None,
     if structures is None:
         return False
 
-    print('This may take a while depending on the number of point groups and atoms...')
+    print('Running cosmochlore, this may take a few seconds...')
 
     workdir = _cosmochlore_workdir()
     ran_any = False
