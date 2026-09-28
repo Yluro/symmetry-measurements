@@ -13,7 +13,7 @@ Timaeus is an [Olex2](https://www.olexsys.org/olex2/)$^1$ plugin that integrates
 
 ## Requirements
 - Olex2 1.5.
-- [cosmochlore](https://github.com/Yluro/cosmochlore) 1.1.1 or newer on your `PATH` (optional, needed for the Cosmochlore panel).
+- [cosmochlore](https://github.com/Yluro/cosmochlore) 1.2.0 or newer on your `PATH` (optional, needed for the Cosmochlore panel).
   - The path can also be set explicitly in the plugin settings (`Extras` > `Settings`).
 - SHAPE 2.1 executable available on your system `PATH` (optional, needed for the SHAPE panel).
   - Download SHAPE 2.1 from the [Electronic Strucutre Group's webpage](https://www.ee.ub.edu/downloads/)

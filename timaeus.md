@@ -61,7 +61,7 @@ Prints whether **shape** was found on **PATH**.
 Shape and symmetry measures via the cosmochlore engine: CShM, CSoM, ODis. URL[https://github.com/Yluro/cosmochlore]
 
 #Cosmochlore Status
-Whether a **cosmochlore** executable (1.0.2+) was found. Every button below needs this to be green.
+Whether a **cosmochlore** executable (1.2.0+) was found. Every button below needs this to be green.
 
 #CShM
 Continuous Shape Measures: compares the selection to built-in and user-defined reference polyhedra. Same selection rule as SHAPE analysis.
