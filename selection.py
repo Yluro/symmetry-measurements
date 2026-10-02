@@ -45,11 +45,14 @@ class AtomSelection:
     def __len__(self):
         return len(self.labels)
 
-    def add_neighbours(self):
-        """Appends the atoms bonded to each currently selected atom."""
+    def add_neighbours(self, exclude_h=False):
+        """Appends the atoms bonded to each currently selected atom, skipping H/D if `exclude_h`."""
         if not self.labels:
             print("Could not find neighbours. Selection is empty.")
             return
+
+        hydrogen_tags = {atom['tag'] for atom in self.orm_atoms
+                         if str(atom['type']).upper() in ('H', 'D')} if exclude_h else set()
 
         for sel_label in self.labels.copy():
             neighbour_tags = next((atom['neighbours']
@@ -76,6 +79,9 @@ class AtomSelection:
                 else:
                     tag = neighbour
                     coord = get_xyz(neighbour)
+
+                if tag in hydrogen_tags:
+                    continue
 
                 self.labels.append(get_label_from_id(tag, self.orm_atoms))
                 self.tags.append(tag)
@@ -205,13 +211,42 @@ class AtomSelection:
         self.parts = [self.parts[i] for i in keep]
 
 
-def split_by_parts(selection: AtomSelection) -> List[MolecularStructure]:
+def _split_by_codes(selection: AtomSelection, part_codes: List[str],
+                    centered: bool) -> List[MolecularStructure]:
+    """One structure per code; each digit of a code is a part, e.g. '02' is parts 0 and 2."""
+    structures = []
+    for code in part_codes:
+        if not code.isdigit():
+            print(f'Ignoring invalid part code "{code}": expected digits only.')
+            continue
+
+        parts = {int(digit) for digit in code}
+        # The central atom (index 0) is always kept, whatever its own part.
+        keep = [i for i, part in enumerate(selection.parts)
+                if part in parts or (centered and i == 0)]
+
+        if len(keep) <= (1 if centered else 0):
+            print(f'No atoms found for part code "{code}".')
+            continue
+
+        structures.append(MolecularStructure([selection.coords[i] for i in keep],
+                                             [selection.labels[i] for i in keep]))
+    return structures
+
+
+def split_by_parts(selection: AtomSelection, part_codes: str = '',
+                   centered: bool = False) -> List[MolecularStructure]:
     """Splits a disordered selection into one structure per disorder component.
 
-    Atoms in part 0 are shared by every component, so each returned structure is
-    part 0 plus one of the other parts. A selection with fewer than two disordered
-    components is returned unchanged, as a single structure.
+    `part_codes` is space-separated, each code listing the parts measured together
+    ('01 02' is parts 0+1 and 0+2, '0' is part 0 only). When empty, atoms in part 0
+    are shared by every component, so each returned structure is part 0 plus one of
+    the other parts. A selection with fewer than two disordered components is
+    returned unchanged, as a single structure.
     """
+    if part_codes.split():
+        return _split_by_codes(selection, part_codes.split(), centered)
+
     unique_parts = sorted(set(selection.parts))
 
     if len(unique_parts) <= 2:
