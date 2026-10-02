@@ -2,13 +2,36 @@
 
 Timaeus is an [Olex2](https://www.olexsys.org/olex2/)$^1$ plugin that integrates several symmetry and shape analysis tools into a single graphical interface within Olex2.
 ### Features
-- All analysis methods in Timaeus will read the atomic coordinates directly from the `OlexRefinementModel` — no external input files needed.
-- Olex2 GUI panel.
-- [Cosmochlore](https://github.com/Yluro/cosmochlore) integration: Continuous Shape Measures, Continuous Symmetry Operation Measures and octahedral distortion.
-- SHAPE 2.1 wrapper and output parser.
-- Octahedral distortion parameters calculation.
-- Centroid merging for pi-bonded ligands.
-- Automatic disorder handling. If more than two parts are found in the selected structure, calculations will be run on each part separately. 
+
+All analysis methods in Timaeus will read the atomic coordinates directly from the `OlexRefinementModel`; there is no need for manual writing of any i/o files needed for external programs.
+
+**Olex2 GUI panel:**
+
+_Almost_ all functions of Timaeus are accesible through the GUI panel.
+
+**[Cosmochlore](https://github.com/Yluro/cosmochlore) integration:**
+
+Cosmochlore was developed in parallel to Timaeus to organically integrate into it. All options of cosmochlore can be accessed through the Cosmochlore tab.
+
+**SHAPE 2.1 wrapper:**
+
+SHAPE 2.1 i/o files are supported by Timaeus can run and parse SHAPE 2.1 files
+
+**Octahedral distortion parameters:**
+
+The plugin comes with its own simpler implementation of the OctaDist algorithm (separate from cosmochlore's one) based on topological arguments of the octahedral geometry.
+
+**$\eta^n$ pi-bonded ligands:**
+
+Timaeus can detect pi-bonded ligands and the option is given to average the coordinates of all donor atoms of the ligand to its centroid.
+
+**Disorder handling:**
+
+Automatic disorder handling. If more than two parts are found in the selected structure, calculations will be run on each part separately.
+
+By default, all measurements run on part 0 + part N. So if the selected atom is in part 0 and has some connected atoms in part 1 and 2, the measures will run on parts 0 + 1 and 0 + 2. 
+
+Part codes can be specified: `0` will include only atoms in part 0 in the measurement. `01` will include atoms part 0 and 1. `12 34` will separate the atoms in part 1 and 2 into one measurement and the atoms in part 3 and 4 into another.
 
 
 ## Requirements
@@ -16,23 +39,23 @@ Timaeus is an [Olex2](https://www.olexsys.org/olex2/)$^1$ plugin that integrates
 - [cosmochlore](https://github.com/Yluro/cosmochlore) 1.2.0 or newer on your `PATH` (optional, needed for the Cosmochlore panel).
   - The path can also be set explicitly in the plugin settings (`Extras` > `Settings`).
 - SHAPE 2.1 executable available on your system `PATH` (optional, needed for the SHAPE panel).
-  - Download SHAPE 2.1 from the [Electronic Strucutre Group's webpage](https://www.ee.ub.edu/downloads/)
+  - Download SHAPE 2.1 from the [Electronic Structure Group's webpage](https://www.ee.ub.edu/downloads/)
 
 The plugin was developed/tested using a Windows 10/11 machine. The plugin should be system agnostic but please report any bugs found in any other operating systems. 
 
-_**Note:** It is known that SHAPE 2.1 gives trouble in Mac machines with operating systems newer than 2022 and some Linux systems. Unfortunately, I can't do anything about that since the ESG hasn't published a precompiled SHAPE version since 2013. In the future I might introduce support for Cosymlib by ESG which is the updated version of their shape and symmetry measures program._
+_**Note:** It is known that SHAPE 2.1 gives trouble in Mac machines with operating systems newer than 2022 and some Linux systems. Unfortunately, I can't do anything about that since the ESG hasn't published a precompiled SHAPE version since 2013. In the future I might introduce support for cosymlib by ESG which is the updated version of their shape and symmetry measures program._
 
-## Instalation
-1. Download the source code from the lastest GitHub release.
-2.  Go to the base directory of your Olex2 instalation. You can open the directory by typing `shell BaseDir()` in the Olex2 console.
+## Installation
+1. Download the source code from the lastest GitHub release. 
+2. Go to the base directory of your Olex2 installation. You can open the directory by typing `shell BaseDir()` in the Olex2 console.
 3. Create a file called `plugins.xld` and write the following contents inside `plugins.xld`:
 ```xml
 <Plugin
  <Timaeus>
 >
 ``` 
-4. Go to the `<BaseDir>\util\pyUtil\PluginLib\` folder and create a folder called `plugin-Timaeus` (again, capital T).
-5. Extract the downloaded zip into that folder. GitHub's zip wraps everything in a top-level folder (e.g. `timaeus-1.0.2`): copy the *contents* of that folder, so that `Timaeus.py` sits directly at `<BaseDir>\util\pyUtil\PluginLib\plugin-Timaeus\Timaeus.py` and not in a subfolder.
+4. Go to the `<BaseDir>\util\pyUtil\PluginLib\` folder and create a folder called `plugin-Timaeus`.
+5. Extract the downloaded zip and drop the contents of the `timaeus-X.X.X` folder, into `plugin-Timaeus` so that `Timaeus.py` sits directly at `<BaseDir>\util\pyUtil\PluginLib\plugin-Timaeus\Timaeus.py`.
 6. On restarting Olex2, a Timaeus panel should appear under the Tools tab.
 
 **Troubleshooting:** 
@@ -57,7 +80,7 @@ _**Note:** I push development changes constantly to the master branch. You could
 1. Open a structure in Olex2.
 2. Select the atoms you want to include in the measurement.
  - If one atom is selected, the neighbouring atoms will be taken into account to form a centered shape (e.g. a coordination structure).
- - If multiple atoms are selected, they will be interpreted as a non centered shape (e.g. a borane cluster).
+ - If multiple atoms are selected, they will be interpreted as a non-centered shape (e.g. a borane cluster).
 4. Run any of the cosmochlore functions from the Olex2 console or from the Tools/Timaeus/Cosmochlore panel.
 5. Results are printed to the console and saved in `<FilePath>/cosmochlore/`.
 
@@ -80,7 +103,7 @@ SM's autoSHAPE does not overwrite previous runs as it stores each run in a dedic
 
 
 #### _New in version 0.2_
-There is an option to merge pi-bonded ligands into a centroid. If checked, autoshape will interpret pi-bonded ligands as the average of the fragments as per Cirera _et al_$^2$ paper. 
+There is an option to merge pi-bonded ligands into a centroid. If checked, autoSHAPE will interpret pi-bonded ligands as the average of the fragments as per Cirera _et al_$^2$ paper. 
 
 ## Octahedral Distortion Parameters.
 Timaeus includes a reimplementation of the [OctaDist](https://octadist.github.io/)$^3$ algorithm. Unlike the original implementation, this version identifies opposite faces and vertices of an octahedron using topological criteria. It relies on constructing a convex hull that is topologically equivalent to an octahedron. As a result, the algorithm may fail when more than three vertices are coplanar, causing the convex hull to degenerate into a different polyhedral shape.
@@ -131,7 +154,7 @@ where $\vec{r}_M$ is the position of the metal and $\vec{r}_i$ are the position 
 1. Open a structure in Olex2.
 2. Select the central atom of a 6-coordinate complex.
 3. Run `spy.Timaeus.autoOCTADIST()` from the Olex2 console or from the Tools/Timaeus panel.
-4. Results are printed in the console. A graph will saved in `<FilePath>/OH_distortion` showing the extracted octahedron. 
+4. Results are printed in the console. A graph will be saved in `<FilePath>/OH_distortion` showing the extracted octahedron. 
 
 
 ## Known limitations/upcoming features.
