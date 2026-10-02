@@ -19,7 +19,6 @@ class ShapeCalculation:
         self.coords = np.array(structure.coords, dtype=np.float64)
         self.labels = structure.labels
 
-        self.can_find_shape = can_find_shape_msg()
         self.is_centered = centered
         self.file_name = file_name
         self.dat_keywords = '\n'.join(keywords) + '\n'
@@ -78,15 +77,20 @@ class ShapeCalculation:
         return None
 
 
-def find_shape():
-    """Returns the path to the SHAPE 2.1 executable, or None if it is not on PATH."""
+def find_shape(configured_path=None):
+    """Returns the SHAPE 2.1 executable, or None if `configured_path` is missing or it is not on PATH."""
+    if configured_path:
+        return configured_path if os.path.isfile(configured_path) else None
     return shutil.which('shape')
 
 
-def can_find_shape_msg(silent=True) -> bool:
-    shape_path = find_shape()
+def can_find_shape_msg(silent=True, configured_path=None) -> bool:
+    shape_path = find_shape(configured_path)
     if shape_path is None:
-        print("Unable to find shape.exe in the system path.")
+        if configured_path:
+            print(f'timaeus.shape.exe_path is set to "{configured_path}", but that file does not exist.')
+        else:
+            print("Unable to find shape.exe in the system path.")
         return False
 
     if not silent:
@@ -94,10 +98,11 @@ def can_find_shape_msg(silent=True) -> bool:
     return True
 
 
-def run_shape(folder) -> List[str]:
+def run_shape(folder, exe='shape') -> List[str]:
     """
     Runs a SHAPE instance on all dat files in a specified folder.
     :param folder:
+    :param exe: SHAPE executable to run.
     :return files: Name of the output files without file extension.
     """
     if not folder:
@@ -106,7 +111,7 @@ def run_shape(folder) -> List[str]:
     print("Running SHAPE...")
     dat_files = [f for f in os.listdir(folder) if f.endswith('.dat')]
     for file in dat_files:
-        process = subprocess.Popen('shape', shell=True, stdin=subprocess.PIPE,
+        process = subprocess.Popen(f'"{exe}"', shell=True, stdin=subprocess.PIPE,
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                    text=True, cwd=folder)
         out, err = process.communicate(input=f'{file}\n')  # Send the file name and an Enter key
