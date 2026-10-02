@@ -47,6 +47,16 @@ OV.SetVar('Timaeus_plugin_path', p_path)
 from PluginTools import PluginTools as PT
 
 
+def _exclude_h():
+    return as_bool(OV.GetParam('timaeus.exclude_h', False))
+
+
+def _split_selection(selection, centered=True):
+    """Splits `selection` into structures using the timaeus.part_codes param."""
+    part_codes = OV.GetParam('timaeus.part_codes', '') or ''
+    return split_by_parts(selection, part_codes, centered)
+
+
 def _prepare_structures(sel_string, merge=None):
     """Builds one MolecularStructure per disorder component from `sel_string`.
 
@@ -70,7 +80,7 @@ def _prepare_structures(sel_string, merge=None):
         centered = False
     else:
         # A single atom selected: grow it into a coordination polyhedron.
-        selection.add_neighbours()
+        selection.add_neighbours(_exclude_h())
         if merge is None:
             merge = as_bool(OV.GetParam('timaeus.merge_ligands', False))
         if merge:
@@ -78,11 +88,48 @@ def _prepare_structures(sel_string, merge=None):
         centered = True
 
     # Returns one structure per disorder component, or a single structure when the strucutre is not disordered
-    return split_by_parts(selection), centered
+    return _split_selection(selection, centered), centered
 
 
 def _cosmochlore_exe_path():
     return OV.GetParam('timaeus.cosmochlore.exe_path', '') or None
+
+
+def save_params():
+    """Saves the changed timaeus params to <DataDir>/timaeus.phil."""
+    user_phil_file = os.path.join(OV.DataDir(), f'{p_scope}.phil')
+    olx.phil_handler.save_param_file(file_name=user_phil_file, scope_name=p_scope, diff_only=True)
+
+
+def SetOption(param, value):
+    """Sets a timaeus param and saves it so it survives a restart."""
+    OV.SetParam(param, value)
+    save_params()
+
+
+def _set_exe_param(param, path):
+    path = str(path).strip().strip('"\'').replace('\\', '/')
+    SetOption(param, path)
+    if path and not os.path.exists(path):
+        print(f'Warning: "{path}" does not exist. The path was saved anyway.')
+
+
+def SetCosmochloreExe(path=''):
+    """Sets and saves timaeus.cosmochlore.exe_path; empty falls back to PATH."""
+    _set_exe_param('timaeus.cosmochlore.exe_path', path)
+
+
+def SetShapeExe(path=''):
+    """Sets and saves timaeus.shape.exe_path; empty falls back to PATH."""
+    _set_exe_param('timaeus.shape.exe_path', path)
+
+
+def _shape_exe_path():
+    return OV.GetParam('timaeus.shape.exe_path', '') or None
+
+
+def check_shape(silent=True):
+    return can_find_shape_msg(silent, _shape_exe_path())
 
 
 def _cosmochlore_workdir():
@@ -170,9 +217,9 @@ def open_plugin_folder():
 def autoSHAPE():
     print('\n' + '-' * 50)
     print('Simple continuous Shape Analysis Using autoSHAPE')
-    if not can_find_shape_msg():
-        print('SHAPE executable not found in PATH.')
+    if not check_shape():
         return False
+    shape_exe = find_shape(_shape_exe_path())
 
     structures, centered = _prepare_structures(olex.f('sel()'))
     if structures is None:
@@ -190,7 +237,7 @@ def autoSHAPE():
         if folder is None:
             continue
 
-        for f in run_shape(folder):
+        for f in run_shape(folder, shape_exe):
             print_shape_table(os.path.join(folder, f'{f}.tab'))
 
     print(shape21_citation)
@@ -212,9 +259,9 @@ def autoOCTADIST():
         return False
 
     # Add coordinated atoms to the current selection.
-    selection.add_neighbours()
+    selection.add_neighbours(_exclude_h())
 
-    for structure in split_by_parts(selection):
+    for structure in _split_selection(selection):
         try:
             calculation = CalcDistortion(structure)
         except ValueError as e:
@@ -422,11 +469,11 @@ def autoODIS(full=None, table=None):
         print(f'Invalid atom selection: expected 1 atom, found {len(selection)}.')
         return False
 
-    selection.add_neighbours()
+    selection.add_neighbours(_exclude_h())
 
     workdir = _cosmochlore_workdir()
     ran_any = False
-    for i, structure in enumerate(split_by_parts(selection)):
+    for i, structure in enumerate(_split_selection(selection)):
         if len(structure) != 7:
             print(f'Skipping part {i}: expected 7 atoms (centre + six donors), '
                   f'found {len(structure)}.')
@@ -448,10 +495,16 @@ def autoODIS(full=None, table=None):
 
 
 def shape_status_html():
-    where = find_shape()
+    configured = _shape_exe_path()
+    where = find_shape(configured)
     found = where is not None
     color = OV.GetParam('gui.green') if found else OV.GetParam('gui.grey')
-    text = f'SHAPE executable found at: {where}' if found else 'Unable to find shape.exe in the system path.'
+    if found:
+        text = f'SHAPE executable found at: {where}'
+    elif configured:
+        text = f'timaeus.shape.exe_path is set to "{configured}", but that file does not exist.'
+    else:
+        text = 'Unable to find shape.exe in the system path.'
     return f"<font color='{color}'>{text}</font>"
 
 
@@ -482,7 +535,9 @@ class Timaeus(PT):
         # Main entry points.
         OV.registerFunction(autoSHAPE, True, "Timaeus")
         OV.registerFunction(autoOCTADIST, True, "Timaeus")
-        OV.registerFunction(can_find_shape_msg, True, "Timaeus")
+        OV.registerFunction(check_shape, True, "Timaeus")
+        OV.registerFunction(SetShapeExe, True, "Timaeus")
+        OV.registerFunction(SetOption, True, "Timaeus")
         OV.registerFunction(shape_status_html, False, 'Timaeus')
 
         # cosmochlore entry points.
@@ -491,6 +546,8 @@ class Timaeus(PT):
         OV.registerFunction(autoODIS, True, "Timaeus")
         OV.registerFunction(cosmochlore.can_find_cosmochlore_msg, False, "Timaeus")
         OV.registerFunction(cosmochlore_status_html, False, "Timaeus")
+        OV.registerFunction(SetCosmochloreExe, True, "Timaeus")
+        OV.registerFunction(save_params, True, "Timaeus")
         OV.registerFunction(user_shapes_checkboxes_html, False, "Timaeus")
         OV.registerFunction(open_user_shapes_folder, True, "Timaeus")
 
