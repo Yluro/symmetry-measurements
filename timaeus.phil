@@ -10,6 +10,12 @@ timaeus{
   merge_ligands = False
     .type = bool
     .help = Merge pi-bonded ligands into their centroid before measuring.
+  exclude_h = False
+    .type = bool
+    .help = Leave hydrogen and deuterium atoms out of the coordination polyhedron.
+  part_codes = ''
+    .type = str
+    .help = Space-separated disorder part codes, each measured as one structure. Every digit of a code is a part: "01 02" measures parts 0+1 and 0+2, "34" parts 3+4, "0" part 0 only. Leave empty to measure part 0 with each other part.
 
   shape{
     exe_path = ''
