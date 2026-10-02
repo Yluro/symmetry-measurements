@@ -11,6 +11,12 @@ timaeus{
     .type = bool
     .help = Merge pi-bonded ligands into their centroid before measuring.
 
+  shape{
+    exe_path = ''
+      .type = str
+      .help = Explicit path to the SHAPE executable. Leave empty to search PATH.
+  }
+
   cosmochlore{
     exe_path = ''
       .type = str
