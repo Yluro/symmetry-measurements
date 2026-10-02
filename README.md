@@ -25,7 +25,8 @@ The plugin comes with its own simpler implementation of the OctaDist algorithm (
 
 **$\eta^n$ pi-bonded ligands:**
 
-Timeo can detect pi-bonded ligands and the option is given to average the coordinates of all donor atoms of the ligand to its centroid.
+Timeo can detect pi-bonded ligands and the option is given to average the coordinates of all donor atoms of the ligand to its centroid 
+as per the Cirera _et al_$^2$ paper. 
 
 **Disorder handling:**
 
@@ -108,10 +109,6 @@ SM's autoSHAPE does not overwrite previous runs as it stores each run in a dedic
 ### Usage
  1. `autoSHAPE` uses the same selection criteria as `cosmochlore`. Select a single atom for a centered measurement or multiple for a non-centered one.
  2. Run `spy.Timeo.autoSHAPE()` from the Olex2 command line or from the Tools/Timeo/SHAPE 2.1 panel.
-
-
-#### _New in version 0.2_
-There is an option to merge pi-bonded ligands into a centroid. If checked, autoSHAPE will interpret pi-bonded ligands as the average of the fragments as per Cirera _et al_$^2$ paper. 
 
 ## Octahedral Distortion Parameters.
 Timeo includes a reimplementation of the [OctaDist](https://octadist.github.io/)$^3$ algorithm. Unlike the original implementation, this version identifies opposite faces and vertices of an octahedron using topological criteria. It relies on constructing a convex hull that is topologically equivalent to an octahedron. As a result, the algorithm may fail when more than three vertices are coplanar, causing the convex hull to degenerate into a different polyhedral shape.
