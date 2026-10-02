@@ -71,17 +71,16 @@ _**Note:** It is known that SHAPE 2.1 gives trouble in Mac machines with operati
 1. Delete the `<BaseDir>\util\pyUtil\PluginLib\plugin-Timaeus` folder and install Timeo as described above.
 2. In `plugins.xld`, replace the `<Timaeus>` line with `<Timeo>`.
 3. Console commands are now `spy.Timeo.*` instead of `spy.Timaeus.*`.
-4. Saved settings are not carried over automatically. To keep them, rename `<DataDir>\timaeus.phil` to `timeo.phil` and change its first line from `timaeus {` to `timeo {`. You can open the folder by typing `shell DataDir()` in the Olex2 console.
 
 _**Note:** I push development changes constantly to the master branch. You could git clone this repository to automatically keep the plugin updated. Usually, if changes are pushed it means that the plugin is in a usable state. But it does not guarantee that things won't break._
 
 ## Cosmochlore
 [cosmochlore](https://github.com/Yluro/cosmochlore) is a separate Rust program that calculates shape and symmetry measures. Timeo wraps its three subcommands; each writes its output next to the structure and prints the results table to the console. Every option below has a phil parameter, editable in `Extras` > `Settings` or from the panel itself. Cosmochlore was intentionally developed to function as a background process to Timeo. Most options of the program can be accessed through the GUI.
 
-| Function | Description |
-| --- | --- |
-| `spy.Timeo.autoCSHM()` | Continuous Shape Measures against the built-in and user-defined reference polyhedra. |
-| `spy.Timeo.autoCSOM()` | Continuous Symmetry Operation Measures against a list of point groups. |
+| Function               | Description                                                                                                                              |
+|------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| `spy.Timeo.autoCSHM()` | Continuous Shape Measures against the built-in and user-defined reference polyhedra.                                                     |
+| `spy.Timeo.autoCSOM()` | Continuous Symmetry Operation Measures against a list of point groups.                                                                   |
 | `spy.Timeo.autoODIS()` | Octahedral distortion parameters, independent of the OctaDist reimplementation below. Select the central atom of a 6-coordinate complex. |
 
 ### Usage
@@ -168,16 +167,16 @@ where $\vec{r}_M$ is the position of the metal and $\vec{r}_i$ are the position 
 
 ## Known limitations/upcoming features.
 
-| Status  | Features                                                                                                                 |
-| ------------- |--------------------------------------------------------------------------------------------------------------------------|
-| ✔️ | Suppport for disordered structures.                                                                                      |
-| ✔️ | Centorid search for pi-bonded ligands. *Doesn't work with ligands outside ASU.                                           |
-| ✔️ | Custom reference shapes. *Via cosmochlore, see `user_shapes/`.                                                           | 
-| ✔️ | Smarter program logic (automatic coordination site detection, multiple selections, etc.).                                | 
-| ✔️ | Support for other measurement programs (cosmochlore: CShM, CSoM, ODis).                                                  |
-| ✔️ | Reimplementation of octahedral distortion parameters (Zeta, Sigma, Theta) — relevant for spin-crossover (SCO) complexes. |
-| ✔️ | Non centered shapes.                                                                                                     |
-| ✔️ | HTML UI.                                                                                                                 |
+| Status | Features                                                                                                                 |
+|--------|--------------------------------------------------------------------------------------------------------------------------|
+| ✔️     | Suppport for disordered structures.                                                                                      |
+| ✔️     | Centorid search for pi-bonded ligands. *Doesn't work with ligands outside ASU.                                           |
+| ✔️     | Custom reference shapes. *Via cosmochlore, see `user_shapes/`.                                                           | 
+| ✔️     | Smarter program logic (automatic coordination site detection, multiple selections, etc.).                                | 
+| ✔️     | Support for other measurement programs (cosmochlore: CShM, CSoM, ODis).                                                  |
+| ✔️     | Reimplementation of octahedral distortion parameters (Zeta, Sigma, Theta) — relevant for spin-crossover (SCO) complexes. |
+| ✔️     | Non centered shapes.                                                                                                     |
+| ✔️     | HTML UI.                                                                                                                 |
 
 ## License
 Copyright (C) 2026 José Serrano Guarinos.
