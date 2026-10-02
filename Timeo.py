@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 José Serrano Guarinos
 
+__version__ = '1.2.0'
+
 import os
 import re
 
@@ -45,18 +47,18 @@ p_htm = d['p_htm']
 p_img = eval(d['p_img'])
 p_scope = d['p_scope']
 
-OV.SetVar('Timaeus_plugin_path', p_path)
+OV.SetVar('Timeo_plugin_path', p_path)
 
 from PluginTools import PluginTools as PT
 
 
 def _exclude_h():
-    return as_bool(OV.GetParam('timaeus.exclude_h', False))
+    return as_bool(OV.GetParam('timeo.exclude_h', False))
 
 
 def _split_selection(selection, centered=True):
-    """Splits `selection` into structures using the timaeus.part_codes param."""
-    part_codes = OV.GetParam('timaeus.part_codes', '') or ''
+    """Splits `selection` into structures using the timeo.part_codes param."""
+    part_codes = OV.GetParam('timeo.part_codes', '') or ''
     return split_by_parts(selection, part_codes, centered)
 
 
@@ -85,7 +87,7 @@ def _prepare_structures(sel_string, merge=None):
         # A single atom selected: grow it into a coordination polyhedron.
         selection.add_neighbours(_exclude_h())
         if merge is None:
-            merge = as_bool(OV.GetParam('timaeus.merge_ligands', False))
+            merge = as_bool(OV.GetParam('timeo.merge_ligands', False))
         if merge:
             selection.merge_ligands()
         centered = True
@@ -95,17 +97,17 @@ def _prepare_structures(sel_string, merge=None):
 
 
 def _cosmochlore_exe_path():
-    return OV.GetParam('timaeus.cosmochlore.exe_path', '') or None
+    return OV.GetParam('timeo.cosmochlore.exe_path', '') or None
 
 
 def save_params():
-    """Saves the changed timaeus params to <DataDir>/timaeus.phil."""
+    """Saves the changed timeo params to <DataDir>/timeo.phil."""
     user_phil_file = os.path.join(OV.DataDir(), f'{p_scope}.phil')
     olx.phil_handler.save_param_file(file_name=user_phil_file, scope_name=p_scope, diff_only=True)
 
 
 def SetOption(param, value):
-    """Sets a timaeus param and saves it so it survives a restart."""
+    """Sets a timeo param and saves it so it survives a restart."""
     OV.SetParam(param, value)
     save_params()
 
@@ -118,17 +120,17 @@ def _set_exe_param(param, path):
 
 
 def SetCosmochloreExe(path=''):
-    """Sets and saves timaeus.cosmochlore.exe_path; empty falls back to PATH."""
-    _set_exe_param('timaeus.cosmochlore.exe_path', path)
+    """Sets and saves timeo.cosmochlore.exe_path; empty falls back to PATH."""
+    _set_exe_param('timeo.cosmochlore.exe_path', path)
 
 
 def SetShapeExe(path=''):
-    """Sets and saves timaeus.shape.exe_path; empty falls back to PATH."""
-    _set_exe_param('timaeus.shape.exe_path', path)
+    """Sets and saves timeo.shape.exe_path; empty falls back to PATH."""
+    _set_exe_param('timeo.shape.exe_path', path)
 
 
 def _shape_exe_path():
-    return OV.GetParam('timaeus.shape.exe_path', '') or None
+    return OV.GetParam('timeo.shape.exe_path', '') or None
 
 
 def check_shape(silent=True):
@@ -157,7 +159,7 @@ def _safe_key(name: str) -> str:
 
 
 def _user_shape_param(name: str) -> str:
-    return f'timaeus.cosmochlore.cshm.user_shape.{_safe_key(name)}'
+    return f'timeo.cosmochlore.cshm.user_shape.{_safe_key(name)}'
 
 
 def user_shapes_checkboxes_html():
@@ -308,9 +310,9 @@ def autoCSHM(shapes=None, user_shapes=None, table=None, ideal=None):
     if user_shapes is None:
         user_shapes = _selected_user_shapes() or None
     if table is None:
-        table = as_bool(OV.GetParam('timaeus.cosmochlore.cshm.table', False))
+        table = as_bool(OV.GetParam('timeo.cosmochlore.cshm.table', False))
     if ideal is None:
-        ideal = as_bool(OV.GetParam('timaeus.cosmochlore.cshm.ideal', False))
+        ideal = as_bool(OV.GetParam('timeo.cosmochlore.cshm.ideal', False))
 
     structures, centered = _prepare_structures(olex.f('sel()'))
     if structures is None:
@@ -340,7 +342,7 @@ def autoCSOM(point_groups=None, mode=None, vector=None, full=None, table=None,
     """Continuous Symmetry Operation Measures via cosmochlore, on the current selection.
 
     point_groups: a space-separated string or list of Schoenflies, falls back to the
-    timaeus.cosmochlore.csom.point_groups phil param when not given.
+    timeo.cosmochlore.csom.point_groups phil param when not given.
 
     mode: centering mode (auto/first/centroid/manual), defaults to the matching phil param.
 
@@ -362,18 +364,18 @@ def autoCSOM(point_groups=None, mode=None, vector=None, full=None, table=None,
         return False
 
     if point_groups is None:
-        point_groups = OV.GetParam('timaeus.cosmochlore.csom.point_groups', '')
+        point_groups = OV.GetParam('timeo.cosmochlore.csom.point_groups', '')
     if isinstance(point_groups, str):
         point_groups = point_groups.split()
 
     if not point_groups:
         print('No point groups given. Pass e.g. '
-              "spy.Timaeus.autoCSOM('Oh D4h D3d'), or set "
-              "timaeus.cosmochlore.csom.point_groups.")
+              "spy.Timeo.autoCSOM('Oh D4h D3d'), or set "
+              "timeo.cosmochlore.csom.point_groups.")
         return False
 
     if mode is None:
-        mode = OV.GetParam('timaeus.cosmochlore.csom.mode', 'auto')
+        mode = OV.GetParam('timeo.cosmochlore.csom.mode', 'auto')
     # Olex2's combo control capitalises the value it hands back (e.g. 'auto'
     # -> 'Auto') regardless of the case used in the combo's own item list, so
     # normalise here rather than trust whatever case arrives from the GUI or a
@@ -381,7 +383,7 @@ def autoCSOM(point_groups=None, mode=None, vector=None, full=None, table=None,
     mode = str(mode).strip().lower()
 
     if vector is None:
-        vector_str = OV.GetParam('timaeus.cosmochlore.csom.vector', '')
+        vector_str = OV.GetParam('timeo.cosmochlore.csom.vector', '')
         if vector_str.strip():
             try:
                 vector = [float(v) for v in vector_str.split()]
@@ -397,24 +399,24 @@ def autoCSOM(point_groups=None, mode=None, vector=None, full=None, table=None,
     if mode == 'manual' and not vector:
         print('Centering mode is "manual" but no centering vector was given. Set it in '
               'the Cosmochlore section (x y z, space-separated), or pass '
-              "spy.Timaeus.autoCSOM(vector=[x, y, z]).")
+              "spy.Timeo.autoCSOM(vector=[x, y, z]).")
         return False
 
     if full is None:
-        full = as_bool(OV.GetParam('timaeus.cosmochlore.csom.full', False))
+        full = as_bool(OV.GetParam('timeo.cosmochlore.csom.full', False))
     if table is None:
-        table = as_bool(OV.GetParam('timaeus.cosmochlore.csom.table', False))
+        table = as_bool(OV.GetParam('timeo.cosmochlore.csom.table', False))
     if operated is None:
-        operated = as_bool(OV.GetParam('timaeus.cosmochlore.csom.operated', False))
+        operated = as_bool(OV.GetParam('timeo.cosmochlore.csom.operated', False))
     if ignore_labels is None:
-        ignore_labels = as_bool(OV.GetParam('timaeus.cosmochlore.csom.ignore_labels', False))
+        ignore_labels = as_bool(OV.GetParam('timeo.cosmochlore.csom.ignore_labels', False))
 
     if seeds is None:
-        seeds = OV.GetParam('timaeus.cosmochlore.csom.seeds', 20)
+        seeds = OV.GetParam('timeo.cosmochlore.csom.seeds', 20)
     if iterations is None:
-        iterations = OV.GetParam('timaeus.cosmochlore.csom.iterations', 200)
+        iterations = OV.GetParam('timeo.cosmochlore.csom.iterations', 200)
     if tolerance is None:
-        tolerance = 10.0 ** -OV.GetParam('timaeus.cosmochlore.csom.tolerance_exponent', 6)
+        tolerance = 10.0 ** -OV.GetParam('timeo.cosmochlore.csom.tolerance_exponent', 6)
 
     structures, centered = _prepare_structures(olex.f('sel()'))
     if structures is None:
@@ -458,9 +460,9 @@ def autoODIS(full=None, table=None):
         return False
 
     if full is None:
-        full = as_bool(OV.GetParam('timaeus.cosmochlore.odis.full', False))
+        full = as_bool(OV.GetParam('timeo.cosmochlore.odis.full', False))
     if table is None:
-        table = as_bool(OV.GetParam('timaeus.cosmochlore.odis.table', False))
+        table = as_bool(OV.GetParam('timeo.cosmochlore.odis.table', False))
 
     sel_string = olex.f('sel()')
     if sel_string == '':
@@ -505,7 +507,7 @@ def shape_status_html():
     if found:
         text = f'SHAPE executable found at: {where}'
     elif configured:
-        text = f'timaeus.shape.exe_path is set to "{configured}", but that file does not exist.'
+        text = f'timeo.shape.exe_path is set to "{configured}", but that file does not exist.'
     else:
         text = 'Unable to find shape.exe in the system path.'
     return f"<font color='{color}'>{text}</font>"
@@ -522,9 +524,9 @@ def cosmochlore_status_html():
     return f"<font color='{OV.GetParam('gui.green')}'>{text}</font>"
 
 
-class Timaeus(PT):
+class Timeo(PT):
     def __init__(self):
-        super(Timaeus, self).__init__()
+        super(Timeo, self).__init__()
         self.p_name = p_name
         self.p_path = p_path
         self.p_scope = p_scope
@@ -536,40 +538,40 @@ class Timaeus(PT):
             self.setup_gui()
 
         # Main entry points.
-        OV.registerFunction(autoSHAPE, True, "Timaeus")
-        OV.registerFunction(autoOCTADIST, True, "Timaeus")
-        OV.registerFunction(check_shape, True, "Timaeus")
-        OV.registerFunction(SetShapeExe, True, "Timaeus")
-        OV.registerFunction(SetOption, True, "Timaeus")
-        OV.registerFunction(shape_status_html, False, 'Timaeus')
+        OV.registerFunction(autoSHAPE, True, "Timeo")
+        OV.registerFunction(autoOCTADIST, True, "Timeo")
+        OV.registerFunction(check_shape, True, "Timeo")
+        OV.registerFunction(SetShapeExe, True, "Timeo")
+        OV.registerFunction(SetOption, True, "Timeo")
+        OV.registerFunction(shape_status_html, False, 'Timeo')
 
         # cosmochlore entry points.
-        OV.registerFunction(autoCSHM, True, "Timaeus")
-        OV.registerFunction(autoCSOM, True, "Timaeus")
-        OV.registerFunction(autoODIS, True, "Timaeus")
-        OV.registerFunction(cosmochlore.can_find_cosmochlore_msg, False, "Timaeus")
-        OV.registerFunction(cosmochlore_status_html, False, "Timaeus")
-        OV.registerFunction(SetCosmochloreExe, True, "Timaeus")
-        OV.registerFunction(save_params, True, "Timaeus")
-        OV.registerFunction(user_shapes_checkboxes_html, False, "Timaeus")
-        OV.registerFunction(open_user_shapes_folder, True, "Timaeus")
+        OV.registerFunction(autoCSHM, True, "Timeo")
+        OV.registerFunction(autoCSOM, True, "Timeo")
+        OV.registerFunction(autoODIS, True, "Timeo")
+        OV.registerFunction(cosmochlore.can_find_cosmochlore_msg, False, "Timeo")
+        OV.registerFunction(cosmochlore_status_html, False, "Timeo")
+        OV.registerFunction(SetCosmochloreExe, True, "Timeo")
+        OV.registerFunction(save_params, True, "Timeo")
+        OV.registerFunction(user_shapes_checkboxes_html, False, "Timeo")
+        OV.registerFunction(open_user_shapes_folder, True, "Timeo")
 
         # Extras panel.
-        OV.registerFunction(reload_plugin, True, "Timaeus")
-        OV.registerFunction(open_plugin_folder, True, "Timaeus")
+        OV.registerFunction(reload_plugin, True, "Timeo")
+        OV.registerFunction(open_plugin_folder, True, "Timeo")
 
         # Debug panel helpers.
-        OV.registerFunction(get_selected_atoms, True, "Timaeus")
-        OV.registerFunction(get_neighbours, True, "Timaeus")
-        OV.registerFunction(get_neighbours_on_sel, True, "Timaeus")
-        OV.registerFunction(get_xyz_sel, True, "Timaeus")
-        OV.registerFunction(print_console_bs, False, 'Timaeus')
-        OV.registerFunction(print_orm, False, 'Timaeus')
-        OV.registerFunction(test_selection_class, False, 'Timaeus')
+        OV.registerFunction(get_selected_atoms, True, "Timeo")
+        OV.registerFunction(get_neighbours, True, "Timeo")
+        OV.registerFunction(get_neighbours_on_sel, True, "Timeo")
+        OV.registerFunction(get_xyz_sel, True, "Timeo")
+        OV.registerFunction(print_console_bs, False, 'Timeo')
+        OV.registerFunction(print_orm, False, 'Timeo')
+        OV.registerFunction(test_selection_class, False, 'Timeo')
     # END Generated =======================================
 
 
-Timaeus_instance = Timaeus()
-print("Loading Timaeus modules.")
+Timeo_instance = Timeo()
+print("Loading Timeo modules.")
 reload_all()
-print("Timaeus by JSG loaded.")
+print(f"Timeo {__version__} by JSG loaded.")

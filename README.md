@@ -1,21 +1,23 @@
-# Timaeus
+# Timeo
 
-Timaeus is an [Olex2](https://www.olexsys.org/olex2/)$^1$ plugin that integrates several symmetry and shape analysis tools into a single graphical interface within Olex2.
+Timeo is an [Olex2](https://www.olexsys.org/olex2/)$^1$ plugin that integrates several symmetry and shape analysis tools into a single graphical interface within Olex2.
+
+_Timeo was called Timaeus before version 1.2.0. If you have Timaeus installed, see [Upgrading from Timaeus](#upgrading-from-timaeus)._
 ### Features
 
-All analysis methods in Timaeus will read the atomic coordinates directly from the `OlexRefinementModel`; there is no need for manual writing of any i/o files needed for external programs.
+All analysis methods in Timeo will read the atomic coordinates directly from the `OlexRefinementModel`; there is no need for manual writing of any i/o files needed for external programs.
 
 **Olex2 GUI panel:**
 
-_Almost_ all functions of Timaeus are accessible through the GUI panel.
+_Almost_ all functions of Timeo are accessible through the GUI panel.
 
 **[Cosmochlore](https://github.com/Yluro/cosmochlore) integration:**
 
-Cosmochlore was developed in parallel to Timaeus to organically integrate into it. All options of cosmochlore can be accessed through the Cosmochlore tab.
+Cosmochlore was developed in parallel to Timeo to organically integrate into it. All options of cosmochlore can be accessed through the Cosmochlore tab.
 
 **SHAPE 2.1 wrapper:**
 
-SHAPE 2.1 i/o files are supported by Timaeus can run and parse SHAPE 2.1 files
+SHAPE 2.1 i/o files are supported by Timeo can run and parse SHAPE 2.1 files
 
 **Octahedral distortion parameters:**
 
@@ -23,7 +25,7 @@ The plugin comes with its own simpler implementation of the OctaDist algorithm (
 
 **$\eta^n$ pi-bonded ligands:**
 
-Timaeus can detect pi-bonded ligands and the option is given to average the coordinates of all donor atoms of the ligand to its centroid.
+Timeo can detect pi-bonded ligands and the option is given to average the coordinates of all donor atoms of the ligand to its centroid.
 
 **Disorder handling:**
 
@@ -47,34 +49,40 @@ The plugin was developed/tested using a Windows 10/11 machine. The plugin should
 _**Note:** It is known that SHAPE 2.1 gives trouble in Mac machines with operating systems newer than 2022 and some Linux systems. Unfortunately, I can't do anything about that since the ESG hasn't published a precompiled SHAPE version since 2013. In the future I might introduce support for cosymlib by ESG which is the updated version of their shape and symmetry measures program._
 
 ## Installation
-1. [Download the files](https://github.com/Yluro/timaeus/releases) from the lastest GitHub release. 
+1. [Download the files](https://github.com/Yluro/timeo/releases) from the lastest GitHub release. 
 2. Go to the base directory of your Olex2 installation. You can open the directory by typing `shell BaseDir()` in the Olex2 console.
 3. Create a file called `plugins.xld` and write the following contents inside `plugins.xld`:
 ```xml
 <Plugin
- <Timaeus>
+ <Timeo>
 >
 ``` 
-4. Go to the `<BaseDir>\util\pyUtil\PluginLib\` folder and create a folder called `plugin-Timaeus`.
-5. Extract the downloaded zip and drop the contents of the `timaeus-X.X.X` folder, into `plugin-Timaeus` so that `Timaeus.py` sits directly at `<BaseDir>\util\pyUtil\PluginLib\plugin-Timaeus\Timaeus.py`.
-6. On restarting Olex2, a Timaeus panel should appear under the Tools tab.
+4. Go to the `<BaseDir>\util\pyUtil\PluginLib\` folder and create a folder called `plugin-Timeo`.
+5. Extract the downloaded zip and drop the contents of the `timeo-X.X.X` folder, into `plugin-Timeo` so that `Timeo.py` sits directly at `<BaseDir>\util\pyUtil\PluginLib\plugin-Timeo\Timeo.py`.
+6. On restarting Olex2, a Timeo panel should appear under the Tools tab.
 
 **Troubleshooting:** 
- - _If the panel does not appear, the Olex2 console prints `Failed to load plugin 'X'`. `No module named 'X'` means the name in `plugins.xld` does not match `<BaseDir>\util\pyUtil\PluginLib\plugin-X\X.py` letter for letter (including case), or `Timaeus.py` is nested one folder too deep._
+ - _If the panel does not appear, the Olex2 console prints `Failed to load plugin 'X'`. `No module named 'X'` means the name in `plugins.xld` does not match `<BaseDir>\util\pyUtil\PluginLib\plugin-X\X.py` letter for letter (including case), or `Timeo.py` is nested one folder too deep._
  - _Make sure `plugins.xld` is not saved as `plugins.xld.txt`._
- - _If `plugins.xld` already exists, do not overwrite it. Add the `<Timaeus>` line between `<Plugin` and `>`._
- - _`ModuleNotFoundError: No module named 'timaeus'` occurs if the name of the plugin is written in lowercase._
+ - _If `plugins.xld` already exists, do not overwrite it. Add the `<Timeo>` line between `<Plugin` and `>`._
+ - _`ModuleNotFoundError: No module named 'timeo'` occurs if the name of the plugin is written in lowercase._
+
+### Upgrading from Timaeus
+1. Delete the `<BaseDir>\util\pyUtil\PluginLib\plugin-Timaeus` folder and install Timeo as described above.
+2. In `plugins.xld`, replace the `<Timaeus>` line with `<Timeo>`.
+3. Console commands are now `spy.Timeo.*` instead of `spy.Timaeus.*`.
+4. Saved settings are not carried over automatically. To keep them, rename `<DataDir>\timaeus.phil` to `timeo.phil` and change its first line from `timaeus {` to `timeo {`. You can open the folder by typing `shell DataDir()` in the Olex2 console.
 
 _**Note:** I push development changes constantly to the master branch. You could git clone this repository to automatically keep the plugin updated. Usually, if changes are pushed it means that the plugin is in a usable state. But it does not guarantee that things won't break._
 
 ## Cosmochlore
-[cosmochlore](https://github.com/Yluro/cosmochlore) is a separate Rust program that calculates shape and symmetry measures. Timaeus wraps its three subcommands; each writes its output next to the structure and prints the results table to the console. Every option below has a phil parameter, editable in `Extras` > `Settings` or from the panel itself. Cosmochlore was intentionally developed to function as a background process to Timaeus. Most options of the program can be accessed through the GUI.
+[cosmochlore](https://github.com/Yluro/cosmochlore) is a separate Rust program that calculates shape and symmetry measures. Timeo wraps its three subcommands; each writes its output next to the structure and prints the results table to the console. Every option below has a phil parameter, editable in `Extras` > `Settings` or from the panel itself. Cosmochlore was intentionally developed to function as a background process to Timeo. Most options of the program can be accessed through the GUI.
 
 | Function | Description |
 | --- | --- |
-| `spy.Timaeus.autoCSHM()` | Continuous Shape Measures against the built-in and user-defined reference polyhedra. |
-| `spy.Timaeus.autoCSOM()` | Continuous Symmetry Operation Measures against a list of point groups. |
-| `spy.Timaeus.autoODIS()` | Octahedral distortion parameters, independent of the OctaDist reimplementation below. Select the central atom of a 6-coordinate complex. |
+| `spy.Timeo.autoCSHM()` | Continuous Shape Measures against the built-in and user-defined reference polyhedra. |
+| `spy.Timeo.autoCSOM()` | Continuous Symmetry Operation Measures against a list of point groups. |
+| `spy.Timeo.autoODIS()` | Octahedral distortion parameters, independent of the OctaDist reimplementation below. Select the central atom of a 6-coordinate complex. |
 
 ### Usage
 
@@ -82,7 +90,7 @@ _**Note:** I push development changes constantly to the master branch. You could
 2. Select the atoms you want to include in the measurement.
  - If one atom is selected, the neighbouring atoms will be taken into account to form a centered shape (e.g. a coordination structure).
  - If multiple atoms are selected, they will be interpreted as a non-centered shape (e.g. a borane cluster).
-4. Run any of the cosmochlore functions from the Olex2 console or from the Tools/Timaeus/Cosmochlore panel.
+4. Run any of the cosmochlore functions from the Olex2 console or from the Tools/Timeo/Cosmochlore panel.
 5. Results are printed to the console and saved in `<FilePath>/cosmochlore/`.
 
 
@@ -91,7 +99,7 @@ _**Note:** I push development changes constantly to the master branch. You could
 Reference shapes beyond the built-in 90 can be added as `.yaml` files in the `user_shapes/` folder of the plugin (`Open user defined shapes folder` in the CShM panel). A mismatched vertex count is reported as an error by `cosmochlore` itself.
 
 ## AutoSHAPE
-[SHAPE 2.1](https://www.ee.ub.edu/continuous-shape-and-symmetry-measures/)$^2$ is a software published by ESG used to calculate Continuous Shape Measures (CShM's). `autoSHAPE` is a collection of personal Python scripts I developed and used to run and parse SHAPE i/o files. Timaeus contains an implementation of `autoSHAPE` to:
+[SHAPE 2.1](https://www.ee.ub.edu/continuous-shape-and-symmetry-measures/)$^2$ is a software published by ESG used to calculate Continuous Shape Measures (CShM's). `autoSHAPE` is a collection of personal Python scripts I developed and used to run and parse SHAPE i/o files. Timeo contains an implementation of `autoSHAPE` to:
 - Generate the necessary `.dat` input files for SHAPE automatically.
 - Run SHAPE and parse the resulting `.tab` output.
 - Output a summary table from the `.out` and `.tab` files.
@@ -100,14 +108,14 @@ SM's autoSHAPE does not overwrite previous runs as it stores each run in a dedic
 
 ### Usage
  1. `autoSHAPE` uses the same selection criteria as `cosmochlore`. Select a single atom for a centered measurement or multiple for a non-centered one.
- 2. Run `spy.Timaeus.autoSHAPE()` from the Olex2 command line or from the Tools/Timaeus/SHAPE 2.1 panel.
+ 2. Run `spy.Timeo.autoSHAPE()` from the Olex2 command line or from the Tools/Timeo/SHAPE 2.1 panel.
 
 
 #### _New in version 0.2_
 There is an option to merge pi-bonded ligands into a centroid. If checked, autoSHAPE will interpret pi-bonded ligands as the average of the fragments as per Cirera _et al_$^2$ paper. 
 
 ## Octahedral Distortion Parameters.
-Timaeus includes a reimplementation of the [OctaDist](https://octadist.github.io/)$^3$ algorithm. Unlike the original implementation, this version identifies opposite faces and vertices of an octahedron using topological criteria. It relies on constructing a convex hull that is topologically equivalent to an octahedron. As a result, the algorithm may fail when more than three vertices are coplanar, causing the convex hull to degenerate into a different polyhedral shape.
+Timeo includes a reimplementation of the [OctaDist](https://octadist.github.io/)$^3$ algorithm. Unlike the original implementation, this version identifies opposite faces and vertices of an octahedron using topological criteria. It relies on constructing a convex hull that is topologically equivalent to an octahedron. As a result, the algorithm may fail when more than three vertices are coplanar, causing the convex hull to degenerate into a different polyhedral shape.
 
 Several features of the original OctaDist program have been omitted to simplify integration with Olex2 and to remove redundant functionality.
 
@@ -154,7 +162,7 @@ where $\vec{r}_M$ is the position of the metal and $\vec{r}_i$ are the position 
 ### Usage
 1. Open a structure in Olex2.
 2. Select the central atom of a 6-coordinate complex.
-3. Run `spy.Timaeus.autoOCTADIST()` from the Olex2 console or from the Tools/Timaeus panel.
+3. Run `spy.Timeo.autoOCTADIST()` from the Olex2 console or from the Tools/Timeo panel.
 4. Results are printed in the console. A graph will be saved in `<FilePath>/OH_distortion` showing the extracted octahedron. 
 
 
@@ -174,7 +182,7 @@ where $\vec{r}_M$ is the position of the metal and $\vec{r}_i$ are the position 
 ## License
 Copyright (C) 2026 José Serrano Guarinos.
 
-Timaeus is free software, released under the [GNU General Public License v3.0](LICENSE.MD) or (at your option) any later version.
+Timeo is free software, released under the [GNU General Public License v3.0](LICENSE.MD) or (at your option) any later version.
 
 ## Citations
 

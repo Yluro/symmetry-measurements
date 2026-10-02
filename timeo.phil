@@ -1,11 +1,11 @@
-timaeus{
+timeo{
   gui{
     location = 'tools'
       .type = str
-      .help = The tab item where the Timaeus GUI shall appear.
+      .help = The tab item where the Timeo GUI shall appear.
     before = 'images'
       .type = str
-      .help = The tool before which the Timaeus GUI shall appear.
+      .help = The tool before which the Timeo GUI shall appear.
   }
   merge_ligands = False
     .type = bool

@@ -5,19 +5,19 @@
     $+
     html.Snippet(GetVar(default_link),
     "value=Reload ALL",
-    "onclick=spy.Timaeus.reload_plugin()",
+    "onclick=spy.Timeo.reload_plugin()",
     )$-
 
     $+
     html.Snippet(GetVar(default_link),
     "value=Settings",
-    "onclick=spy.EditParams(timaeus)",
+    "onclick=spy.EditParams(timeo)",
     )$-
 
     $+
     html.Snippet(GetVar(default_link),
     "value=Open Folder",
-    "onclick=spy.Timaeus.open_plugin_folder()",
+    "onclick=spy.Timeo.open_plugin_folder()",
     )$-
 
 
@@ -29,8 +29,8 @@
     $+
       html.Snippet("gui/snippets/input-text-td",
       "name=SHAPE_EXE",
-      "value=spy.GetParam('timaeus.shape.exe_path', '')",
-      "onchange=spy.Timaeus.SetShapeExe(html.GetValue('~name~'))",
+      "value=spy.GetParam('timeo.shape.exe_path', '')",
+      "onchange=spy.Timeo.SetShapeExe(html.GetValue('~name~'))",
       "td1=<td align='left' width="70%">"
       )
     $-
@@ -41,8 +41,8 @@
     $+
       html.Snippet("gui/snippets/input-text-td",
       "name=COSMOCHLORE_EXE",
-      "value=spy.GetParam('timaeus.cosmochlore.exe_path', '')",
-      "onchange=spy.Timaeus.SetCosmochloreExe(html.GetValue('~name~'))",
+      "value=spy.GetParam('timeo.cosmochlore.exe_path', '')",
+      "onchange=spy.Timeo.SetCosmochloreExe(html.GetValue('~name~'))",
       "td1=<td align='left' width="70%">"
       )
     $-

@@ -1,4 +1,4 @@
-#Timaeus Plugin
+#Timeo Plugin
 Shape and symmetry analysis: a SHAPE 2.1 wrapper, an octahedral distortion calculator, and a cosmochlore integration (CShM, CSoM, ODis). URL[https://github.com/Yluro/cosmochlore]
 
 #SHAPE 2.1
@@ -25,7 +25,7 @@ General plugin-wide options.
 ##Merge pi-bonded ligands
 When checked, pi-bonded ligand fragments are merged into one centroid before measuring (Cirera *et al.*, *Organometallics* 2005, 24, 1556).
 
-#Timaeus Extras
+#Timeo Extras
 Development and maintenance tools for this plugin.
 
 #Extras 1
@@ -38,7 +38,7 @@ Opens this plugin's phil parameter editor.
 ##Open Folder
 Opens the plugin's install folder in the file browser.
 
-#Timaeus Debug
+#Timeo Debug
 Low-level diagnostics for the selection/refinement-model machinery.
 
 #Debug 1

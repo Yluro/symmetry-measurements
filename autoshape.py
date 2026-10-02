@@ -91,7 +91,7 @@ def can_find_shape_msg(silent=True, configured_path=None) -> bool:
     shape_path = find_shape(configured_path)
     if shape_path is None:
         if configured_path:
-            print(f'timaeus.shape.exe_path is set to "{configured_path}", but that file does not exist.')
+            print(f'timeo.shape.exe_path is set to "{configured_path}", but that file does not exist.')
         else:
             print("Unable to find shape.exe in the system path.")
         return False

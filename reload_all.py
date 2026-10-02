@@ -14,7 +14,7 @@ def _plugin_dir():
     try:
         return os.path.dirname(os.path.abspath(__file__))
     except NameError:
-        return olx.GetVar('Timaeus_plugin_path')
+        return olx.GetVar('Timeo_plugin_path')
 
 def reload_all():
     base = _plugin_dir()

@@ -5,8 +5,8 @@
     $+
       html.Snippet("gui/snippets/input-checkbox-td",
       "name=MERGE",
-      "checked=spy.GetParam('timaeus.merge_ligands', False)",
-      "onclick=spy.Timaeus.SetOption('timaeus.merge_ligands', html.GetState('~name~'))>>labels -rn",
+      "checked=spy.GetParam('timeo.merge_ligands', False)",
+      "onclick=spy.Timeo.SetOption('timeo.merge_ligands', html.GetState('~name~'))>>labels -rn",
       "td1=<td align='left' width="4%">"
       )
     $-
@@ -17,8 +17,8 @@
     $+
       html.Snippet("gui/snippets/input-checkbox-td",
       "name=EXCLUDE_H",
-      "checked=spy.GetParam('timaeus.exclude_h', False)",
-      "onclick=spy.Timaeus.SetOption('timaeus.exclude_h', html.GetState('~name~'))",
+      "checked=spy.GetParam('timeo.exclude_h', False)",
+      "onclick=spy.Timeo.SetOption('timeo.exclude_h', html.GetState('~name~'))",
       "td1=<td align='left' width="4%">"
       )
     $-
@@ -29,8 +29,8 @@
     $+
       html.Snippet("gui/snippets/input-text-td",
       "name=PART_CODES",
-      "value=spy.GetParam('timaeus.part_codes', '')",
-      "onchange=spy.Timaeus.SetOption('timaeus.part_codes', html.GetValue('~name~'))",
+      "value=spy.GetParam('timeo.part_codes', '')",
+      "onchange=spy.Timeo.SetOption('timeo.part_codes', html.GetValue('~name~'))",
       "td1=<td align='left' width="40%">"
       )
     $-
