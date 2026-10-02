@@ -6,8 +6,33 @@
       html.Snippet("gui/snippets/input-checkbox-td",
       "name=MERGE",
       "checked=spy.GetParam('timaeus.merge_ligands', False)",
-      "onclick=spy.SetParam('timaeus.merge_ligands', html.GetState('~name~'))>>labels -rn",
+      "onclick=spy.Timaeus.SetOption('timaeus.merge_ligands', html.GetState('~name~'))>>labels -rn",
       "td1=<td align='left' width="4%">"
       )
     $-
+<!-- #include row_table_off gui/blocks/row_table_off.htm;1; -->
+
+<!-- #include tool-row-help gui/blocks/tool-row-help.htm;name=Options_2; help_ext=Options_2;1; -->
+  <td align='right' width="30%"><b>Exclude hydrogens: </b></td>
+    $+
+      html.Snippet("gui/snippets/input-checkbox-td",
+      "name=EXCLUDE_H",
+      "checked=spy.GetParam('timaeus.exclude_h', False)",
+      "onclick=spy.Timaeus.SetOption('timaeus.exclude_h', html.GetState('~name~'))",
+      "td1=<td align='left' width="4%">"
+      )
+    $-
+<!-- #include row_table_off gui/blocks/row_table_off.htm;1; -->
+
+<!-- #include tool-row-help gui/blocks/tool-row-help.htm;name=Options_3; help_ext=Options_3;1; -->
+  <td align='right' width="30%"><b>Disorder parts: </b></td>
+    $+
+      html.Snippet("gui/snippets/input-text-td",
+      "name=PART_CODES",
+      "value=spy.GetParam('timaeus.part_codes', '')",
+      "onchange=spy.Timaeus.SetOption('timaeus.part_codes', html.GetValue('~name~'))",
+      "td1=<td align='left' width="40%">"
+      )
+    $-
+  <td align='left' width="30%"></td>
 <!-- #include row_table_off gui/blocks/row_table_off.htm;1; -->
