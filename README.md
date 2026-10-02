@@ -7,7 +7,7 @@ All analysis methods in Timaeus will read the atomic coordinates directly from t
 
 **Olex2 GUI panel:**
 
-_Almost_ all functions of Timaeus are accesible through the GUI panel.
+_Almost_ all functions of Timaeus are accessible through the GUI panel.
 
 **[Cosmochlore](https://github.com/Yluro/cosmochlore) integration:**
 
@@ -36,17 +36,18 @@ Part codes can be specified: `0` will include only atoms in part 0 in the measur
 
 ## Requirements
 - Olex2 1.5.
-- [cosmochlore](https://github.com/Yluro/cosmochlore) 1.2.0 or newer on your `PATH` (optional, needed for the Cosmochlore panel).
-  - The path can also be set explicitly in the plugin settings (`Extras` > `Settings`).
-- SHAPE 2.1 executable available on your system `PATH` (optional, needed for the SHAPE panel).
+- [cosmochlore](https://github.com/Yluro/cosmochlore) 1.2.0 or newer.
+- SHAPE 2.1
   - Download SHAPE 2.1 from the [Electronic Structure Group's webpage](https://www.ee.ub.edu/downloads/)
+
+
 
 The plugin was developed/tested using a Windows 10/11 machine. The plugin should be system agnostic but please report any bugs found in any other operating systems. 
 
 _**Note:** It is known that SHAPE 2.1 gives trouble in Mac machines with operating systems newer than 2022 and some Linux systems. Unfortunately, I can't do anything about that since the ESG hasn't published a precompiled SHAPE version since 2013. In the future I might introduce support for cosymlib by ESG which is the updated version of their shape and symmetry measures program._
 
 ## Installation
-1. Download the source code from the lastest GitHub release. 
+1. [Download the files](https://github.com/Yluro/timaeus/releases) from the lastest GitHub release. 
 2. Go to the base directory of your Olex2 installation. You can open the directory by typing `shell BaseDir()` in the Olex2 console.
 3. Create a file called `plugins.xld` and write the following contents inside `plugins.xld`:
 ```xml
