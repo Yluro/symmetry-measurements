@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 José Serrano Guarinos
+
 """Generating SHAPE 2.1 input, running it, and parsing what it writes back."""
 import os
 import shutil

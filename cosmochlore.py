@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 José Serrano Guarinos
+
 """Thin wrapper around the cosmochlore CLI (cshm / csom / odis).
 
 cosmochlore (https://github.com/Yluro/cosmochlore) is a separate Rust project

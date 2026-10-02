@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 José Serrano Guarinos
+
 """A reimplementation of the OctaDist distortion parameters, plus tau and mu.
 
 Opposite faces and vertices are identified topologically, from a convex hull that

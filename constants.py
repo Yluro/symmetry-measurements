@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 José Serrano Guarinos
+
 """Static reference data shared across the Timaeus plugin."""
 
 # Element symbols grouped by block. Used to recognize plausible coordination centres.

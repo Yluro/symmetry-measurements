@@ -172,7 +172,9 @@ where $\vec{r}_M$ is the position of the metal and $\vec{r}_i$ are the position 
 | ✔️ | HTML UI.                                                                                                                 |
 
 ## License
-- Not yet.
+Copyright (C) 2026 José Serrano Guarinos.
+
+Timaeus is free software, released under the [GNU General Public License v3.0](LICENSE.MD) or (at your option) any later version.
 
 ## Citations
 

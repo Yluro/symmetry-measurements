@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 José Serrano Guarinos
+
 """Turning an Olex2 selection into something the measurement backends can consume."""
 from typing import List
 

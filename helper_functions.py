@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 José Serrano Guarinos
+
 """Thin wrappers over the Olex2 API.
 
 This is the bottom layer of the plugin: it imports nothing from the plugin's own
