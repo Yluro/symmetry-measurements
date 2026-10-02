@@ -23,3 +23,27 @@
 
 
 <!-- #include row_table_off gui\blocks\row_table_off.htm;1; -->
+
+<!-- #include tool-row-help gui/blocks/tool-row-help.htm;name=Extras_2; help_ext=Extras_2;1; -->
+  <td align='left' width="30%"><b>SHAPE executable: </b></td>
+    $+
+      html.Snippet("gui/snippets/input-text-td",
+      "name=SHAPE_EXE",
+      "value=spy.GetParam('timaeus.shape.exe_path', '')",
+      "onchange=spy.Timaeus.SetShapeExe(html.GetValue('~name~'))",
+      "td1=<td align='left' width="70%">"
+      )
+    $-
+<!-- #include row_table_off gui/blocks/row_table_off.htm;1; -->
+
+<!-- #include tool-row-help gui/blocks/tool-row-help.htm;name=Extras_3; help_ext=Extras_3;1; -->
+  <td align='left' width="30%"><b>cosmochlore executable: </b></td>
+    $+
+      html.Snippet("gui/snippets/input-text-td",
+      "name=COSMOCHLORE_EXE",
+      "value=spy.GetParam('timaeus.cosmochlore.exe_path', '')",
+      "onchange=spy.Timaeus.SetCosmochloreExe(html.GetValue('~name~'))",
+      "td1=<td align='left' width="70%">"
+      )
+    $-
+<!-- #include row_table_off gui/blocks/row_table_off.htm;1; -->
