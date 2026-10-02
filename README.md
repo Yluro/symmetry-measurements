@@ -30,10 +30,16 @@ _**Note:** It is known that SHAPE 2.1 gives trouble in Mac machines with operati
 <Plugin
  <Timaeus>
 >
-```
-4. Go to the `<BaseDir>\util\pyUtil\PluginLib\` folder and create a folder called `plugin-Timaeus`.
-5. Extract the downloaded zip into that folder.
+``` 
+4. Go to the `<BaseDir>\util\pyUtil\PluginLib\` folder and create a folder called `plugin-Timaeus` (again, capital T).
+5. Extract the downloaded zip into that folder. GitHub's zip wraps everything in a top-level folder (e.g. `timaeus-1.0.2`): copy the *contents* of that folder, so that `Timaeus.py` sits directly at `<BaseDir>\util\pyUtil\PluginLib\plugin-Timaeus\Timaeus.py` and not in a subfolder.
 6. On restarting Olex2, a Timaeus panel should appear under the Tools tab.
+
+**Troubleshooting:** 
+ - _If the panel does not appear, the Olex2 console prints `Failed to load plugin 'X'`. `No module named 'X'` means the name in `plugins.xld` does not match `<BaseDir>\util\pyUtil\PluginLib\plugin-X\X.py` letter for letter (including case), or `Timaeus.py` is nested one folder too deep._
+ - _Make sure `plugins.xld` is not saved as `plugins.xld.txt`._
+ - _If `plugins.xld` already exists, do not overwrite it. Add the `<Timaeus>` line between `<Plugin` and `>`._
+ - _`ModuleNotFoundError: No module named 'timaeus'` occurs if the name of the plugin is written in lowercase._
 
 _**Note:** I push development changes constantly to the master branch. You could git clone this repository to automatically keep the plugin updated. Usually, if changes are pushed it means that the plugin is in a usable state. But it does not guarantee that things won't break._
 
