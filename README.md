@@ -74,7 +74,7 @@ _**Note:** It is known that SHAPE 2.1 gives trouble in Mac machines with operati
 _**Note:** I push development changes constantly to the master branch. You could git clone this repository to automatically keep the plugin updated. Usually, if changes are pushed it means that the plugin is in a usable state. But it does not guarantee that things won't break._
 
 ## Cosmochlore
-[cosmochlore](https://github.com/Yluro/cosmochlore) is a separate Rust program that calculates shape and symmetry measures. Timeo wraps its three subcommands; each writes its output next to the structure and prints the results table to the console. Every option below has a phil parameter, editable in `Extras` > `Settings` or from the panel itself. Cosmochlore was intentionally developed to function as a background process to Timeo. Most options of the program can be accessed through the GUI.
+[cosmochlore](https://github.com/Yluro/cosmochlore) is a separate Rust program that calculates shape and symmetry measures. Timeo wraps its three subcommands; each writes its output next to the structure and prints the results table to the console. Every option below has a phil parameter, editable in `Options` > `Settings` or from the panel itself. Cosmochlore was intentionally developed to function as a background process to Timeo. Most options of the program can be accessed through the GUI.
 
 | Function               | Description                                                                                                                              |
 |------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
