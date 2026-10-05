@@ -36,3 +36,47 @@
     $-
   <td align='left' width="30%"></td>
 <!-- #include row_table_off gui/blocks/row_table_off.htm;1; -->
+
+<!-- #include tool-row-help gui/blocks/tool-row-help.htm;name=Options_4; help_ext=Options_4;1; -->
+  <td align='left' width="30%"><b>SHAPE executable: </b></td>
+    $+
+      html.Snippet("gui/snippets/input-text-td",
+      "name=SHAPE_EXE",
+      "value=spy.GetParam('timeo.shape.exe_path', '')",
+      "onchange=spy.Timeo.SetShapeExe(html.GetValue('~name~'))",
+      "td1=<td align='left' width="70%">"
+      )
+    $-
+<!-- #include row_table_off gui/blocks/row_table_off.htm;1; -->
+
+<!-- #include tool-row-help gui/blocks/tool-row-help.htm;name=Options_5; help_ext=Options_5;1; -->
+  <td align='left' width="30%"><b>cosmochlore executable: </b></td>
+    $+
+      html.Snippet("gui/snippets/input-text-td",
+      "name=COSMOCHLORE_EXE",
+      "value=spy.GetParam('timeo.cosmochlore.exe_path', '')",
+      "onchange=spy.Timeo.SetCosmochloreExe(html.GetValue('~name~'))",
+      "td1=<td align='left' width="70%">"
+      )
+    $-
+<!-- #include row_table_off gui/blocks/row_table_off.htm;1; -->
+
+<!-- #include tool-row-help gui/blocks/tool-row-help.htm;name=Options_6; help_ext=Options_6;1; -->
+    $+
+    html.Snippet(GetVar(default_link),
+    "value=Reload ALL",
+    "onclick=spy.Timeo.reload_plugin()",
+    )$-
+
+    $+
+    html.Snippet(GetVar(default_link),
+    "value=Settings",
+    "onclick=spy.EditParams(timeo)",
+    )$-
+
+    $+
+    html.Snippet(GetVar(default_link),
+    "value=Open Folder",
+    "onclick=spy.Timeo.open_plugin_folder()",
+    )$-
+<!-- #include row_table_off gui/blocks/row_table_off.htm;1; -->
