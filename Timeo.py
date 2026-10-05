@@ -14,7 +14,7 @@ OV = OlexFunctions()
 
 from reload_all import reload_all
 
-from autoshape import (ShapeCalculation, can_find_shape_msg, find_shape,
+from autoshape import (ShapeCalculation, ShapeError, can_find_shape_msg, locate_shape,
                        print_shape_table, run_shape)
 from constants import octadist_citation, shape21_citation
 import cosmochlore
@@ -100,6 +100,10 @@ def _cosmochlore_exe_path():
     return OV.GetParam('timeo.cosmochlore.exe_path', '') or None
 
 
+def check_cosmochlore(silent=True):
+    return cosmochlore.can_find_cosmochlore_msg(_cosmochlore_exe_path(), silent)
+
+
 def save_params():
     """Saves the changed timeo params to <DataDir>/timeo.phil."""
     user_phil_file = os.path.join(OV.DataDir(), f'{p_scope}.phil')
@@ -134,7 +138,7 @@ def _shape_exe_path():
 
 
 def check_shape(silent=True):
-    return can_find_shape_msg(silent, _shape_exe_path())
+    return can_find_shape_msg(_shape_exe_path(), silent)
 
 
 def _cosmochlore_workdir():
@@ -209,7 +213,7 @@ def open_user_shapes_folder():
 
 def reload_plugin():
     """Re-imports every plugin module from wherever the plugin is installed,
-    so the Extras button doesn't depend on a hardcoded install path."""
+    so the Reload ALL button doesn't depend on a hardcoded install path."""
     reload_all()
 
 
@@ -222,9 +226,11 @@ def open_plugin_folder():
 def autoSHAPE():
     print('\n' + '-' * 50)
     print('Simple continuous Shape Analysis Using autoSHAPE')
-    if not check_shape():
+    try:
+        shape_exe = locate_shape(_shape_exe_path())
+    except ShapeError as e:
+        print(e)
         return False
-    shape_exe = find_shape(_shape_exe_path())
 
     structures, centered = _prepare_structures(olex.f('sel()'))
     if structures is None:
@@ -302,7 +308,7 @@ def autoCSHM(shapes=None, user_shapes=None, table=None, ideal=None):
     print('\n' + '-' * 50)
     print('Continuous Shape Measures using cosmochlore')
     try:
-        exe = cosmochlore.check_cosmochlore(_cosmochlore_exe_path())
+        exe = cosmochlore.locate_cosmochlore(_cosmochlore_exe_path())
     except cosmochlore.CosmochloreError as e:
         print(e)
         return False
@@ -358,7 +364,7 @@ def autoCSOM(point_groups=None, mode=None, vector=None, full=None, table=None,
     print('\n' + '-' * 50)
     print('Continuous Symmetry Operation Measures using cosmochlore')
     try:
-        exe = cosmochlore.check_cosmochlore(_cosmochlore_exe_path())
+        exe = cosmochlore.locate_cosmochlore(_cosmochlore_exe_path())
     except cosmochlore.CosmochloreError as e:
         print(e)
         return False
@@ -454,7 +460,7 @@ def autoODIS(full=None, table=None):
     print('\n' + '-' * 50)
     print('Octahedral distortion analysis using cosmochlore')
     try:
-        exe = cosmochlore.check_cosmochlore(_cosmochlore_exe_path())
+        exe = cosmochlore.locate_cosmochlore(_cosmochlore_exe_path())
     except cosmochlore.CosmochloreError as e:
         print(e)
         return False
@@ -500,22 +506,17 @@ def autoODIS(full=None, table=None):
 
 
 def shape_status_html():
-    configured = _shape_exe_path()
-    where = find_shape(configured)
-    found = where is not None
-    color = OV.GetParam('gui.green') if found else OV.GetParam('gui.grey')
-    if found:
-        text = f'SHAPE executable found at: {where}'
-    elif configured:
-        text = f'timeo.shape.exe_path is set to "{configured}", but that file does not exist.'
-    else:
-        text = 'Unable to find shape.exe in the system path.'
-    return f"<font color='{color}'>{text}</font>"
+    try:
+        exe = locate_shape(_shape_exe_path())
+    except ShapeError as e:
+        return f"<font color='{OV.GetParam('gui.grey')}'>{e}</font>"
+
+    return f"<font color='{OV.GetParam('gui.green')}'>SHAPE executable found at: {exe}</font>"
 
 
 def cosmochlore_status_html():
     try:
-        exe = cosmochlore.check_cosmochlore(_cosmochlore_exe_path())
+        exe = cosmochlore.locate_cosmochlore(_cosmochlore_exe_path())
     except cosmochlore.CosmochloreError as e:
         return f"<font color='{OV.GetParam('gui.grey')}'>{e}</font>"
 
@@ -549,14 +550,14 @@ class Timeo(PT):
         OV.registerFunction(autoCSHM, True, "Timeo")
         OV.registerFunction(autoCSOM, True, "Timeo")
         OV.registerFunction(autoODIS, True, "Timeo")
-        OV.registerFunction(cosmochlore.can_find_cosmochlore_msg, False, "Timeo")
+        OV.registerFunction(check_cosmochlore, True, "Timeo")
         OV.registerFunction(cosmochlore_status_html, False, "Timeo")
         OV.registerFunction(SetCosmochloreExe, True, "Timeo")
         OV.registerFunction(save_params, True, "Timeo")
         OV.registerFunction(user_shapes_checkboxes_html, False, "Timeo")
         OV.registerFunction(open_user_shapes_folder, True, "Timeo")
 
-        # Extras panel.
+        # Options panel.
         OV.registerFunction(reload_plugin, True, "Timeo")
         OV.registerFunction(open_plugin_folder, True, "Timeo")
 

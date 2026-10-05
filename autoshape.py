@@ -80,24 +80,36 @@ class ShapeCalculation:
         return None
 
 
-def find_shape(configured_path=None):
-    """Returns the SHAPE 2.1 executable, or None if `configured_path` is missing or it is not on PATH."""
-    if configured_path:
-        return configured_path if os.path.isfile(configured_path) else None
-    return shutil.which('shape')
+class ShapeError(Exception):
+    """Raised when no usable SHAPE executable can be found; the message is fit for the console."""
 
 
-def can_find_shape_msg(silent=True, configured_path=None) -> bool:
-    shape_path = find_shape(configured_path)
-    if shape_path is None:
-        if configured_path:
-            print(f'timeo.shape.exe_path is set to "{configured_path}", but that file does not exist.')
-        else:
-            print("Unable to find shape.exe in the system path.")
+def locate_shape(configured_path=None) -> str:
+    """Returns the SHAPE 2.1 executable: `configured_path` if given, else the one on PATH."""
+    if not configured_path:
+        exe = shutil.which('shape')
+        if exe is None:
+            raise ShapeError('Unable to find shape.exe in the system path.')
+        return exe
+
+    if not os.path.isfile(configured_path):
+        raise ShapeError(f'timeo.shape.exe_path is set to "{configured_path}", '
+                         f'but that file does not exist.')
+    if 'shape' not in os.path.basename(configured_path).lower():
+        raise ShapeError(f'timeo.shape.exe_path is set to "{configured_path}", '
+                         f'which does not look like the SHAPE executable.')
+    return configured_path
+
+
+def can_find_shape_msg(configured_path=None, silent=True) -> bool:
+    try:
+        exe = locate_shape(configured_path)
+    except ShapeError as e:
+        print(e)
         return False
 
     if not silent:
-        print(f"SHAPE executable found at: {shape_path}")
+        print(f"SHAPE executable found at: {exe}")
     return True
 
 

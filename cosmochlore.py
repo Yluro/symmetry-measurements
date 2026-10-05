@@ -39,18 +39,6 @@ class CosmochloreError(Exception):
     bad arguments, or a non-zero exit. `str(error)` is fit to print as-is."""
 
 
-def find_cosmochlore(configured_path=None):
-    """Returns the executable path, or None if there isn't one.
-
-    `configured_path`, when given, is used as-is (existence is checked by the
-    caller via check_cosmochlore) - this lets a user work around a stale or
-    absent PATH copy without touching the system. Falls back to PATH otherwise.
-    """
-    if configured_path:
-        return configured_path
-    return shutil.which('cosmochlore')
-
-
 def get_version(exe_path):
     """Returns the (major, minor, patch) version of `exe_path`, or None if it
     could not be run or its output could not be parsed."""
@@ -67,22 +55,24 @@ def get_version(exe_path):
     return None
 
 
-def check_cosmochlore(configured_path=None):
-    """
-    Resolves the cosmochlore executable and confirms it meets MIN_VERSION.
-    Returns its path on success. Raises CosmochloreError with a message fit to
-    print to the Olex2 console otherwise.
-    """
-    exe = find_cosmochlore(configured_path)
+_DOWNLOAD_HINT = 'Get the latest version of cosmochlore from: https://github.com/Yluro/cosmochlore'
 
-    if exe is None or not os.path.exists(exe):
-        if configured_path:
-            raise CosmochloreError(
-                f'timeo.cosmochlore.exe_path is set to "{configured_path}", '
-                f'but that file does not exist.')
-        raise CosmochloreError(
-            'cosmochlore executable not found on PATH. Get the latest version of cosmochlore from: '
-            'https://github.com/Yluro/cosmochlore')
+
+def _format_version(version):
+    return '.'.join(str(v) for v in version)
+
+
+def locate_cosmochlore(configured_path=None):
+    """Returns the cosmochlore executable (MIN_VERSION or newer), or raises CosmochloreError."""
+    if configured_path:
+        exe = configured_path
+        if not os.path.isfile(exe):
+            raise CosmochloreError(f'timeo.cosmochlore.exe_path is set to "{exe}", '
+                                   f'but that file does not exist.')
+    else:
+        exe = shutil.which('cosmochlore')
+        if exe is None:
+            raise CosmochloreError(f'cosmochlore executable not found on PATH. {_DOWNLOAD_HINT}')
 
     version = get_version(exe)
     if version is None:
@@ -90,26 +80,23 @@ def check_cosmochlore(configured_path=None):
                                f'executable at "{exe}".')
 
     if version < MIN_VERSION:
-        version_str = '.'.join(str(v) for v in version)
-        min_str = '.'.join(str(v) for v in MIN_VERSION)
         raise CosmochloreError(
-            f'cosmochlore at "{exe}" is version {version_str}, but {min_str} or newer is '
-            f'required. Get the latest version of cosmochlore from: https://github.com/Yluro/cosmochlore')
+            f'cosmochlore at "{exe}" is version {_format_version(version)}, but '
+            f'{_format_version(MIN_VERSION)} or newer is required. {_DOWNLOAD_HINT}')
 
     return exe
 
 
 def can_find_cosmochlore_msg(configured_path=None, silent=True) -> bool:
-    """Console/status-line helper mirroring autoshape.can_find_shape_msg()."""
+    """Console helper mirroring autoshape.can_find_shape_msg()."""
     try:
-        exe = check_cosmochlore(configured_path)
+        exe = locate_cosmochlore(configured_path)
     except CosmochloreError as e:
-        print(str(e))
+        print(e)
         return False
 
     if not silent:
-        version = '.'.join(str(v) for v in get_version(exe))
-        print(f'cosmochlore {version} found at: {exe}')
+        print(f'cosmochlore {_format_version(get_version(exe))} found at: {exe}')
     return True
 
 
