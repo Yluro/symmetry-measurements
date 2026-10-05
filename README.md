@@ -39,11 +39,9 @@ Part codes can be specified: `0` will include only atoms in part 0 in the measur
 
 ## Requirements
 - Olex2 1.5.
-- [cosmochlore](https://github.com/Yluro/cosmochlore) 1.2.0 or newer.
-- SHAPE 2.1
+- [Cosmochlore](https://github.com/Yluro/cosmochlore) 1.2.0 or newer. Cosmochlore is my own implementation of the measures algorithms developed specially to work with Timeo.
+- _(Optional)_ SHAPE 2.1
   - Download SHAPE 2.1 from the [Electronic Structure Group's webpage](https://www.ee.ub.edu/downloads/)
-
-
 
 The plugin was developed/tested using a Windows 10/11 machine. The plugin should be system agnostic but please report any bugs found in any other operating systems. 
 
