@@ -1,5 +1,5 @@
 
   p_name = Timeo
   p_htm = Timeo
-  p_img = [("Timeo",'h1'), ("SHAPE 2.1",'h3'), ("OctaDist",'h3'), ("Cosmochlore",'h3'), ("Timeo-Extras",'h3'), ("Options",'h3')]
+  p_img = [("Timeo",'h1'), ("SHAPE 2.1",'h3'), ("OctaDist",'h3'), ("Cosmochlore",'h3'), ("Options",'h3')]
   p_scope = timeo
