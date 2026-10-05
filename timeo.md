@@ -25,10 +25,15 @@ General plugin-wide options.
 ##Merge pi-bonded ligands
 When checked, pi-bonded ligand fragments are merged into one centroid before measuring (Cirera *et al.*, *Organometallics* 2005, 24, 1556).
 
-#Timeo Extras
-Development and maintenance tools for this plugin.
+#Options 4
+##SHAPE executable
+Path to the SHAPE 2.1 executable (**shape.exe**/**shape_2.1.bat**). Saved between sessions. Leave empty to search **PATH**.
 
-#Extras 1
+#Options 5
+##cosmochlore executable
+Path to the cosmochlore executable (1.2.0+). Saved between sessions. Leave empty to search **PATH**.
+
+#Options 6
 ##Reload ALL
 Reloads the plugin's Python code.
 
