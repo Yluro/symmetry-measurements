@@ -24,16 +24,22 @@ General plugin-wide options.
 #Options 1
 ##Merge pi-bonded ligands
 When checked, pi-bonded ligand fragments are merged into one centroid before measuring (Cirera *et al.*, *Organometallics* 2005, 24, 1556).
+##Exclude hydrogens
+Exclude any selected or connected hydrogen/deuterium atoms from the measure calculation.
 
-#Options 4
+#Options 2
+##Disorder parts
+Part codes for the measurements. Code **01 02** will analyse parts 0 and 1 together in a single measurement and parts 0 and 2 in another one. 
+
+#Options 2
 ##SHAPE executable
 Path to the SHAPE 2.1 executable (**shape.exe**/**shape_2.1.bat**). Saved between sessions. Leave empty to search **PATH**.
 
-#Options 5
+#Options 3
 ##cosmochlore executable
 Path to the cosmochlore executable (1.2.0+). Saved between sessions. Leave empty to search **PATH**.
 
-#Options 6
+#Options 4
 ##Reload ALL
 Reloads the plugin's Python code.
 
@@ -76,7 +82,7 @@ Continuous Shape Measures: compares the selection to built-in and user-defined r
 Runs the measure and prints the results table.
 
 #CShM 2
-Options for this cshm run.
+Options for this CShM run.
 
 #CShM 3
 ##Results CSV
@@ -103,7 +109,7 @@ or atoms.
 Runs the measure for every listed point group.
 
 #CSoM 2
-Options for this csom run.
+Options for this CSoM run.
 
 #CSoM 3
 ##Point groups
